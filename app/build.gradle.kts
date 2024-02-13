@@ -28,4 +28,8 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:designsystem"))
     implementation(project(":feature:main"))
+    implementation(project(":feature:home"))
+}
+kapt {
+    correctErrorTypes = true
 }

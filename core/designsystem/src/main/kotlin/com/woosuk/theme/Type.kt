@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.woosuk.designsystem.R
 
-val spoqaHanSan =
+val defaultFontFamily =
     FontFamily(
         Font(
             resId = R.font.spoqa_hansans_neo_regular,

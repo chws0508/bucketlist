@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overall_achievement_rate">전체 달성률</string>
+    <string name="percentage_format">%.1f%%</string>
+
+    <string name="health">"건강"</string>
+    <string name="work">커리어</string>
+    <string name="travel">여행</string>
+    <string name="learning">학습</string>
+    <string name="unspecified">미지정</string>
+</resources>
