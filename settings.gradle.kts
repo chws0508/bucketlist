@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -15,3 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "bucketlist"
 include(":app")
+include(":core:domain")
+include(":core:designsystem")
+include(":feature:main")
