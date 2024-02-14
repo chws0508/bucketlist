@@ -5,3 +5,6 @@ plugins {
 android {
     namespace = "com.woosuk.main"
 }
+dependencies {
+    implementation(project(":feature:home"))
+}

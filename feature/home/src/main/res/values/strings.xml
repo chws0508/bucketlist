@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">BucketList</string>
     <string name="overall_achievement_rate">전체 달성률</string>
     <string name="percentage_format">%.1f%%</string>
 

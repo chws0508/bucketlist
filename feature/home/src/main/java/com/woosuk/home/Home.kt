@@ -2,6 +2,7 @@ package com.woosuk.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,33 +31,44 @@ import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.BucketCategory
 import com.woosuk.domain.model.BucketList
 import com.woosuk.theme.BucketlistTheme
-import com.woosuk.theme.blackText
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.grayText3
-import com.woosuk.theme.grayText4
 import ui.DefaultCard
 
 @Composable
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToBucketDetail: () -> Unit,
+    topPaddingDp: Dp,
 ) {
-    HomeScreen()
+    HomeScreen(
+        topPaddingDp = topPaddingDp,
+    )
 }
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier) {
-        item {
-            HomeBucketListPercentage()
-        }
-        BucketCategory.entries.forEach {
-            val bucketList = BucketList.mock().getBucketListByCategory(it)
-            if (bucketList.isNotEmpty()) {
-                HomeCategoryItems(
-                    bucketList = bucketList,
-                    category = it,
-                )
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    topPaddingDp: Dp,
+) {
+    Column {
+        LazyColumn(
+            contentPadding = PaddingValues(
+                top = topPaddingDp,
+                start = 17.dp,
+                end = 17.dp,
+            ),
+        ) {
+            item {
+                HomeBucketListPercentage()
+            }
+            BucketCategory.entries.forEach {
+                val bucketList = BucketList.mock().getBucketListByCategory(it)
+                if (bucketList.isNotEmpty()) {
+                    HomeCategoryItems(
+                        bucketList = bucketList,
+                        category = it,
+                    )
+                }
             }
         }
     }
@@ -64,9 +77,10 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Composable
 fun HomeBucketListPercentage(percentage: Double = 50.0) {
     DefaultCard(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 10.dp),
+            .padding(vertical = 10.dp),
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -132,9 +146,7 @@ fun CategoryItem(
             BucketCategory.Unspecified -> stringResource(id = R.string.unspecified)
         }
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         color = Color.White,
     ) {
@@ -148,7 +160,7 @@ fun CategoryItem(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                color = blackText,
+                color = MaterialTheme.colorScheme.onSecondary,
             )
             Text(
                 text = "달성률 20%",
@@ -157,7 +169,7 @@ fun CategoryItem(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.End,
-                color = grayText3,
+                color = MaterialTheme.colorScheme.secondary,
             )
         }
     }
@@ -170,9 +182,7 @@ fun BucketItem(
     shape: Shape,
 ) {
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp),
+        modifier = modifier.fillMaxWidth(),
         shape = shape,
         color = Color.White,
     ) {
@@ -181,7 +191,7 @@ fun BucketItem(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
-            color = grayText4,
+            color = MaterialTheme.colorScheme.tertiary,
         )
     }
 }
@@ -191,7 +201,7 @@ fun BucketItem(
 fun HomeScreenPreview() {
     BucketlistTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            HomeScreen()
+            HomeScreen(topPaddingDp = 50.dp)
         }
     }
 }
