@@ -20,6 +20,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.woosuk.add.navigation.addScreen
+import com.woosuk.add.navigation.navigateToAddRoute
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.homeScreen
 
@@ -33,27 +35,34 @@ fun BucketListApp(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     Scaffold(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { MainTopBar(scrollBehavior = scrollBehavior) },
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            if (BottomTab.isCurrentScreenBottomTab(currentDestination?.route)) {
+                MainTopBar(scrollBehavior = scrollBehavior)
+            }
+        },
         bottomBar = {
-            MainBottomNavigationBar(
-                currentRoute = currentDestination?.route ?: return@Scaffold,
-                navController = navController,
-            )
+            if (BottomTab.isCurrentScreenBottomTab(currentDestination?.route)) {
+                MainBottomNavigationBar(
+                    currentRoute = currentDestination?.route ?: return@Scaffold,
+                    navController = navController,
+                )
+            }
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /*TODO*/ },
-                containerColor = MaterialTheme.colorScheme.primary,
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "Home Add",
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                )
+            if (BottomTab.isCurrentScreenBottomTab(currentDestination?.route)) {
+                FloatingActionButton(
+                    onClick = { navController.navigateToAddRoute(null) },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Home Add",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                    )
+                }
             }
         },
     ) { innerPadding ->
@@ -66,6 +75,7 @@ fun BucketListApp(
                     navigateToBucketDetail = {},
                     topPaddingDp = innerPadding.calculateTopPadding(),
                 )
+                addScreen(onBackClick = navController::popBackStack)
             }
         }
     }

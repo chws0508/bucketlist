@@ -9,6 +9,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -18,11 +19,11 @@ import androidx.core.view.WindowCompat
 private val LightColors =
     lightColorScheme(
         primary = md_theme_light_primary,
-        onPrimary = md_theme_light_onPrimary,
+        onPrimary = md_theme_light_onPrimary, // White
         primaryContainer = md_theme_light_primaryContainer,
         onPrimaryContainer = md_theme_light_onPrimaryContainer,
         secondary = md_theme_light_secondary,
-        onSecondary = md_theme_light_onSecondary,
+        onSecondary = md_theme_light_onSecondary, // Black
         secondaryContainer = md_theme_light_secondaryContainer,
         onSecondaryContainer = md_theme_light_onSecondaryContainer,
         tertiary = md_theme_light_tertiary,
@@ -33,7 +34,7 @@ private val LightColors =
         errorContainer = md_theme_light_errorContainer,
         onError = md_theme_light_onError,
         onErrorContainer = md_theme_light_onErrorContainer,
-        background = md_theme_light_background,
+        background = GrayScale1,
         onBackground = md_theme_light_onBackground,
         surface = md_theme_light_surface,
         onSurface = md_theme_light_onSurface,
@@ -107,9 +108,11 @@ fun BucketlistTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content,
-    )
+    CompositionLocalProvider(LocalExtendedColors provides ExtendedColors()) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content,
+        )
+    }
 }

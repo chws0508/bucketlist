@@ -15,7 +15,9 @@ fun NavGraphBuilder.homeScreen(
     navigateToBucketDetail: () -> Unit,
     topPaddingDp: Dp,
 ) {
-    composable(route = HOME_ROUTE) {
+    composable(
+        route = HOME_ROUTE,
+    ) {
         HomeRoute(navigateToBucketDetail = navigateToBucketDetail, topPaddingDp = topPaddingDp)
     }
 }

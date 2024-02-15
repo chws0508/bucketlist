@@ -32,6 +32,7 @@ import com.woosuk.domain.model.BucketCategory
 import com.woosuk.domain.model.BucketList
 import com.woosuk.theme.BucketlistTheme
 import com.woosuk.theme.defaultFontFamily
+import com.woosuk.theme.extendedColor
 import ui.DefaultCard
 
 @Composable
@@ -99,7 +100,7 @@ fun HomeBucketListPercentage(percentage: Double = 50.0) {
                 fontSize = 30.sp,
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.extendedColor.tossBlue2,
             )
         }
     }
@@ -169,7 +170,7 @@ fun CategoryItem(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.End,
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.extendedColor.warmGray3,
             )
         }
     }
@@ -191,7 +192,7 @@ fun BucketItem(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
-            color = MaterialTheme.colorScheme.tertiary,
+            color = MaterialTheme.extendedColor.warmGray5,
         )
     }
 }

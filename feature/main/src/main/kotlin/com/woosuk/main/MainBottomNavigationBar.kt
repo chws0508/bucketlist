@@ -1,9 +1,5 @@
 package com.woosuk.main
 
-import android.widget.Space
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +27,7 @@ import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.navigateToHomeRoute
 import com.woosuk.theme.BucketlistTheme
 import com.woosuk.theme.defaultFontFamily
+import com.woosuk.theme.extendedColor
 
 @Composable
 fun MainBottomNavigationBar(
@@ -48,7 +45,6 @@ fun MainBottomNavigationBar(
                     Text(
                         text = tab.title,
                         fontFamily = defaultFontFamily,
-                        color = MaterialTheme.colorScheme.onSecondary,
                         fontWeight = FontWeight.Medium,
                         fontSize = 13.sp,
                     )
@@ -59,7 +55,9 @@ fun MainBottomNavigationBar(
                     Icon(
                         imageVector = tab.iconImageVector,
                         contentDescription = tab.title,
-                        modifier = Modifier.size(32.dp).padding(),
+                        modifier = Modifier
+                            .size(32.dp)
+                            .padding(),
                     )
                 },
                 colors =
@@ -67,8 +65,8 @@ fun MainBottomNavigationBar(
                         indicatorColor = MaterialTheme.colorScheme.onPrimary,
                         selectedIconColor = MaterialTheme.colorScheme.onSecondary,
                         selectedTextColor = MaterialTheme.colorScheme.onSecondary,
-                        unselectedIconColor = MaterialTheme.colorScheme.secondary,
-                        unselectedTextColor = MaterialTheme.colorScheme.secondary,
+                        unselectedIconColor = MaterialTheme.extendedColor.warmGray2,
+                        unselectedTextColor = MaterialTheme.extendedColor.warmGray2,
                     ),
             )
         }
@@ -111,4 +109,10 @@ enum class BottomTab(
 ) {
     HomeTab(HOME_ROUTE, Icons.Filled.Home, "홈"),
     CompleteRecordTab("", Icons.Filled.List, "달성기록"),
+    ;
+
+    companion object {
+        fun isCurrentScreenBottomTab(currentRoute: String?): Boolean =
+            entries.map { it.route }.contains(currentRoute)
+    }
 }
