@@ -10,6 +10,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,6 +40,11 @@ fun SingleLineTextField(
                 color = MaterialTheme.extendedColor.coolGray2,
             )
         },
+        textStyle = TextStyle(
+            fontWeight = FontWeight.Normal,
+            fontFamily = defaultFontFamily,
+            color = MaterialTheme.extendedColor.warmGray6
+        ),
         trailingIcon = { trailingIcon() },
         onValueChange = onValueChange,
         shape = RoundedCornerShape(15.dp),
@@ -67,6 +73,7 @@ fun MultiLineTextField(
     onValueChange: (String) -> Unit,
     mineLines: Int = 10,
     maxLines: Int = 10,
+    enabled: Boolean = true,
 ) {
     TextField(
         modifier = modifier
@@ -81,11 +88,17 @@ fun MultiLineTextField(
                 color = MaterialTheme.extendedColor.coolGray2,
             )
         },
+        textStyle = TextStyle(
+            fontWeight = FontWeight.Normal,
+            fontFamily = defaultFontFamily,
+            color = MaterialTheme.extendedColor.warmGray6
+        ),
         onValueChange = onValueChange,
         shape = RoundedCornerShape(15.dp),
         singleLine = false,
         minLines = mineLines,
         maxLines = maxLines,
+        enabled = enabled,
         colors = TextFieldDefaults.colors(
             focusedTextColor = MaterialTheme.extendedColor.warmGray6,
             focusedContainerColor = MaterialTheme.extendedColor.tossBlue0,
@@ -93,6 +106,9 @@ fun MultiLineTextField(
             unfocusedContainerColor = MaterialTheme.extendedColor.grayScale1,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
+            disabledContainerColor = MaterialTheme.extendedColor.grayScale1,
+            disabledTextColor = MaterialTheme.extendedColor.warmGray6,
+            disabledIndicatorColor = Color.Transparent,
         ),
     )
 }

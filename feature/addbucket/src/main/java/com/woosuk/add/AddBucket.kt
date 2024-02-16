@@ -15,8 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +44,7 @@ import com.woosuk.theme.defaultFontFamily
 import com.woosuk.theme.extendedColor
 import kotlinx.coroutines.launch
 import ui.ArrowBackTopAppBar
+import ui.DefaultButton
 import ui.MultiLineTextField
 import ui.SingleLineTextField
 import ui.noRippleClickable
@@ -339,24 +338,12 @@ fun AddBucketCategoryBottomSheet(
 fun AddBucketCompleteButton(
     modifier: Modifier = Modifier,
 ) {
-    Button(
-        onClick = { /*TODO*/ },
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.extendedColor.tossBlue3,
-            disabledContainerColor = MaterialTheme.extendedColor.coolGray0,
-        ),
+    DefaultButton(
+        modifier = modifier,
+        onClick = {},
+        text = "추가하기",
         enabled = false,
-    ) {
-        Text(
-            modifier = Modifier.padding(5.dp),
-            text = "추가하기",
-            fontFamily = defaultFontFamily,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-        )
-    }
+    )
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)

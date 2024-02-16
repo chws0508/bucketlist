@@ -72,7 +72,7 @@ fun BucketListApp(
                 startDestination = startDestination,
             ) {
                 homeScreen(
-                    navigateToBucketDetail = {},
+                    navigateToEditBucketScreen = { navController.navigateToAddRoute(null) },
                     topPaddingDp = innerPadding.calculateTopPadding(),
                 )
                 addScreen(onBackClick = navController::popBackStack)

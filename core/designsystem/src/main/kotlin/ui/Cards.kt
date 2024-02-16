@@ -23,7 +23,7 @@ import com.woosuk.theme.defaultFontFamily
 fun DefaultCard(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
-    shadowElevationDp: Dp = 4.dp,
+    shadowElevationDp: Dp = 0.dp,
     roundCornerDp: Dp = 16.dp,
     content: @Composable () -> Unit,
 ) {
