@@ -120,6 +120,7 @@ fun AddBucketTitle(modifier: Modifier = Modifier) {
             Text(text = "*", fontFamily = defaultFontFamily, color = Color.Red)
         }
         SingleLineTextField(
+            modifier = Modifier.fillMaxWidth(),
             text = "",
             hint = "당신의 버킷리스트를 적어주세요",
             onValueChange = {},
@@ -137,10 +138,11 @@ fun AddBucketDescription(modifier: Modifier = Modifier) {
             fontSize = 12.sp,
         )
         MultiLineTextField(
+            modifier = Modifier.fillMaxWidth(),
             text = "",
             hint = "버킷리스트에 대해 설명해주세요(선택)",
-            mineLines = 5,
-            maxLines = 5,
+            mineLines = 6,
+            maxLines = 10,
             onValueChange = {},
         )
     }
@@ -164,9 +166,11 @@ fun AddBucketAgeRange(modifier: Modifier = Modifier) {
             Text(text = "*", fontFamily = defaultFontFamily, color = Color.Red)
         }
         SingleLineTextField(
-            modifier = Modifier.noRippleClickable {
-                showBottomSheet = true
-            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .noRippleClickable {
+                    showBottomSheet = true
+                },
             text = text,
             hint = "목표 나이대를 선택해주세요",
             trailingIcon = {
@@ -258,9 +262,11 @@ fun AddBucketCategory(modifier: Modifier = Modifier) {
             Text(text = "*", fontFamily = defaultFontFamily, color = Color.Red)
         }
         SingleLineTextField(
-            modifier = Modifier.noRippleClickable {
-                showBottomSheet = true
-            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .noRippleClickable {
+                    showBottomSheet = true
+                },
             text = text,
             hint = "카테고리를 선택해주세요",
             trailingIcon = {

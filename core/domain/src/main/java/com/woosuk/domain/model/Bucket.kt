@@ -20,81 +20,24 @@ data class Bucket(
 class BucketList(
     initValue: List<Bucket>,
 ) {
-    private val value = initValue.toList()
+    private val _value = initValue
+    val value: List<Bucket>
+        get() = _value.toList()
 
-    fun getBucketListByCategory(bucketCategory: BucketCategory) = value.filter { it.category == bucketCategory }
+    fun getBucketListByCategory(bucketCategory: BucketCategory) =
+        value.filter { it.category == bucketCategory }
 
     companion object {
+        val sampleBucket = Bucket(
+            category = BucketCategory.Work,
+            ageRange = AgeRange.OldAge,
+            title = "통장에 5000만원 모으기!",
+            description = "너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!",
+        )
+
         fun mock(): BucketList =
             BucketList(
-                listOf(
-                    Bucket(
-                        category = BucketCategory.Work,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Health,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Learning,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Travel,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Unspecified,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Work,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Health,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Learning,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Travel,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Unspecified,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                    Bucket(
-                        category = BucketCategory.Work,
-                        ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
-                        description = null,
-                    ),
-                ),
+                List(15) { sampleBucket },
             )
     }
 }

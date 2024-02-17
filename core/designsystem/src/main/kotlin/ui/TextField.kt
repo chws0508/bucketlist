@@ -1,6 +1,5 @@
 package ui
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -26,11 +25,14 @@ fun SingleLineTextField(
     onValueChange: (String) -> Unit,
     trailingIcon: @Composable () -> Unit = {},
     enabled: Boolean = true,
+    textStyle: TextStyle = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = defaultFontFamily,
+        color = MaterialTheme.extendedColor.warmGray6,
+    ),
 ) {
     TextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
+        modifier = modifier.padding(vertical = 4.dp),
         value = text,
         placeholder = {
             Text(
@@ -40,11 +42,7 @@ fun SingleLineTextField(
                 color = MaterialTheme.extendedColor.coolGray2,
             )
         },
-        textStyle = TextStyle(
-            fontWeight = FontWeight.Normal,
-            fontFamily = defaultFontFamily,
-            color = MaterialTheme.extendedColor.warmGray6
-        ),
+        textStyle = textStyle,
         trailingIcon = { trailingIcon() },
         onValueChange = onValueChange,
         shape = RoundedCornerShape(15.dp),
@@ -76,9 +74,7 @@ fun MultiLineTextField(
     enabled: Boolean = true,
 ) {
     TextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
+        modifier = modifier.padding(vertical = 4.dp),
         value = text,
         placeholder = {
             Text(
@@ -91,7 +87,7 @@ fun MultiLineTextField(
         textStyle = TextStyle(
             fontWeight = FontWeight.Normal,
             fontFamily = defaultFontFamily,
-            color = MaterialTheme.extendedColor.warmGray6
+            color = MaterialTheme.extendedColor.warmGray6,
         ),
         onValueChange = onValueChange,
         shape = RoundedCornerShape(15.dp),
