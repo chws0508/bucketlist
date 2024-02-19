@@ -60,19 +60,22 @@ import ui.noRippleClickable
 @Composable
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToBucketEditScreen: () -> Unit,
+    onClickEditBucket: () -> Unit,
+    onClickBucketCompleteBucket: () -> Unit,
     topPaddingDp: Dp,
 ) {
     HomeScreen(
         topPaddingDp = topPaddingDp,
-        onClickEdit = navigateToBucketEditScreen,
+        onClickEditBucket = onClickEditBucket,
+        onClickCompleteBucket = onClickBucketCompleteBucket,
     )
 }
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    onClickEdit: () -> Unit,
+    onClickEditBucket: () -> Unit,
+    onClickCompleteBucket: () -> Unit,
     topPaddingDp: Dp,
 ) {
     Column {
@@ -92,7 +95,8 @@ fun HomeScreen(
                     HomeCategoryItems(
                         bucketList = bucketList,
                         category = it,
-                        onClickEdit = onClickEdit,
+                        onClickEdit = onClickEditBucket,
+                        onClickCompleteBucket = onClickCompleteBucket,
                     )
                 }
             }
@@ -137,6 +141,7 @@ fun LazyListScope.HomeCategoryItems(
     category: BucketCategory = BucketCategory.Unspecified,
     bucketList: List<Bucket> = List(100) { Bucket.mock() },
     onClickEdit: () -> Unit = {},
+    onClickCompleteBucket: () -> Unit = {},
 ) {
     item {
         CategoryItem(category = category, modifier = modifier)
@@ -157,6 +162,7 @@ fun LazyListScope.HomeCategoryItems(
                 bucket = bucket,
                 shape = RoundedCornerShape(0.dp),
                 onClickEdit = onClickEdit,
+                onClickCompleteBucket = onClickCompleteBucket,
             )
         }
     }
@@ -213,6 +219,7 @@ fun BucketItem(
     modifier: Modifier = Modifier,
     shape: Shape,
     onClickEdit: () -> Unit = {},
+    onClickCompleteBucket: () -> Unit = {},
 ) {
     val bottomSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
@@ -253,6 +260,7 @@ fun BucketItem(
             BucketItemBottomSheetContent(
                 bucket,
                 onClickEdit = onClickEdit,
+                onClickCompleteButton = onClickCompleteBucket,
             )
         }
     }
@@ -325,7 +333,7 @@ fun BucketItemBottomSheetContent(
         }
         Spacer(modifier = Modifier.height(10.dp))
         DefaultButton(
-            onClick = {},
+            onClick = onClickCompleteButton,
             text = "달성 완료",
             enabled = true,
         )
@@ -373,7 +381,7 @@ fun BucketItemSelectionCard(
 fun HomeScreenPreview() {
     BucketlistTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            HomeScreen(topPaddingDp = 50.dp, onClickEdit = {})
+            HomeScreen(topPaddingDp = 50.dp, onClickEditBucket = {}, onClickCompleteBucket = {})
         }
     }
 }

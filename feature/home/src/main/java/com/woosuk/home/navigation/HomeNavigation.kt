@@ -12,14 +12,16 @@ const val HOME_ROUTE = "home_route"
 fun NavController.navigateToHomeRoute(navOptions: NavOptions? = null) = navigate(HOME_ROUTE, navOptions)
 
 fun NavGraphBuilder.homeScreen(
-    navigateToEditBucketScreen: () -> Unit,
+    onClickEditBucket: () -> Unit,
+    onClickCompleteBucket: () -> Unit,
     topPaddingDp: Dp,
 ) {
     composable(
         route = HOME_ROUTE,
     ) {
         HomeRoute(
-            navigateToBucketEditScreen = navigateToEditBucketScreen,
+            onClickEditBucket = onClickEditBucket,
+            onClickBucketCompleteBucket = onClickCompleteBucket,
             topPaddingDp = topPaddingDp,
         )
     }

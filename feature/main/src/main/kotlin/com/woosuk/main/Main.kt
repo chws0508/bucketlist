@@ -22,6 +22,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.woosuk.add.navigation.addScreen
 import com.woosuk.add.navigation.navigateToAddRoute
+import com.woosuk.addcompletebucket.navigation.addCompleteBucketScreen
+import com.woosuk.addcompletebucket.navigation.navigateToAddCompleteBucket
+import com.woosuk.completebucket.navigation.completeBucketScreen
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.homeScreen
 
@@ -52,7 +55,7 @@ fun BucketListApp(
             }
         },
         floatingActionButton = {
-            if (BottomTab.isCurrentScreenBottomTab(currentDestination?.route)) {
+            if (currentDestination?.route == BottomTab.HomeTab.route) {
                 FloatingActionButton(
                     onClick = { navController.navigateToAddRoute(null) },
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -72,10 +75,17 @@ fun BucketListApp(
                 startDestination = startDestination,
             ) {
                 homeScreen(
-                    navigateToEditBucketScreen = { navController.navigateToAddRoute(null) },
+                    onClickEditBucket = { navController.navigateToAddRoute(null) },
+                    onClickCompleteBucket = {
+                        navController.navigateToAddCompleteBucket(
+                            null,
+                        )
+                    },
                     topPaddingDp = innerPadding.calculateTopPadding(),
                 )
                 addScreen(onBackClick = navController::popBackStack)
+                completeBucketScreen(topPaddingDp = innerPadding.calculateTopPadding())
+                addCompleteBucketScreen(onBackClick = { navController.popBackStack() })
             }
         }
     }

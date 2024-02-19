@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.woosuk.completebucket.navigation.COMPLETE_BUCKET_ROUTE
+import com.woosuk.completebucket.navigation.navigateToCompleteBucket
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.navigateToHomeRoute
 import com.woosuk.theme.BucketlistTheme
@@ -85,8 +87,7 @@ fun NavController.navigateToTabScreen(bottomTab: BottomTab) {
 
     when (bottomTab) {
         BottomTab.HomeTab -> navigateToHomeRoute(tabNavOptions)
-        BottomTab.CompleteRecordTab -> { // TODO NavigateToCompleteRecord
-        }
+        BottomTab.CompleteBucketRoute -> navigateToCompleteBucket(tabNavOptions)
     }
 }
 
@@ -108,7 +109,7 @@ enum class BottomTab(
     val title: String,
 ) {
     HomeTab(HOME_ROUTE, Icons.Filled.Home, "홈"),
-    CompleteRecordTab("", Icons.Filled.List, "달성기록"),
+    CompleteBucketRoute(COMPLETE_BUCKET_ROUTE, Icons.Filled.List, "달성기록"),
     ;
 
     companion object {

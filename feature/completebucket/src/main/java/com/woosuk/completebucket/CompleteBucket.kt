@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -33,39 +32,41 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.woosuk.domain.model.BucketList
 import com.woosuk.theme.BucketlistTheme
 import com.woosuk.theme.defaultFontFamily
 import com.woosuk.theme.extendedColor
-import ui.ArrowBackTopAppBar
 import ui.DefaultCard
 
 @Composable
-fun CompleteBucketRoute() {
-    CompleteBucketScreen()
+fun CompleteBucketRoute(
+    topPaddingDp: Dp,
+) {
+    CompleteBucketScreen(topPaddingDp)
 }
 
 @Composable
-fun CompleteBucketScreen() {
-    val scrollState = rememberScrollState()
+fun CompleteBucketScreen(
+    topPaddingDp: Dp,
+) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = topPaddingDp),
     ) {
-        Column {
-            ArrowBackTopAppBar(onBackClick = {})
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp),
-            ) {
-                item {
-                    CategoryDropBox()
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
-                CompleteBucketList()
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+        ) {
+            item {
+                CategoryDropBox()
+                Spacer(modifier = Modifier.height(10.dp))
             }
+            CompleteBucketList()
         }
     }
 }
@@ -145,13 +146,13 @@ fun LazyListScope.CompleteBucketList() {
                         ) { imageUrl ->
                             Image(
                                 modifier = Modifier
-                                    .heightIn(max = 400.dp)
-                                    .widthIn(max = 300.dp)
+                                    .widthIn(min = 200.dp, max = 300.dp)
+                                    .heightIn(min = 200.dp, max = 300.dp)
                                     .padding(10.dp)
                                     .clip(RoundedCornerShape(15.dp)),
                                 painter = painterResource(id = imageUrl),
                                 contentDescription = "",
-                                contentScale = ContentScale.Fit,
+                                contentScale = ContentScale.FillWidth,
                             )
                         }
                     }
@@ -166,7 +167,7 @@ fun LazyListScope.CompleteBucketList() {
 fun CompleteBucketScreenPreview() {
     BucketlistTheme {
         Surface {
-            CompleteBucketScreen()
+            CompleteBucketScreen(topPaddingDp = 30.dp)
         }
     }
 }
