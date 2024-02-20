@@ -7,6 +7,7 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 26
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -26,4 +27,10 @@ android {
             )
         }
     }
+}
+
+dependencies{
+    "androidTestImplementation"(libs.findLibrary("androidx.test.ext").get())
+    "androidTestImplementation"(libs.findLibrary("androidx-test-espresso-core").get())
+    "debugImplementation"(libs.findLibrary("androidx-test-core").get())
 }

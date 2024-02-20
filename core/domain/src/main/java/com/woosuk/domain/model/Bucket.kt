@@ -1,6 +1,7 @@
 package com.woosuk.domain.model
 
 data class Bucket(
+    val id: Int,
     val category: BucketCategory,
     val ageRange: AgeRange,
     val title: String,
@@ -9,6 +10,7 @@ data class Bucket(
     companion object {
         fun mock(): Bucket =
             Bucket(
+                id = 1,
                 category = BucketCategory.Health,
                 ageRange = AgeRange.Twenties,
                 title = "미국 여행 가기",
@@ -28,16 +30,17 @@ class BucketList(
         value.filter { it.category == bucketCategory }
 
     companion object {
-        val sampleBucket = Bucket(
-            category = BucketCategory.Work,
-            ageRange = AgeRange.OldAge,
-            title = "통장에 5000만원 모으기!",
-            description = "너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!",
-        )
-
         fun mock(): BucketList =
             BucketList(
-                List(15) { sampleBucket },
+                List(15) {
+                    Bucket(
+                        id = it,
+                        category = BucketCategory.Work,
+                        ageRange = AgeRange.OldAge,
+                        title = "통장에 5000만원 모으기!",
+                        description = "너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!",
+                    )
+                },
             )
     }
 }

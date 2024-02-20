@@ -24,11 +24,8 @@ dependencies {
     "implementation"(libs.findLibrary("androidx.compose.icon").get())
     "implementation"(libs.findLibrary("androidx.compose.navigation").get())
 
-    "androidTestImplementation"(libs.findLibrary("androidx.test.ext").get())
-    "androidTestImplementation"(libs.findLibrary("androidx-test-espresso-core").get())
     "androidTestImplementation"(libs.findLibrary("androidx.compose.ui.test").get())
     "androidTestImplementation"(libs.findLibrary("androidx-compose-navigation-test").get())
 
     "debugImplementation"(libs.findLibrary("androidx-compose-ui-tooling").get())
-    "debugImplementation"(libs.findLibrary("androidx-test-core").get())
 }

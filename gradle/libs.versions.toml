@@ -42,7 +42,7 @@ turbine = "1.0.0"
 coroutine = "1.7.2"
 
 androidxDatastore = "1.0.0"
-room = "2.5.2"
+room = "2.6.1"
 
 ossLicenses = "17.0.1"
 ossLicensesPlugin = "0.10.6"
@@ -122,6 +122,7 @@ coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 
 oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossLicenses" }
 
