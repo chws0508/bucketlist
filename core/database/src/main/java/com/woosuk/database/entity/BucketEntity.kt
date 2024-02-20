@@ -14,4 +14,5 @@ data class BucketEntity(
     val category: BucketCategory,
     val ageRange: AgeRange,
     val createdAt: LocalDateTime,
+    val isCompleted: Boolean,
 )

@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.BucketCategory
-import com.woosuk.domain.model.BucketList
+import com.woosuk.domain.model.Buckets
 import com.woosuk.theme.BucketlistTheme
 import com.woosuk.theme.defaultFontFamily
 import com.woosuk.theme.extendedColor
@@ -90,10 +90,10 @@ fun HomeScreen(
                 HomeBucketListPercentage()
             }
             BucketCategory.entries.forEach {
-                val bucketList = BucketList.mock().getBucketListByCategory(it)
-                if (bucketList.isNotEmpty()) {
+                val buckets = Buckets.mock().getBucketListByCategory(it)
+                if (buckets.isNotEmpty()) {
                     HomeCategoryItems(
-                        bucketList = bucketList,
+                        bucketList = buckets,
                         category = it,
                         onClickEdit = onClickEditBucket,
                         onClickCompleteBucket = onClickCompleteBucket,
@@ -105,7 +105,9 @@ fun HomeScreen(
 }
 
 @Composable
-fun HomeBucketListPercentage(percentage: Double = 50.0) {
+fun HomeBucketListPercentage(
+    percentage: Double = 50.0,
+) {
     DefaultCard(
         modifier =
         Modifier
@@ -138,10 +140,10 @@ fun HomeBucketListPercentage(percentage: Double = 50.0) {
 @Suppress("ktlint:standard:function-naming")
 fun LazyListScope.HomeCategoryItems(
     modifier: Modifier = Modifier,
-    category: BucketCategory = BucketCategory.Unspecified,
-    bucketList: List<Bucket> = List(100) { Bucket.mock() },
-    onClickEdit: () -> Unit = {},
-    onClickCompleteBucket: () -> Unit = {},
+    category: BucketCategory,
+    bucketList: List<Bucket>,
+    onClickEdit: () -> Unit,
+    onClickCompleteBucket: () -> Unit,
 ) {
     item {
         CategoryItem(category = category, modifier = modifier)
@@ -253,6 +255,7 @@ fun BucketItem(
     }
     if (showBottomSheet) {
         ModalBottomSheet(
+            sheetState = bottomSheetState,
             modifier = Modifier.wrapContentSize(),
             onDismissRequest = { showBottomSheet = false },
             containerColor = MaterialTheme.colorScheme.onPrimary,
@@ -276,42 +279,10 @@ fun BucketItemBottomSheetContent(
     Column(
         modifier = Modifier.padding(start = 20.dp, end = 20.dp),
     ) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 30.dp),
-            textAlign = TextAlign.Center,
-            text = bucket.title,
-            fontFamily = defaultFontFamily,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.extendedColor.warmGray6,
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 30.dp),
-            textAlign = TextAlign.Center,
-            text = "#${bucket.category}#${bucket.ageRange.value.first}대",
-            fontFamily = defaultFontFamily,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Normal,
-            color = MaterialTheme.extendedColor.warmGray2,
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        if (bucket.description != null) {
-            MultiLineTextField(
-                text = bucket.description!!,
-                hint = "",
-                mineLines = 5,
-                maxLines = 5,
-                onValueChange = {},
-                enabled = false,
-            )
-        }
+        BottomSheetBucketItemInfo(bucket = bucket)
         Spacer(modifier = Modifier.height(10.dp))
         Row {
-            BucketItemSelectionCard(
+            BottomSheetSelectionCard(
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentHeight()
@@ -321,7 +292,7 @@ fun BucketItemBottomSheetContent(
                 title = "수정하기",
                 onClick = onClickEdit,
             )
-            BucketItemSelectionCard(
+            BottomSheetSelectionCard(
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentHeight()
@@ -342,7 +313,48 @@ fun BucketItemBottomSheetContent(
 }
 
 @Composable
-fun BucketItemSelectionCard(
+fun BottomSheetBucketItemInfo(
+    bucket: Bucket,
+) {
+    Column {
+        Text(
+            text = bucket.title,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp),
+            textAlign = TextAlign.Center,
+            fontFamily = defaultFontFamily,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.extendedColor.warmGray6,
+        )
+        Text(
+            text = "#${bucket.category}#${bucket.ageRange.value.first}대",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp),
+            textAlign = TextAlign.Center,
+            fontFamily = defaultFontFamily,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Normal,
+            color = MaterialTheme.extendedColor.warmGray2,
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        if (bucket.description != null) {
+            MultiLineTextField(
+                text = bucket.description!!,
+                hint = "",
+                mineLines = 5,
+                maxLines = 5,
+                onValueChange = {},
+                enabled = false,
+            )
+        }
+    }
+}
+
+@Composable
+fun BottomSheetSelectionCard(
     modifier: Modifier,
     iconImageVector: ImageVector,
     iconTint: Color,

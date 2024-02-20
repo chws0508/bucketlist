@@ -1,11 +1,15 @@
 package com.woosuk.domain.model
 
+import java.time.LocalDateTime
+
 data class Bucket(
     val id: Int,
     val category: BucketCategory,
     val ageRange: AgeRange,
     val title: String,
     val description: String? = null,
+    val createdAt: LocalDateTime,
+    val isCompleted: Boolean,
 ) {
     companion object {
         fun mock(): Bucket =
@@ -15,11 +19,13 @@ data class Bucket(
                 ageRange = AgeRange.Twenties,
                 title = "미국 여행 가기",
                 description = "뉴욕가서 릴스 찍기",
+                createdAt = LocalDateTime.now(),
+                isCompleted = false,
             )
     }
 }
 
-class BucketList(
+class Buckets(
     initValue: List<Bucket>,
 ) {
     private val _value = initValue
@@ -30,8 +36,8 @@ class BucketList(
         value.filter { it.category == bucketCategory }
 
     companion object {
-        fun mock(): BucketList =
-            BucketList(
+        fun mock(): Buckets =
+            Buckets(
                 List(15) {
                     Bucket(
                         id = it,
@@ -39,6 +45,8 @@ class BucketList(
                         ageRange = AgeRange.OldAge,
                         title = "통장에 5000만원 모으기!",
                         description = "너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!",
+                        isCompleted = false,
+                        createdAt = LocalDateTime.now(),
                     )
                 },
             )

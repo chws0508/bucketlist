@@ -35,7 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.woosuk.domain.model.BucketList
+import com.woosuk.domain.model.Buckets
 import com.woosuk.theme.BucketlistTheme
 import com.woosuk.theme.defaultFontFamily
 import com.woosuk.theme.extendedColor
@@ -101,7 +101,7 @@ fun CategoryDropBox(
 
 fun LazyListScope.CompleteBucketList() {
     items(
-        items = BucketList.mock().value,
+        items = Buckets.mock().value,
     ) { bucket ->
         DefaultCard(
             modifier = Modifier

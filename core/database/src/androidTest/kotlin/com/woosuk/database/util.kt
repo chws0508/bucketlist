@@ -4,7 +4,6 @@ import com.woosuk.database.entity.BucketEntity
 import com.woosuk.database.entity.CompletedBucketEntity
 import com.woosuk.domain.model.AgeRange
 import com.woosuk.domain.model.BucketCategory
-import org.junit.runner.Description
 import java.time.LocalDateTime
 
 fun testBucketEntity(
@@ -17,6 +16,7 @@ fun testBucketEntity(
     category = BucketCategory.Work,
     ageRange = AgeRange.Forties,
     createdAt = LocalDateTime.now(),
+    isCompleted = true,
 )
 
 fun testCompletedBucketEntity(

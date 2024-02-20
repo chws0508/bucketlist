@@ -1,18 +1,42 @@
 package com.woosuk.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.woosuk.domain.model.Bucket
+import com.woosuk.domain.usecase.DeleteBucketUseCase
+import com.woosuk.domain.usecase.GetAllBucketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val getAllBucketsUseCase: GetAllBucketsUseCase,
+    private val deleteBucketUseCase: DeleteBucketUseCase,
+) : ViewModel() {
 
-    private val _topAppBarColorCondition: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val topAppBarColorCondition = _topAppBarColorCondition.asStateFlow()
+    private val _homeUiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
+    val homeUiState = _homeUiState.asStateFlow()
 
-    fun toggleTopBarColor() {
-        _topAppBarColorCondition.value = !topAppBarColorCondition.value
+    init {
+        loadBuckets()
+    }
+
+    private fun loadBuckets() {
+        viewModelScope.launch {
+            getAllBucketsUseCase().onEach { buckets ->
+                _homeUiState.value = HomeUiState.Success(buckets)
+            }.launchIn(this)
+        }
+    }
+
+    fun deleteBucket(bucket: Bucket) {
+        viewModelScope.launch {
+            deleteBucketUseCase(bucket)
+        }
     }
 }
