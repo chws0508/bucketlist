@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,11 +42,11 @@ fun MainBottomNavigationBar(
         modifier = modifier.clip(RoundedCornerShape(topEnd = 15.dp, topStart = 15.dp)),
         containerColor = MaterialTheme.colorScheme.onPrimary,
     ) {
-        BottomTab.values().forEach { tab ->
+        BottomTab.entries.forEach { tab ->
             NavigationBarItem(
                 label = {
                     Text(
-                        text = tab.title,
+                        text = stringResource(id = tab.title),
                         fontFamily = defaultFontFamily,
                         fontWeight = FontWeight.Medium,
                         fontSize = 13.sp,
@@ -56,7 +57,7 @@ fun MainBottomNavigationBar(
                 icon = {
                     Icon(
                         imageVector = tab.iconImageVector,
-                        contentDescription = tab.title,
+                        contentDescription = stringResource(id = tab.title),
                         modifier = Modifier
                             .size(32.dp)
                             .padding(),
@@ -91,7 +92,7 @@ fun NavController.navigateToTabScreen(bottomTab: BottomTab) {
     }
 }
 
-@Preview
+@Preview(apiLevel = 33)
 @Composable
 fun MainBottomNavigationBarPreview() {
     BucketlistTheme {
@@ -106,10 +107,13 @@ fun MainBottomNavigationBarPreview() {
 enum class BottomTab(
     val route: String,
     val iconImageVector: ImageVector,
-    val title: String,
+    val title: Int,
 ) {
-    HomeTab(HOME_ROUTE, Icons.Filled.Home, "홈"),
-    CompleteBucketRoute(COMPLETE_BUCKET_ROUTE, Icons.Filled.List, "달성기록"),
+    HomeTab(HOME_ROUTE, Icons.Filled.Home, R.string.bottom_tab_home_title),
+    CompleteBucketRoute(
+        COMPLETE_BUCKET_ROUTE, Icons.Filled.List,
+        R.string.bottom_tab_complete_buckets_title,
+    ),
     ;
 
     companion object {

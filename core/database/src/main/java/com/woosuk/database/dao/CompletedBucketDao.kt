@@ -8,7 +8,6 @@ import androidx.room.Update
 import com.woosuk.database.entity.CompletedBucketEntity
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface CompletedBucketDao {
     @Insert
