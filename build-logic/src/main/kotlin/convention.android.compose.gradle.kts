@@ -28,4 +28,5 @@ dependencies {
     "androidTestImplementation"(libs.findLibrary("androidx-compose-navigation-test").get())
 
     "debugImplementation"(libs.findLibrary("androidx-compose-ui-tooling").get())
+    "debugImplementation"(libs.findLibrary("androidx-compose-ui-testManifest").get())
 }

@@ -15,13 +15,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        multiDexEnabled = true
     }
 
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("debug")
@@ -34,6 +30,8 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":feature:main"))
     implementation(project(":feature:home"))
+    implementation(project(":core:data"))
+    implementation(libs.multidex)
 }
 kapt {
     correctErrorTypes = true

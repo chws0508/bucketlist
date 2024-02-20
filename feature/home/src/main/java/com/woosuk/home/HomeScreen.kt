@@ -1,5 +1,6 @@
 package com.woosuk.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,6 +49,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.BucketCategory
 import com.woosuk.domain.model.Buckets
@@ -60,53 +64,78 @@ import ui.noRippleClickable
 @Composable
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
-    onClickEditBucket: () -> Unit,
-    onClickBucketCompleteBucket: () -> Unit,
+    onEditBucketClick: () -> Unit,
+    onBucketCompleteClick: () -> Unit,
     topPaddingDp: Dp,
 ) {
+    val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+
     HomeScreen(
         topPaddingDp = topPaddingDp,
-        onClickEditBucket = onClickEditBucket,
-        onClickCompleteBucket = onClickBucketCompleteBucket,
+        onEditBucketClick = onEditBucketClick,
+        onCompleteBucketClick = onBucketCompleteClick,
+        onDeleteBucketClick = viewModel::deleteBucket,
+        homeUiState = homeUiState,
     )
 }
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    onClickEditBucket: () -> Unit,
-    onClickCompleteBucket: () -> Unit,
+    onEditBucketClick: () -> Unit = {},
+    onCompleteBucketClick: () -> Unit = {},
+    onDeleteBucketClick: (Bucket) -> Unit = {},
+    homeUiState: HomeUiState,
     topPaddingDp: Dp,
 ) {
-    Column {
-        LazyColumn(
-            contentPadding = PaddingValues(
-                top = topPaddingDp,
-                start = 17.dp,
-                end = 17.dp,
-            ),
-        ) {
-            item {
-                HomeBucketListPercentage()
+    when (homeUiState) {
+        is HomeUiState.Loading -> {
+            Box(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(
+                    color = MaterialTheme.extendedColor.tossBlue2,
+                    modifier = Modifier.testTag(stringResource(R.string.progress_indicator_test_tag)),
+                )
             }
-            BucketCategory.entries.forEach {
-                val buckets = Buckets.mock().getBucketListByCategory(it)
-                if (buckets.isNotEmpty()) {
-                    HomeCategoryItems(
-                        bucketList = buckets,
-                        category = it,
-                        onClickEdit = onClickEditBucket,
-                        onClickCompleteBucket = onClickCompleteBucket,
-                    )
+        }
+
+        is HomeUiState.Success -> {
+            Column {
+                LazyColumn(
+                    contentPadding = PaddingValues(
+                        top = topPaddingDp,
+                        start = 17.dp,
+                        end = 17.dp,
+                    ),
+                ) {
+                    item {
+                        HomeAllAchievementRate(homeUiState.buckets.getAllAchievementRate())
+                    }
+                    BucketCategory.entries.forEach { bucketCategory ->
+                        val buckets = homeUiState.buckets.getBucketListByCategory(bucketCategory)
+                        val categoryAchievementRate =
+                            homeUiState.buckets.getCategoryAchievementRate(bucketCategory)
+                        if (buckets.isNotEmpty()) {
+                            HomeCategoryItems(
+                                bucketList = buckets,
+                                category = bucketCategory,
+                                achievementRate = categoryAchievementRate,
+                                onEditBucketClick = onEditBucketClick,
+                                onCompleteBucketClick = onCompleteBucketClick,
+                                onDeleteBucketClick = onDeleteBucketClick,
+                            )
+                        }
+                    }
                 }
             }
         }
+
+        is HomeUiState.Error -> {}
     }
 }
 
 @Composable
-fun HomeBucketListPercentage(
-    percentage: Double = 50.0,
+fun HomeAllAchievementRate(
+    allAchievementRate: Double,
 ) {
     DefaultCard(
         modifier =
@@ -126,7 +155,10 @@ fun HomeBucketListPercentage(
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = String.format(stringResource(id = R.string.percentage_format), percentage),
+                text = String.format(
+                    stringResource(id = R.string.percentage_format),
+                    allAchievementRate,
+                ),
                 modifier = Modifier.padding(bottom = 20.dp),
                 fontSize = 30.sp,
                 fontFamily = defaultFontFamily,
@@ -142,11 +174,17 @@ fun LazyListScope.HomeCategoryItems(
     modifier: Modifier = Modifier,
     category: BucketCategory,
     bucketList: List<Bucket>,
-    onClickEdit: () -> Unit,
-    onClickCompleteBucket: () -> Unit,
+    onEditBucketClick: () -> Unit,
+    onCompleteBucketClick: () -> Unit,
+    onDeleteBucketClick: (Bucket) -> Unit,
+    achievementRate: Double,
 ) {
     item {
-        CategoryItem(category = category, modifier = modifier)
+        CategoryInfoItem(
+            bucketCategory = category,
+            modifier = modifier,
+            achievementRate = achievementRate,
+        )
     }
 
     itemsIndexed(
@@ -158,32 +196,28 @@ fun LazyListScope.HomeCategoryItems(
                     modifier = Modifier.padding(bottom = 10.dp),
                     bucket = bucket,
                     shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
+                    onCompleteBucketClick = onCompleteBucketClick,
+                    onEditBucketClick = onEditBucketClick,
+                    onDeleteBucketClick = onDeleteBucketClick,
                 )
 
             else -> BucketItem(
                 bucket = bucket,
                 shape = RoundedCornerShape(0.dp),
-                onClickEdit = onClickEdit,
-                onClickCompleteBucket = onClickCompleteBucket,
+                onEditBucketClick = onEditBucketClick,
+                onCompleteBucketClick = onCompleteBucketClick,
+                onDeleteBucketClick = onDeleteBucketClick,
             )
         }
     }
 }
 
 @Composable
-fun CategoryItem(
+fun CategoryInfoItem(
     modifier: Modifier = Modifier,
-    category: BucketCategory = BucketCategory.Unspecified,
+    bucketCategory: BucketCategory = BucketCategory.Unspecified,
+    achievementRate: Double,
 ) {
-    // 나중에 uiState로 옮긴다.
-    val categoryName =
-        when (category) {
-            BucketCategory.Travel -> stringResource(id = R.string.travel)
-            BucketCategory.Health -> stringResource(id = R.string.health)
-            BucketCategory.Work -> stringResource(id = R.string.work)
-            BucketCategory.Learning -> stringResource(id = R.string.learning)
-            BucketCategory.Unspecified -> stringResource(id = R.string.unspecified)
-        }
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -194,7 +228,7 @@ fun CategoryItem(
             verticalAlignment = Alignment.Top,
         ) {
             Text(
-                text = categoryName,
+                text = BucketUiUtil.getCategoryName(bucketCategory = bucketCategory),
                 fontSize = 24.sp,
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Bold,
@@ -202,7 +236,10 @@ fun CategoryItem(
                 color = MaterialTheme.colorScheme.onSecondary,
             )
             Text(
-                text = "달성률 20%",
+                text = stringResource(
+                    R.string.categroy_achievement_rate_format,
+                    achievementRate,
+                ),
                 fontSize = 15.sp,
                 modifier = Modifier.fillMaxWidth(),
                 fontFamily = defaultFontFamily,
@@ -220,8 +257,9 @@ fun BucketItem(
     bucket: Bucket,
     modifier: Modifier = Modifier,
     shape: Shape,
-    onClickEdit: () -> Unit = {},
-    onClickCompleteBucket: () -> Unit = {},
+    onEditBucketClick: () -> Unit = {},
+    onCompleteBucketClick: () -> Unit = {},
+    onDeleteBucketClick: (Bucket) -> Unit,
 ) {
     val bottomSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
@@ -262,8 +300,9 @@ fun BucketItem(
         ) {
             BucketItemBottomSheetContent(
                 bucket,
-                onClickEdit = onClickEdit,
-                onClickCompleteButton = onClickCompleteBucket,
+                onEditBucketClick = onEditBucketClick,
+                onCompleteBucketClick = onCompleteBucketClick,
+                onDeleteBucketClick = onDeleteBucketClick,
             )
         }
     }
@@ -272,9 +311,9 @@ fun BucketItem(
 @Composable
 fun BucketItemBottomSheetContent(
     bucket: Bucket,
-    onClickEdit: () -> Unit = {},
-    onClickDelete: () -> Unit = {},
-    onClickCompleteButton: () -> Unit = {},
+    onEditBucketClick: () -> Unit = {},
+    onCompleteBucketClick: () -> Unit = {},
+    onDeleteBucketClick: (Bucket) -> Unit,
 ) {
     Column(
         modifier = Modifier.padding(start = 20.dp, end = 20.dp),
@@ -289,23 +328,26 @@ fun BucketItemBottomSheetContent(
                     .padding(5.dp),
                 iconImageVector = Icons.Rounded.Edit,
                 iconTint = MaterialTheme.extendedColor.tossBlue2,
-                title = "수정하기",
-                onClick = onClickEdit,
+                title = stringResource(R.string.edit_button_text),
+                onClick = onEditBucketClick,
             )
             BottomSheetSelectionCard(
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentHeight()
+                    .clickable {
+                        onDeleteBucketClick(bucket)
+                    }
                     .padding(5.dp),
                 iconImageVector = Icons.Rounded.Delete,
                 iconTint = Color.Red,
-                title = "삭제하기",
+                title = stringResource(R.string.delete_button_text),
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
         DefaultButton(
-            onClick = onClickCompleteButton,
-            text = "달성 완료",
+            onClick = onCompleteBucketClick,
+            text = stringResource(R.string.complete_bucket_button_text),
             enabled = true,
         )
         Spacer(modifier = Modifier.height(40.dp))
@@ -329,7 +371,11 @@ fun BottomSheetBucketItemInfo(
             color = MaterialTheme.extendedColor.warmGray6,
         )
         Text(
-            text = "#${bucket.category}#${bucket.ageRange.value.first}대",
+            text = stringResource(
+                R.string.bucket_tag_format,
+                BucketUiUtil.getCategoryName(bucketCategory = bucket.category),
+                BucketUiUtil.getAgeName(ageRange = bucket.ageRange),
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp),
@@ -374,7 +420,7 @@ fun BottomSheetSelectionCard(
             Icon(
                 modifier = Modifier.padding(10.dp),
                 imageVector = iconImageVector,
-                contentDescription = "EditIcon",
+                contentDescription = stringResource(R.string.edit_icon_contentdescription),
                 tint = iconTint,
             )
             Text(
@@ -393,7 +439,13 @@ fun BottomSheetSelectionCard(
 fun HomeScreenPreview() {
     BucketlistTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            HomeScreen(topPaddingDp = 50.dp, onClickEditBucket = {}, onClickCompleteBucket = {})
+            HomeScreen(
+                topPaddingDp = 50.dp,
+                onEditBucketClick = {},
+                onCompleteBucketClick = {},
+                onDeleteBucketClick = {},
+                homeUiState = HomeUiState.Success(Buckets.mock()),
+            )
         }
     }
 }
@@ -402,6 +454,6 @@ fun HomeScreenPreview() {
 @Composable
 fun BucketItemBottomSheetContentPreview() {
     BucketlistTheme {
-        BucketItemBottomSheetContent(bucket = Bucket.mock())
+        BucketItemBottomSheetContent(bucket = Bucket.mock(), onDeleteBucketClick = {})
     }
 }

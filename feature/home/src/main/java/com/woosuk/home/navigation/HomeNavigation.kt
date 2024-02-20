@@ -20,8 +20,8 @@ fun NavGraphBuilder.homeScreen(
         route = HOME_ROUTE,
     ) {
         HomeRoute(
-            onClickEditBucket = onClickEditBucket,
-            onClickBucketCompleteBucket = onClickCompleteBucket,
+            onEditBucketClick = onClickEditBucket,
+            onBucketCompleteClick = onClickCompleteBucket,
             topPaddingDp = topPaddingDp,
         )
     }

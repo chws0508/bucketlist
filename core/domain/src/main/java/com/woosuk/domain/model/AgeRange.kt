@@ -6,4 +6,5 @@ enum class AgeRange(val value: IntRange) {
     Forties(40..49),
     Fifties(50..59),
     OldAge(60..Int.MAX_VALUE),
+    UnSpecified(0..0),
 }

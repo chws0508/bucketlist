@@ -27,10 +27,16 @@ android {
             )
         }
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/*"
+        }
+    }
 }
 
 dependencies{
     "androidTestImplementation"(libs.findLibrary("androidx.test.ext").get())
     "androidTestImplementation"(libs.findLibrary("androidx-test-espresso-core").get())
+    "androidTestImplementation"(libs.findLibrary("junit4").get())
     "debugImplementation"(libs.findLibrary("androidx-test-core").get())
 }
