@@ -27,4 +27,8 @@ class DefaultBucketRepository @Inject constructor(
     override suspend fun deleteBucket(bucket: Bucket) {
         bucketDao.deleteBucket(bucket.toEntity())
     }
+
+    override suspend fun insertBucket(bucket: Bucket) {
+        bucketDao.insertBucket(bucket.toEntity())
+    }
 }

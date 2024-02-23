@@ -24,6 +24,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,16 +33,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.woosuk.addbucket.R
+import com.woosuk.common.BucketUiUtil
 import com.woosuk.domain.model.AgeRange
 import com.woosuk.domain.model.BucketCategory
 import com.woosuk.theme.BucketlistTheme
 import com.woosuk.theme.defaultFontFamily
 import com.woosuk.theme.extendedColor
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ui.ArrowBackTopAppBar
 import ui.DefaultButton
@@ -53,20 +59,47 @@ import ui.noRippleClickable
 fun AddBucketRoute(
     viewModel: AddBucketViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
+    onShowSnackBar: (String) -> Unit,
 ) {
-    AddBucketScreen(onBackClick = onBackClick)
+    val uiState = viewModel.addBucketUiState.collectAsStateWithLifecycle().value
+    AddBucketScreen(
+        onBackClick = onBackClick,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.onPrimary),
+        uiState = uiState,
+        onBucketTitleChanged = viewModel::onBucketTitleChanged,
+        onBucketCategoryChanged = viewModel::onBucketCategoryChanged,
+        onBucketAgeRangeChanged = viewModel::onBucketAgeRangeChanged,
+        onBucketDescriptionChanged = viewModel::onBucketDescriptionChanged,
+        onClickComplete = viewModel::addBucket,
+    )
+    LaunchedEffect(key1 = null) {
+        viewModel.addBucketUiEvent.collectLatest { event ->
+            when (event) {
+                AddBucketUiEvent.AddCompleteEvent -> {
+                    onShowSnackBar("버킷을 추가했어요!")
+                    onBackClick()
+                }
+            }
+        }
+    }
 }
 
 @Composable
 fun AddBucketScreen(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit,
+    onBackClick: () -> Unit = {},
+    uiState: AddBucketUiState,
+    onBucketTitleChanged: (String) -> Unit = {},
+    onBucketAgeRangeChanged: (AgeRange) -> Unit = {},
+    onBucketCategoryChanged: (BucketCategory) -> Unit = {},
+    onBucketDescriptionChanged: (String) -> Unit = {},
+    onClickComplete: () -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onPrimary),
+        modifier = modifier,
     ) {
         Column {
             ArrowBackTopAppBar(onBackClick = onBackClick)
@@ -77,13 +110,25 @@ fun AddBucketScreen(
             ) {
                 Spacer(modifier = Modifier.height(30.dp))
                 AddBucketHeader()
-                AddBucketTitle()
+                AddBucketTitle(
+                    bucketTitle = uiState.title,
+                    onBucketTitleChanged = onBucketTitleChanged,
+                )
                 Spacer(modifier = Modifier.height(20.dp))
-                AddBucketAgeRange()
+                AddBucketAgeRange(
+                    ageRange = uiState.ageRange,
+                    onBucketAgeRangeChanged = onBucketAgeRangeChanged,
+                )
                 Spacer(modifier = Modifier.height(20.dp))
-                AddBucketCategory()
+                AddBucketCategory(
+                    bucketCategory = uiState.category,
+                    onBucketCategoryChanged = onBucketCategoryChanged,
+                )
                 Spacer(modifier = Modifier.height(20.dp))
-                AddBucketDescription()
+                AddBucketDescription(
+                    bucketDescription = uiState.description,
+                    onBucketDescriptionChanged = onBucketDescriptionChanged,
+                )
                 Spacer(modifier = Modifier.height(40.dp))
             }
         }
@@ -91,15 +136,19 @@ fun AddBucketScreen(
             modifier = Modifier
                 .padding(horizontal = 24.dp, vertical = 20.dp)
                 .align(Alignment.BottomCenter),
+            onClickComplete = onClickComplete,
+            enabled = uiState.canAddBucket,
         )
     }
 }
 
 @Composable
-fun AddBucketHeader() {
+fun AddBucketHeader(
+    modifier: Modifier = Modifier,
+) {
     Text(
-        modifier = Modifier.padding(bottom = 15.dp),
-        text = "버킷리스트 추가",
+        modifier = modifier.padding(bottom = 15.dp),
+        text = stringResource(R.string.add_bucket_header),
         fontFamily = defaultFontFamily,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.onSecondary,
@@ -108,11 +157,15 @@ fun AddBucketHeader() {
 }
 
 @Composable
-fun AddBucketTitle(modifier: Modifier = Modifier) {
-    Column {
+fun AddBucketTitle(
+    modifier: Modifier = Modifier,
+    bucketTitle: String,
+    onBucketTitleChanged: (String) -> Unit,
+) {
+    Column(modifier = modifier) {
         Row {
             Text(
-                text = "버킷리스트",
+                text = stringResource(R.string.bucket_title_header),
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
@@ -121,44 +174,51 @@ fun AddBucketTitle(modifier: Modifier = Modifier) {
         }
         SingleLineTextField(
             modifier = Modifier.fillMaxWidth(),
-            text = "",
-            hint = "당신의 버킷리스트를 적어주세요",
-            onValueChange = {},
+            text = bucketTitle,
+            hint = stringResource(R.string.bucket_title_hint),
+            onValueChange = onBucketTitleChanged,
         )
     }
 }
 
 @Composable
-fun AddBucketDescription(modifier: Modifier = Modifier) {
-    Column {
+fun AddBucketDescription(
+    modifier: Modifier = Modifier,
+    bucketDescription: String,
+    onBucketDescriptionChanged: (String) -> Unit,
+) {
+    Column(modifier = modifier) {
         Text(
-            text = "설명",
+            text = stringResource(R.string.bucket_description_header),
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,
         )
         MultiLineTextField(
             modifier = Modifier.fillMaxWidth(),
-            text = "",
-            hint = "버킷리스트에 대해 설명해주세요(선택)",
+            text = bucketDescription,
+            hint = stringResource(R.string.bucket_description_hint),
             mineLines = 6,
             maxLines = 10,
-            onValueChange = {},
+            onValueChange = onBucketDescriptionChanged,
         )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddBucketAgeRange(modifier: Modifier = Modifier) {
+fun AddBucketAgeRange(
+    modifier: Modifier = Modifier,
+    ageRange: AgeRange?,
+    onBucketAgeRangeChanged: (AgeRange) -> Unit,
+) {
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
-    var text by remember { mutableStateOf("") }
     var showBottomSheet by remember { mutableStateOf(false) }
-    Column {
+    Column(modifier = modifier) {
         Row {
             Text(
-                text = "목표 나이대",
+                text = stringResource(R.string.bucket_age_range_header),
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
@@ -171,8 +231,8 @@ fun AddBucketAgeRange(modifier: Modifier = Modifier) {
                 .noRippleClickable {
                     showBottomSheet = true
                 },
-            text = text,
-            hint = "목표 나이대를 선택해주세요",
+            text = if (ageRange != null) BucketUiUtil.getAgeName(ageRange = ageRange) else "",
+            hint = stringResource(R.string.bucket_age_range_hint),
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Filled.ArrowDropDown,
@@ -188,7 +248,7 @@ fun AddBucketAgeRange(modifier: Modifier = Modifier) {
                 sheetState = sheetState,
                 onDismissRequest = { showBottomSheet = false },
                 onClickItem = {
-                    text = it.value.first.toString()
+                    onBucketAgeRangeChanged(it)
                     scope.launch { sheetState.hide() }.invokeOnCompletion {
                         if (!sheetState.isVisible) {
                             showBottomSheet = false
@@ -219,20 +279,20 @@ fun AddBucketAgeRangeBottomSheet(
             modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp),
         ) {
             Text(
-                "목표 나이대를 선택해주세요",
+                text = stringResource(id = R.string.bucket_age_range_hint),
                 fontFamily = defaultFontFamily,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.extendedColor.warmGray6,
             )
             Spacer(modifier = Modifier.height(20.dp))
-            AgeRange.values().forEach { ageRange ->
+            AgeRange.entries.forEach { ageRange ->
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 10.dp)
                         .noRippleClickable { onClickItem(ageRange) },
-                    text = "${ageRange.value.first}대",
+                    text = BucketUiUtil.getAgeName(ageRange = ageRange),
                     fontFamily = defaultFontFamily,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
@@ -246,15 +306,18 @@ fun AddBucketAgeRangeBottomSheet(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddBucketCategory(modifier: Modifier = Modifier) {
+fun AddBucketCategory(
+    modifier: Modifier = Modifier,
+    bucketCategory: BucketCategory?,
+    onBucketCategoryChanged: (BucketCategory) -> Unit,
+) {
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
-    var text by remember { mutableStateOf("") }
     var showBottomSheet by remember { mutableStateOf(false) }
-    Column {
+    Column(modifier = modifier) {
         Row {
             Text(
-                text = "카테고리",
+                text = stringResource(R.string.bucket_category_header),
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
@@ -267,8 +330,8 @@ fun AddBucketCategory(modifier: Modifier = Modifier) {
                 .noRippleClickable {
                     showBottomSheet = true
                 },
-            text = text,
-            hint = "카테고리를 선택해주세요",
+            text = if (bucketCategory != null) BucketUiUtil.getCategoryName(bucketCategory = bucketCategory) else "",
+            hint = stringResource(R.string.bucket_category_hint),
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Filled.ArrowDropDown,
@@ -284,7 +347,7 @@ fun AddBucketCategory(modifier: Modifier = Modifier) {
                 sheetState = sheetState,
                 onDismissRequest = { showBottomSheet = false },
                 onClickItem = {
-                    text = it.name
+                    onBucketCategoryChanged(it)
                     scope.launch { sheetState.hide() }.invokeOnCompletion {
                         if (!sheetState.isVisible) {
                             showBottomSheet = false
@@ -315,20 +378,20 @@ fun AddBucketCategoryBottomSheet(
             modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp),
         ) {
             Text(
-                "카테고리를 선택해주세요",
+                text = stringResource(id = R.string.bucket_category_hint),
                 fontFamily = defaultFontFamily,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.extendedColor.warmGray6,
             )
             Spacer(modifier = Modifier.height(20.dp))
-            BucketCategory.values().forEach { bucketCategory ->
+            BucketCategory.entries.forEach { bucketCategory ->
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 10.dp)
                         .noRippleClickable { onClickItem(bucketCategory) },
-                    text = bucketCategory.name,
+                    text = BucketUiUtil.getCategoryName(bucketCategory = bucketCategory),
                     fontFamily = defaultFontFamily,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
@@ -343,12 +406,14 @@ fun AddBucketCategoryBottomSheet(
 @Composable
 fun AddBucketCompleteButton(
     modifier: Modifier = Modifier,
+    onClickComplete: () -> Unit,
+    enabled: Boolean,
 ) {
     DefaultButton(
         modifier = modifier,
-        onClick = {},
-        text = "추가하기",
-        enabled = false,
+        onClick = onClickComplete,
+        text = stringResource(R.string.add_complete_button_text),
+        enabled = enabled,
     )
 }
 
@@ -357,7 +422,16 @@ fun AddBucketCompleteButton(
 fun AddBucketScreenPreview() {
     BucketlistTheme {
         Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-            AddBucketScreen(onBackClick = {})
+            AddBucketScreen(
+                onBackClick = {},
+                modifier = Modifier,
+                uiState = AddBucketUiState(
+                    title = "제목",
+                    ageRange = AgeRange.Fifties,
+                    category = BucketCategory.Work,
+                    description = "서멸입니다",
+                ),
+            )
         }
     }
 }

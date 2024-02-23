@@ -13,6 +13,9 @@ data class Bucket(
     val createdAt: LocalDateTime,
     val isCompleted: Boolean,
 ) {
+    init {
+        require(title.isNotBlank()) { "제목은 빈칸일 수 없어요" }
+    }
     companion object {
         fun mock(): Bucket =
             Bucket(

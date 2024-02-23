@@ -8,4 +8,6 @@ interface BucketRepository {
     fun getAllBuckets(): Flow<Buckets>
 
     suspend fun deleteBucket(bucket: Bucket)
+
+    suspend fun insertBucket(bucket: Bucket)
 }

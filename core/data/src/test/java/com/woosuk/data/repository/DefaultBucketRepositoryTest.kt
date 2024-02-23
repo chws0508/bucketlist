@@ -45,18 +45,6 @@ class DefaultBucketRepositoryTest {
     @Test
     fun `버킷을 삭제할 수 있다`() = runTest {
         // given
-        val testBucket = Bucket(
-            id = 0,
-            category = BucketCategory.Work,
-            ageRange = AgeRange.UnSpecified,
-            title = "",
-            description = null,
-            createdAt = LocalDateTime.of(
-                LocalDate.of(1, 1, 1),
-                LocalTime.of(1, 1),
-            ),
-            isCompleted = false,
-        )
         bucketRepository = DefaultBucketRepository(bucketDao)
         // when
         bucketRepository.deleteBucket(Bucket.mock())
@@ -64,11 +52,21 @@ class DefaultBucketRepositoryTest {
         coVerify { bucketDao.deleteBucket(Bucket.mock().toEntity()) }
     }
 
+    @Test
+    fun `버킷을 추가할 수 있다`() = runTest {
+        // given
+        bucketRepository = DefaultBucketRepository(bucketDao)
+        // when
+        bucketRepository.insertBucket(Bucket.mock())
+        // then
+        coVerify { bucketDao.insertBucket(Bucket.mock().toEntity()) }
+    }
+
     private fun testBucketEntity(
         id: Int,
     ) = BucketEntity(
         id = id,
-        title = "",
+        title = "제목",
         description = null,
         category = BucketCategory.Work,
         ageRange = AgeRange.UnSpecified,

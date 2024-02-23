@@ -5,16 +5,11 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.woosuk.database.dao.BucketDao
 import com.woosuk.database.dao.CompletedBucketDao
-import com.woosuk.database.entity.BucketEntity
-import com.woosuk.database.entity.CompletedBucketEntity
-import com.woosuk.domain.model.AgeRange
-import com.woosuk.domain.model.BucketCategory
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalDateTime
 
 class BucketDaoTest {
 
@@ -43,6 +38,20 @@ class BucketDaoTest {
         // then
         assertEquals(1, actual.first().id)
         assertEquals(testBucketEntity.title, actual.first().title)
+    }
+
+    @Test
+    fun ID가_0인_BUCKET을_Insert하면_자동으로_Id를_늘려서_저장한다() = runTest {
+        // given
+        val testBucketEntity = testBucketEntity(0, "test")
+        val testBucketEntity2 = testBucketEntity(0, "test2")
+        // when
+        bucketDao.insertBucket(testBucketEntity)
+        bucketDao.insertBucket(testBucketEntity2)
+        val actual = bucketDao.loadAllBucket().first()
+        // then
+        assertEquals(2, actual[1].id)
+        assertEquals(testBucketEntity2.title, actual[1].title)
     }
 
     @Test

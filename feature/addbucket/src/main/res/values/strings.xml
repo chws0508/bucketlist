@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bucket_title_hint">당신의 버킷리스트를 적어주세요</string>
+    <string name="bucket_title_header">버킷리스트</string>
+    <string name="add_bucket_header">버킷리스트 추가</string>
+    <string name="bucket_description_hint">버킷리스트에 대해 설명해주세요(선택)</string>
+    <string name="bucket_description_header">설명</string>
+    <string name="bucket_age_range_header">목표 나이대</string>
+    <string name="bucket_age_range_hint">목표 나이대를 선택해주세요</string>
+    <string name="bucket_category_header">카테고리</string>
+    <string name="bucket_category_hint">카테고리를 선택해주세요</string>
+    <string name="add_complete_button_text">추가하기</string>
+</resources>

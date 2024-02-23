@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.woosuk.common.BucketUiUtil
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.BucketCategory
 import com.woosuk.domain.model.Buckets
@@ -356,9 +357,10 @@ fun BucketItemBottomSheetContent(
 
 @Composable
 fun BottomSheetBucketItemInfo(
+    modifier: Modifier = Modifier,
     bucket: Bucket,
 ) {
-    Column {
+    Column(modifier = modifier) {
         Text(
             text = bucket.title,
             modifier = Modifier
@@ -388,6 +390,7 @@ fun BottomSheetBucketItemInfo(
         Spacer(modifier = Modifier.height(10.dp))
         if (bucket.description != null) {
             MultiLineTextField(
+                modifier = Modifier.fillMaxWidth(),
                 text = bucket.description!!,
                 hint = "",
                 mineLines = 5,

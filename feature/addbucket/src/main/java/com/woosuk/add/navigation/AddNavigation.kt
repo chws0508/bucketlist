@@ -12,10 +12,11 @@ fun NavController.navigateToAddRoute(navOptions: NavOptions?) = navigate(ADD_ROU
 
 fun NavGraphBuilder.addScreen(
     onBackClick: () -> Unit,
+    onShowSnackBar: (String) -> Unit,
 ) {
     composable(
         route = ADD_ROUTE,
     ) {
-        AddBucketRoute(onBackClick = onBackClick)
+        AddBucketRoute(onBackClick = onBackClick, onShowSnackBar = onShowSnackBar)
     }
 }

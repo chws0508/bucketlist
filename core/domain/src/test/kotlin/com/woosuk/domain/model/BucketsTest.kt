@@ -1,6 +1,7 @@
 package com.woosuk.domain.model
 
 import com.google.common.truth.Truth.assertThat
+import org.junit.Assert.assertThrows
 import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -13,8 +14,8 @@ class BucketsTest {
         // given
         val buckets1 = Buckets(
             listOf(
-                testBucket(1, true),
-                testBucket(2, false),
+                testBucket(1, isCompleted = true),
+                testBucket(2, isCompleted = false),
             ),
         )
         val buckets2 = Buckets(listOf())
@@ -81,8 +82,17 @@ class BucketsTest {
         assertThat(testCase3).isEqualTo(0.0)
     }
 
+    @Test
+    fun `제목이 비어있을 수 없다`() {
+        // then
+        val exception =
+            assertThrows(IllegalArgumentException::class.java) { testBucket(1, title = "") }
+        assertThat(exception.message).isEqualTo("제목은 빈칸일 수 없어요")
+    }
+
     private fun testBucket(
         id: Int,
+        title: String = "제목",
         isCompleted: Boolean = false,
         category: BucketCategory = BucketCategory.Work,
         ageRange: AgeRange = AgeRange.Fifties,
@@ -90,7 +100,7 @@ class BucketsTest {
         id = id,
         category = category,
         ageRange = ageRange,
-        title = "",
+        title = title,
         description = null,
         createdAt = LocalDateTime.of(
             LocalDate.of(2023, 5, 8),
