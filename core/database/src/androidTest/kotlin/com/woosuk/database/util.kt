@@ -24,7 +24,7 @@ fun testCompletedBucketEntity(
     description: String = "test"
 ) = CompletedBucketEntity(
     bucketId = id,
-    completionDate = LocalDateTime.now(),
+    completedDate = LocalDateTime.now(),
     imageUrls = listOf(),
     description = description,
 )

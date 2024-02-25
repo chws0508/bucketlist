@@ -17,9 +17,11 @@ data class Bucket(
         require(title.isNotBlank()) { "제목은 빈칸일 수 없어요" }
     }
     companion object {
-        fun mock(): Bucket =
+        fun mock(
+            id: Int = 1
+        ): Bucket =
             Bucket(
-                id = 1,
+                id = id,
                 category = BucketCategory.Health,
                 ageRange = AgeRange.Twenties,
                 title = "미국 여행 가기",

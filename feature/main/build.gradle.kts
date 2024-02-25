@@ -10,4 +10,5 @@ dependencies {
     implementation(project(":feature:addbucket"))
     implementation(project(":feature:completebucket"))
     implementation(project(":feature:addcompletebucket"))
+    implementation(project(":feature:completedbucketdetail"))
 }

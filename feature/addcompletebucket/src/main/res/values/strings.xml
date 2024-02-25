@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="completed_bucket_tag_format">#%1$s#%2$s</string>
+    <string name="bucket_diary_hint">소감문을 작성해주세요</string>
+    <string name="add_image_introduction">사진을 추가해보세요!</string>
+    <string name="add_image_icon_contentdescription">add_image_icon</string>
+    <string name="complete_bucket_button_text">달성 카드 등록</string>
+    <string name="imagedeleteicon">ImageDeleteIcon</string>
+    <string name="add_completed_bucket_topappbar_title">달성 카드 만들기</string>
+</resources>

@@ -3,6 +3,7 @@ package com.woosuk.completebucket
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,7 +33,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.woosuk.domain.model.Buckets
@@ -42,25 +42,23 @@ import com.woosuk.theme.extendedColor
 import ui.DefaultCard
 
 @Composable
-fun CompleteBucketRoute(
-    topPaddingDp: Dp,
-) {
-    CompleteBucketScreen(topPaddingDp)
+fun CompleteBucketRoute() {
+    CompleteBucketScreen()
 }
 
 @Composable
-fun CompleteBucketScreen(
-    topPaddingDp: Dp,
-) {
+fun CompleteBucketScreen() {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = topPaddingDp),
+        modifier = Modifier.fillMaxSize(),
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .fillMaxSize(),
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                top = 40.dp,
+            ),
         ) {
             item {
                 CategoryDropBox()
@@ -167,7 +165,7 @@ fun LazyListScope.CompleteBucketList() {
 fun CompleteBucketScreenPreview() {
     BucketlistTheme {
         Surface {
-            CompleteBucketScreen(topPaddingDp = 30.dp)
+            CompleteBucketScreen()
         }
     }
 }

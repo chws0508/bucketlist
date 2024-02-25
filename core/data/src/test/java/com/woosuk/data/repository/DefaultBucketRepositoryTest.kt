@@ -62,6 +62,16 @@ class DefaultBucketRepositoryTest {
         coVerify { bucketDao.insertBucket(Bucket.mock().toEntity()) }
     }
 
+    @Test
+    fun `버킷을 업데이트 할 수 있다`() = runTest {
+        // given
+        bucketRepository = DefaultBucketRepository(bucketDao)
+        // when
+        bucketRepository.updateBucket(Bucket.mock(id= 1))
+        // then
+        coVerify { bucketDao.updateBucket(Bucket.mock().toEntity()) }
+    }
+
     private fun testBucketEntity(
         id: Int,
     ) = BucketEntity(

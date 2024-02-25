@@ -4,7 +4,7 @@ androidDesugarJdkLibs = "1.2.2"
 androidxCore = "1.12.0"
 androidxAppCompat = "1.6.1"
 androidxLifecycle = "2.7.0"
-androidxComposeBom = "2023.10.01"
+androidxComposeBom = "2024.02.00"
 androidxComposeCompiler = "1.5.1"
 androidxComposeNavigation = "2.7.6"
 composeIconExtended = "1.5.4"
@@ -74,6 +74,7 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-icon = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeIconExtended" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }

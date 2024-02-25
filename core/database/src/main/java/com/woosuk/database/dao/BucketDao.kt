@@ -28,4 +28,7 @@ interface BucketDao {
 
     @Query("SELECT * FROM buckets")
     fun loadAllBucket(): Flow<List<BucketEntity>>
+
+    @Query("SELECT * FROM buckets WHERE id =:id")
+    suspend fun getBucketById(id: Int): BucketEntity?
 }

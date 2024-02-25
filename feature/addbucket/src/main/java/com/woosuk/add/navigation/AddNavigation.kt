@@ -10,7 +10,7 @@ const val ADD_ROUTE = "add_route"
 
 fun NavController.navigateToAddRoute(navOptions: NavOptions?) = navigate(ADD_ROUTE, navOptions)
 
-fun NavGraphBuilder.addScreen(
+fun NavGraphBuilder.addBucketScreen(
     onBackClick: () -> Unit,
     onShowSnackBar: (String) -> Unit,
 ) {

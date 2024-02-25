@@ -13,7 +13,7 @@ fun NavController.navigateToHomeRoute(navOptions: NavOptions? = null) = navigate
 
 fun NavGraphBuilder.homeScreen(
     onClickEditBucket: () -> Unit,
-    onClickCompleteBucket: () -> Unit,
+    onClickCompleteBucket: (id:Int) -> Unit,
     topPaddingDp: Dp,
 ) {
     composable(

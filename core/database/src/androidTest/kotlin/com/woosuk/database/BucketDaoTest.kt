@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.woosuk.database.dao.BucketDao
 import com.woosuk.database.dao.CompletedBucketDao
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -97,5 +98,35 @@ class BucketDaoTest {
         val actual = bucketDao.loadUnCompletedBuckets().first().first()
         // then
         assertEquals(3, actual.id)
+    }
+
+    @Test
+    fun ID로_버킷을_조회할_수_있다() = runTest {
+        // given
+        val testBucketEntities = listOf(
+            testBucketEntity(1, "test1"),
+            testBucketEntity(2, "test2"),
+            testBucketEntity(3, "test3"),
+        )
+        // when
+        testBucketEntities.forEach { bucketDao.insertBucket(it) }
+        val actual = bucketDao.getBucketById(1)?.id
+        // then
+        assertEquals(1, actual)
+    }
+
+    @Test
+    fun 일치하는_아이디가_없으면_emptylist를_반환한다() = runTest {
+        // given
+        val testBucketEntities = listOf(
+            testBucketEntity(1, "test1"),
+            testBucketEntity(2, "test2"),
+            testBucketEntity(3, "test3"),
+        )
+        // when
+        testBucketEntities.forEach { bucketDao.insertBucket(it) }
+        val actual = bucketDao.getBucketById(4)
+        // then
+        assertNull(actual)
     }
 }

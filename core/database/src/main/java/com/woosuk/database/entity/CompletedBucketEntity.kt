@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 )
 data class CompletedBucketEntity(
     @PrimaryKey val bucketId: Int,
-    val completionDate: LocalDateTime,
+    val completedDate: LocalDateTime,
     val imageUrls: List<String>,
     val description: String,
 )

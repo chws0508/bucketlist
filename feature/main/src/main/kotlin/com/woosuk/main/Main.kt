@@ -24,11 +24,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.woosuk.add.navigation.addScreen
+import com.woosuk.add.navigation.addBucketScreen
 import com.woosuk.add.navigation.navigateToAddRoute
 import com.woosuk.addcompletebucket.navigation.addCompleteBucketScreen
 import com.woosuk.addcompletebucket.navigation.navigateToAddCompleteBucket
 import com.woosuk.completebucket.navigation.completeBucketScreen
+import com.woosuk.completebucket.navigation.navigateToCompleteBucket
+import com.woosuk.completedbucketdetail.navigation.completedBucketDetailScreen
+import com.woosuk.completedbucketdetail.navigation.navigateToCompletedBucketDetail
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.homeScreen
 import kotlinx.coroutines.launch
@@ -39,11 +42,12 @@ fun BucketListApp(
     navController: NavHostController = rememberNavController(),
     startDestination: String = HOME_ROUTE,
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    fun showSnackBar(message: String) = scope.launch { snackbarHostState.showSnackbar(message) }
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -52,7 +56,7 @@ fun BucketListApp(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            if (BottomTab.isCurrentScreenBottomTab(currentDestination?.route)) {
+            if (currentDestination?.route == HOME_ROUTE) {
                 MainTopBar(scrollBehavior = scrollBehavior)
             }
         },
@@ -86,19 +90,28 @@ fun BucketListApp(
             ) {
                 homeScreen(
                     onClickEditBucket = { navController.navigateToAddRoute(null) },
-                    onClickCompleteBucket = {
+                    onClickCompleteBucket = { id ->
                         navController.navigateToAddCompleteBucket(
                             null,
+                            id,
                         )
                     },
                     topPaddingDp = innerPadding.calculateTopPadding(),
                 )
-                addScreen(
+                addBucketScreen(
                     onBackClick = navController::popBackStack,
-                    onShowSnackBar = { scope.launch { snackbarHostState.showSnackbar(it) } },
+                    onShowSnackBar = ::showSnackBar,
                 )
-                completeBucketScreen(topPaddingDp = innerPadding.calculateTopPadding())
-                addCompleteBucketScreen(onBackClick = { navController.popBackStack() })
+                completeBucketScreen()
+                addCompleteBucketScreen(
+                    onBackClick = navController::popBackStack,
+                    onShowSnackBar = ::showSnackBar,
+                    onNavigateToCompletedBucketDetail = navController::navigateToCompletedBucketDetail,
+                )
+                completedBucketDetailScreen(
+                    onNavigateToCompletedList = navController::navigateToCompleteBucket,
+                    onShowSnackBar = ::showSnackBar,
+                )
             }
         }
     }

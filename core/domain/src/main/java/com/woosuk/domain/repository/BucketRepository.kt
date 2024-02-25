@@ -10,4 +10,7 @@ interface BucketRepository {
     suspend fun deleteBucket(bucket: Bucket)
 
     suspend fun insertBucket(bucket: Bucket)
+
+    suspend fun getBucket(id: Int): Bucket?
+    suspend fun updateBucket(bucket: Bucket)
 }

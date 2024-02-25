@@ -28,7 +28,8 @@ fun DefaultButton(
         shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.extendedColor.tossBlue3,
-            disabledContainerColor = MaterialTheme.extendedColor.coolGray0,
+            disabledContainerColor = MaterialTheme.extendedColor.grayScale1,
+            disabledContentColor = MaterialTheme.extendedColor.warmGray1
         ),
         enabled = enabled,
     ) {

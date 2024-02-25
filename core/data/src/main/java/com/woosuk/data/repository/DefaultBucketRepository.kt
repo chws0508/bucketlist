@@ -31,4 +31,10 @@ class DefaultBucketRepository @Inject constructor(
     override suspend fun insertBucket(bucket: Bucket) {
         bucketDao.insertBucket(bucket.toEntity())
     }
+
+    override suspend fun getBucket(id: Int): Bucket? = bucketDao.getBucketById(id)?.toDomain()
+
+    override suspend fun updateBucket(bucket: Bucket) {
+        bucketDao.updateBucket(bucket.toEntity())
+    }
 }

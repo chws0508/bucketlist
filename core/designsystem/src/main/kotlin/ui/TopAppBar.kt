@@ -3,7 +3,7 @@ package ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.woosuk.theme.BucketlistTheme
 import com.woosuk.theme.defaultFontFamily
 
@@ -32,9 +33,11 @@ fun ArrowBackTopAppBar(
         modifier = modifier.padding(start = 8.dp),
         title = {
             Text(
+                modifier = Modifier.padding(start = 10.dp),
                 text = title,
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onSecondary,
             )
         },
@@ -43,7 +46,7 @@ fun ArrowBackTopAppBar(
                 modifier = Modifier
                     .size(28.dp)
                     .noRippleClickable { onBackClick() },
-                imageVector = Icons.Rounded.ArrowBack,
+                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                 contentDescription = "BackArrowTopAppBar_NavigationIcon",
                 tint = MaterialTheme.colorScheme.onSecondary,
             )

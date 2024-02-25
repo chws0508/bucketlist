@@ -1,7 +1,7 @@
 package com.woosuk.add
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -30,7 +32,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -98,44 +99,44 @@ fun AddBucketScreen(
     onClickComplete: () -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
-    Box(
-        modifier = modifier,
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        Column {
-            ArrowBackTopAppBar(onBackClick = onBackClick)
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .verticalScroll(scrollState),
-            ) {
-                Spacer(modifier = Modifier.height(30.dp))
-                AddBucketHeader()
-                AddBucketTitle(
-                    bucketTitle = uiState.title,
-                    onBucketTitleChanged = onBucketTitleChanged,
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                AddBucketAgeRange(
-                    ageRange = uiState.ageRange,
-                    onBucketAgeRangeChanged = onBucketAgeRangeChanged,
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                AddBucketCategory(
-                    bucketCategory = uiState.category,
-                    onBucketCategoryChanged = onBucketCategoryChanged,
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                AddBucketDescription(
-                    bucketDescription = uiState.description,
-                    onBucketDescriptionChanged = onBucketDescriptionChanged,
-                )
-                Spacer(modifier = Modifier.height(40.dp))
-            }
+        ArrowBackTopAppBar(
+            onBackClick = onBackClick,
+            title = stringResource(id = R.string.add_bucket_header),
+        )
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 24.dp)
+                .verticalScroll(scrollState),
+        ) {
+            Spacer(modifier = Modifier.height(30.dp))
+            AddBucketTitle(
+                bucketTitle = uiState.title,
+                onBucketTitleChanged = onBucketTitleChanged,
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            AddBucketAgeRange(
+                ageRange = uiState.ageRange,
+                onBucketAgeRangeChanged = onBucketAgeRangeChanged,
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            AddBucketCategory(
+                bucketCategory = uiState.category,
+                onBucketCategoryChanged = onBucketCategoryChanged,
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            AddBucketDescription(
+                bucketDescription = uiState.description,
+                onBucketDescriptionChanged = onBucketDescriptionChanged,
+            )
+            Spacer(modifier = Modifier.height(40.dp))
         }
         AddBucketCompleteButton(
-            modifier = Modifier
-                .padding(horizontal = 24.dp, vertical = 20.dp)
-                .align(Alignment.BottomCenter),
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 20.dp),
             onClickComplete = onClickComplete,
             enabled = uiState.canAddBucket,
         )
@@ -212,7 +213,7 @@ fun AddBucketAgeRange(
     ageRange: AgeRange?,
     onBucketAgeRangeChanged: (AgeRange) -> Unit,
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
     Column(modifier = modifier) {
@@ -268,7 +269,7 @@ fun AddBucketAgeRangeBottomSheet(
     onClickItem: (AgeRange) -> Unit,
 ) {
     ModalBottomSheet(
-        modifier = Modifier.wrapContentHeight(),
+        modifier = Modifier.wrapContentSize(),
         shape = RoundedCornerShape(15.dp),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
@@ -286,18 +287,22 @@ fun AddBucketAgeRangeBottomSheet(
                 color = MaterialTheme.extendedColor.warmGray6,
             )
             Spacer(modifier = Modifier.height(20.dp))
-            AgeRange.entries.forEach { ageRange ->
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 10.dp)
-                        .noRippleClickable { onClickItem(ageRange) },
-                    text = BucketUiUtil.getAgeName(ageRange = ageRange),
-                    fontFamily = defaultFontFamily,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.extendedColor.coolGray5,
-                )
+            LazyColumn {
+                items(
+                    items = AgeRange.entries,
+                ) { ageRange ->
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 10.dp)
+                            .noRippleClickable { onClickItem(ageRange) },
+                        text = BucketUiUtil.getAgeName(ageRange = ageRange),
+                        fontFamily = defaultFontFamily,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = MaterialTheme.extendedColor.coolGray5,
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(60.dp))
         }
@@ -311,7 +316,7 @@ fun AddBucketCategory(
     bucketCategory: BucketCategory?,
     onBucketCategoryChanged: (BucketCategory) -> Unit,
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
     Column(modifier = modifier) {
@@ -367,7 +372,7 @@ fun AddBucketCategoryBottomSheet(
     onClickItem: (BucketCategory) -> Unit,
 ) {
     ModalBottomSheet(
-        modifier = Modifier.wrapContentHeight(),
+        modifier = Modifier.wrapContentSize(),
         shape = RoundedCornerShape(15.dp),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,

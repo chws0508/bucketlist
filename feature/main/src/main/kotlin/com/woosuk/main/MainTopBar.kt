@@ -1,6 +1,5 @@
 package com.woosuk.main
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -9,8 +8,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +28,6 @@ fun MainTopBar(
             else -> MaterialTheme.colorScheme.onPrimary.copy(alpha = state / 10)
         }
     TopAppBar(
-        modifier = Modifier.background(Color.Transparent),
         title = {
             Text(
                 text = title,
@@ -42,15 +38,16 @@ fun MainTopBar(
         },
         colors =
             TopAppBarDefaults.topAppBarColors(
-                containerColor = containerColor,
                 titleContentColor = MaterialTheme.colorScheme.tertiary,
+                containerColor = containerColor,
+                scrolledContainerColor = containerColor,
             ),
         scrollBehavior = scrollBehavior,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun MainTopBarPreview() {
     BucketlistTheme {

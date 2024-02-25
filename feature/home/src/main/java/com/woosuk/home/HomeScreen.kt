@@ -1,6 +1,5 @@
 package com.woosuk.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +22,7 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -33,7 +33,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,7 +65,7 @@ import ui.noRippleClickable
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     onEditBucketClick: () -> Unit,
-    onBucketCompleteClick: () -> Unit,
+    onBucketCompleteClick: (id: Int) -> Unit,
     topPaddingDp: Dp,
 ) {
     val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
@@ -84,7 +83,7 @@ fun HomeRoute(
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onEditBucketClick: () -> Unit = {},
-    onCompleteBucketClick: () -> Unit = {},
+    onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit = {},
     homeUiState: HomeUiState,
     topPaddingDp: Dp,
@@ -176,7 +175,7 @@ fun LazyListScope.HomeCategoryItems(
     category: BucketCategory,
     bucketList: List<Bucket>,
     onEditBucketClick: () -> Unit,
-    onCompleteBucketClick: () -> Unit,
+    onCompleteBucketClick: (id: Int) -> Unit,
     onDeleteBucketClick: (Bucket) -> Unit,
     achievementRate: Double,
 ) {
@@ -224,29 +223,41 @@ fun CategoryInfoItem(
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         color = Color.White,
     ) {
-        Row(
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 24.dp, bottom = 30.dp),
-            verticalAlignment = Alignment.Top,
-        ) {
-            Text(
-                text = BucketUiUtil.getCategoryName(bucketCategory = bucketCategory),
-                fontSize = 24.sp,
-                fontFamily = defaultFontFamily,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSecondary,
-            )
-            Text(
-                text = stringResource(
-                    R.string.categroy_achievement_rate_format,
-                    achievementRate,
+        Column {
+            Row(
+                modifier = Modifier.padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 20.dp,
+                    bottom = 20.dp,
                 ),
-                fontSize = 15.sp,
-                modifier = Modifier.fillMaxWidth(),
-                fontFamily = defaultFontFamily,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.End,
-                color = MaterialTheme.extendedColor.warmGray3,
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    text = BucketUiUtil.getCategoryName(bucketCategory = bucketCategory),
+                    fontSize = 24.sp,
+                    fontFamily = defaultFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSecondary,
+                )
+                Text(
+                    text = stringResource(
+                        R.string.categroy_achievement_rate_format,
+                        achievementRate,
+                    ),
+                    fontSize = 15.sp,
+                    fontFamily = defaultFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    color = MaterialTheme.extendedColor.warmGray3,
+                )
+            }
+            HorizontalDivider(
+                modifier = Modifier.height(1.dp),
+                color = MaterialTheme.extendedColor.grayScale1,
             )
         }
     }
@@ -259,11 +270,10 @@ fun BucketItem(
     modifier: Modifier = Modifier,
     shape: Shape,
     onEditBucketClick: () -> Unit = {},
-    onCompleteBucketClick: () -> Unit = {},
+    onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit,
 ) {
-    val bottomSheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showBottomSheet by remember { mutableStateOf(false) }
     Surface(
         modifier = modifier
@@ -303,7 +313,10 @@ fun BucketItem(
                 bucket,
                 onEditBucketClick = onEditBucketClick,
                 onCompleteBucketClick = onCompleteBucketClick,
-                onDeleteBucketClick = onDeleteBucketClick,
+                onDeleteBucketClick = {
+                    onDeleteBucketClick(it)
+                    showBottomSheet = false
+                },
             )
         }
     }
@@ -313,7 +326,7 @@ fun BucketItem(
 fun BucketItemBottomSheetContent(
     bucket: Bucket,
     onEditBucketClick: () -> Unit = {},
-    onCompleteBucketClick: () -> Unit = {},
+    onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit,
 ) {
     Column(
@@ -336,18 +349,18 @@ fun BucketItemBottomSheetContent(
                 modifier = Modifier
                     .weight(1f)
                     .wrapContentHeight()
-                    .clickable {
-                        onDeleteBucketClick(bucket)
-                    }
                     .padding(5.dp),
                 iconImageVector = Icons.Rounded.Delete,
                 iconTint = Color.Red,
                 title = stringResource(R.string.delete_button_text),
+                onClick = {
+                    onDeleteBucketClick(bucket)
+                },
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
         DefaultButton(
-            onClick = onCompleteBucketClick,
+            onClick = { onCompleteBucketClick(bucket.id) },
             text = stringResource(R.string.complete_bucket_button_text),
             enabled = true,
         )
