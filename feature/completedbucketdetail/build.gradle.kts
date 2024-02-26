@@ -5,6 +5,6 @@ plugins {
 android {
     namespace = "com.woosuk.completedbucketdetail"
 }
-
-dependencies {
+dependencies{
+    implementation(project(":feature:completebucket"))
 }

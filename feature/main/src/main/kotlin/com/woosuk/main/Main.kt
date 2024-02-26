@@ -24,16 +24,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 import com.woosuk.add.navigation.addBucketScreen
 import com.woosuk.add.navigation.navigateToAddRoute
-import com.woosuk.addcompletebucket.navigation.addCompleteBucketScreen
-import com.woosuk.addcompletebucket.navigation.navigateToAddCompleteBucket
 import com.woosuk.completebucket.navigation.completeBucketScreen
 import com.woosuk.completebucket.navigation.navigateToCompleteBucket
 import com.woosuk.completedbucketdetail.navigation.completedBucketDetailScreen
 import com.woosuk.completedbucketdetail.navigation.navigateToCompletedBucketDetail
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.homeScreen
+import com.woosuk.updatecompletedbucket.navigation.addCompletedBucketScreen
+import com.woosuk.updatecompletedbucket.navigation.editCompletedBucketScreen
+import com.woosuk.updatecompletedbucket.navigation.navigateToAddCompletedBucket
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,7 +93,7 @@ fun BucketListApp(
                 homeScreen(
                     onClickEditBucket = { navController.navigateToAddRoute(null) },
                     onClickCompleteBucket = { id ->
-                        navController.navigateToAddCompleteBucket(
+                        navController.navigateToAddCompletedBucket(
                             null,
                             id,
                         )
@@ -103,13 +105,40 @@ fun BucketListApp(
                     onShowSnackBar = ::showSnackBar,
                 )
                 completeBucketScreen()
-                addCompleteBucketScreen(
+                addCompletedBucketScreen(
                     onBackClick = navController::popBackStack,
                     onShowSnackBar = ::showSnackBar,
-                    onNavigateToCompletedBucketDetail = navController::navigateToCompletedBucketDetail,
+                    onNavigateToCompletedBucketDetail = { bucketId ->
+                        navController.navigateToCompletedBucketDetail(
+                            bucketId = bucketId,
+                            navOptions = navOptions {
+                                popUpTo(
+                                    navController.currentBackStackEntry?.destination?.route
+                                        ?: return@navOptions,
+                                ) {
+                                    inclusive = true
+                                }
+                                launchSingleTop
+                            },
+                        )
+                    },
                 )
                 completedBucketDetailScreen(
                     onNavigateToCompletedList = navController::navigateToCompleteBucket,
+                    onShowSnackBar = ::showSnackBar,
+                )
+                editCompletedBucketScreen(
+                    onBackClick = navController::popBackStack,
+                    onNavigateToCompletedBucketDetail = { bucketId ->
+                        navController.navigateToCompletedBucketDetail(
+                            navOptions = navOptions {
+                                popUpTo(startDestination) {
+                                    inclusive = true
+                                }
+                            },
+                            bucketId = bucketId,
+                        )
+                    },
                     onShowSnackBar = ::showSnackBar,
                 )
             }

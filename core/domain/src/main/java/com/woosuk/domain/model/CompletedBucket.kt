@@ -23,7 +23,7 @@ data class CompletedBucket(
                 category = BucketCategory.Work,
                 ageRange = AgeRange.UnSpecified,
                 title = "orci",
-                description = null,
+                description = "description",
                 createdAt = LocalDateTime.of(
                     LocalDate.of(1, 1, 1),
                     LocalTime.of(1, 1),

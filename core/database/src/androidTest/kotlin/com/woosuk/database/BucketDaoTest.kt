@@ -110,7 +110,7 @@ class BucketDaoTest {
         )
         // when
         testBucketEntities.forEach { bucketDao.insertBucket(it) }
-        val actual = bucketDao.getBucketById(1)?.id
+        val actual = bucketDao.getBucket(1)?.id
         // then
         assertEquals(1, actual)
     }
@@ -125,7 +125,7 @@ class BucketDaoTest {
         )
         // when
         testBucketEntities.forEach { bucketDao.insertBucket(it) }
-        val actual = bucketDao.getBucketById(4)
+        val actual = bucketDao.getBucket(4)
         // then
         assertNull(actual)
     }

@@ -3,4 +3,5 @@ dependencies {
     "implementation"(libs.findLibrary("coroutines.android").get())
     "testImplementation"(libs.findLibrary("coroutines.android").get())
     "testImplementation"(libs.findLibrary("coroutines.test").get())
+    "testImplementation"(libs.findLibrary("turbine").get())
 }

@@ -9,6 +9,6 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:addbucket"))
     implementation(project(":feature:completebucket"))
-    implementation(project(":feature:addcompletebucket"))
+    implementation(project(":feature:updatecompletedbucket"))
     implementation(project(":feature:completedbucketdetail"))
 }

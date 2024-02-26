@@ -21,4 +21,7 @@ interface CompletedBucketDao {
 
     @Query("SELECT * FROM completed_buckets")
     fun loadCompletedBuckets(): Flow<List<CompletedBucketEntity>>
+
+    @Query("SELECT * FROM completed_buckets WHERE bucketId =:bucketId")
+    suspend fun getCompletedBucket(bucketId: Int): CompletedBucketEntity
 }
