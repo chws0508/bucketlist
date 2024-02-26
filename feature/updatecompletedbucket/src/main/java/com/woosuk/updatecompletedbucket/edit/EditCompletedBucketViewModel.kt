@@ -7,6 +7,7 @@ import com.woosuk.domain.model.CompletedBucket
 import com.woosuk.domain.usecase.GetCompletedBucketUseCase
 import com.woosuk.domain.usecase.UpdateCompletedBucketUseCase
 import com.woosuk.updatecompletedbucket.navigation.BUCKET_ID_ARGUMENT
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+@HiltViewModel
 class EditCompletedBucketViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCompletedBucketUseCase: GetCompletedBucketUseCase,

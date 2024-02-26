@@ -28,6 +28,7 @@ fun ArrowBackTopAppBar(
     onBackClick: () -> Unit,
     backgroundColor: Color = Color.Transparent,
     title: String = "",
+    actions: @Composable () -> Unit = {},
 ) {
     TopAppBar(
         modifier = modifier.padding(start = 8.dp),
@@ -52,6 +53,7 @@ fun ArrowBackTopAppBar(
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = backgroundColor),
+        actions = { actions() },
     )
 }
 

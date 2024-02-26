@@ -28,7 +28,6 @@ import androidx.navigation.navOptions
 import com.woosuk.add.navigation.addBucketScreen
 import com.woosuk.add.navigation.navigateToAddRoute
 import com.woosuk.completebucket.navigation.completeBucketScreen
-import com.woosuk.completebucket.navigation.navigateToCompleteBucket
 import com.woosuk.completedbucketdetail.navigation.completedBucketDetailScreen
 import com.woosuk.completedbucketdetail.navigation.navigateToCompletedBucketDetail
 import com.woosuk.home.navigation.HOME_ROUTE
@@ -36,6 +35,7 @@ import com.woosuk.home.navigation.homeScreen
 import com.woosuk.updatecompletedbucket.navigation.addCompletedBucketScreen
 import com.woosuk.updatecompletedbucket.navigation.editCompletedBucketScreen
 import com.woosuk.updatecompletedbucket.navigation.navigateToAddCompletedBucket
+import com.woosuk.updatecompletedbucket.navigation.navigateToEditCompletedBucket
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -124,17 +124,16 @@ fun BucketListApp(
                     },
                 )
                 completedBucketDetailScreen(
-                    onNavigateToCompletedList = navController::navigateToCompleteBucket,
+                    onNavigateToEditScreen = navController::navigateToEditCompletedBucket,
                     onShowSnackBar = ::showSnackBar,
+                    onBackClick = navController::popBackStack,
                 )
                 editCompletedBucketScreen(
                     onBackClick = navController::popBackStack,
                     onNavigateToCompletedBucketDetail = { bucketId ->
                         navController.navigateToCompletedBucketDetail(
                             navOptions = navOptions {
-                                popUpTo(startDestination) {
-                                    inclusive = true
-                                }
+                                popUpTo(startDestination) 
                             },
                             bucketId = bucketId,
                         )

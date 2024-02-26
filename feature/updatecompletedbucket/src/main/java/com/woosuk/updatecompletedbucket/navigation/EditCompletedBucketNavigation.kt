@@ -12,10 +12,11 @@ const val EDIT_COMPLETE_BUCKET_ROUTE = "edit_complete_bucket_route"
 const val EDIT_COMPLETE_BUCKET_ROUTE_WITH_ARGUMENT =
     "$EDIT_COMPLETE_BUCKET_ROUTE/{$BUCKET_ID_ARGUMENT}"
 
-fun NavController.navigateToEditCompletedBucket(navOptions: NavOptions?, bucketId: Int) = navigate(
-    "$EDIT_COMPLETE_BUCKET_ROUTE/$bucketId",
-    navOptions,
-)
+fun NavController.navigateToEditCompletedBucket(bucketId: Int, navOptions: NavOptions? = null) =
+    navigate(
+        "$EDIT_COMPLETE_BUCKET_ROUTE/$bucketId",
+        navOptions,
+    )
 
 fun NavGraphBuilder.editCompletedBucketScreen(
     onBackClick: () -> Unit,

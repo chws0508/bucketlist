@@ -22,20 +22,20 @@ data class CompletedBucket(
                 id = id,
                 category = BucketCategory.Work,
                 ageRange = AgeRange.UnSpecified,
-                title = "orci",
-                description = "description",
+                title = "취업 성공하기!!!! ",
+                description = "공부하기 밥먹기 자기",
                 createdAt = LocalDateTime.of(
-                    LocalDate.of(1, 1, 1),
+                    LocalDate.of(2024, 2, 10),
                     LocalTime.of(1, 1),
                 ),
                 isCompleted = true,
             ),
             completedAt = LocalDateTime.of(
-                LocalDate.of(1, 1, 1),
+                LocalDate.of(2024, 2, 18),
                 LocalTime.of(1, 1),
             ),
-            imageUrls = listOf(),
-            description = "",
+            imageUrls = listOf("","",""),
+            description = "너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!",
         )
 
         private const val SHOULD_IS_COMPLETED_STATE_TRUE =

@@ -22,16 +22,18 @@ fun NavController.navigateToCompletedBucketDetail(
     )
 
 fun NavGraphBuilder.completedBucketDetailScreen(
-    onNavigateToCompletedList: () -> Unit,
+    onNavigateToEditScreen: (bucketId:Int) -> Unit,
     onShowSnackBar: (String) -> Unit,
+    onBackClick: () -> Unit,
 ) {
     composable(
         route = COMPLETED_BUCKET_ROUTE_WITH_ARGUMENT,
         arguments = listOf(navArgument(COMPLETED_BUCKET_ID_ARGUMENT) { type = NavType.IntType }),
     ) {
         CompletedBucketDetailRoute(
-            onNavigateToCompletedList = onNavigateToCompletedList,
+            onNavigateToEditScreen = onNavigateToEditScreen,
             onShowSnackBar = onShowSnackBar,
+            onBackClick = onBackClick,
         )
     }
 }

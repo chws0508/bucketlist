@@ -24,7 +24,6 @@ class CompletedBucketDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val deleteCompletedBucketUseCase: DeleteCompleteBucketUseCase,
     private val getCompletedBucketUseCase: GetCompletedBucketUseCase,
-    private val updateCompletedBucketUseCase: UpdateCompletedBucketUseCase,
 ) : ViewModel() {
     private val bucketId: Int = checkNotNull(savedStateHandle[COMPLETED_BUCKET_ID_ARGUMENT])
 
@@ -40,34 +39,12 @@ class CompletedBucketDetailViewModel @Inject constructor(
         }
     }
 
-    fun onDiaryChanged(inputDiary: String) {
-        _completedBucket.update { it?.copy(description = inputDiary) }
-    }
-
-    fun onCompletedDateChanged(inputDate: LocalDateTime) {
-        _completedBucket.update { it?.copy(completedAt = inputDate) }
-    }
-
-    fun onImageDeleted(deletedImageUri: String) {
-        _completedBucket.update { it?.copy(imageUrls = it.imageUrls.filter { uri -> uri != deletedImageUri }) }
-    }
-
-    fun onImageAdded(inputImageUris: List<String>) {
-        _completedBucket.update { it?.copy(imageUrls = it.imageUrls + inputImageUris) }
-    }
-
     fun deleteCompletedBucket() {
         viewModelScope.launch {
             completedBucket.value?.let {
                 deleteCompletedBucketUseCase(it)
                 _uiEvent.emit(DeleteSuccess)
             }
-        }
-    }
-
-    fun updateCompletedBucket() {
-        viewModelScope.launch {
-            completedBucket.value?.let { updateCompletedBucketUseCase(it) }
         }
     }
 }

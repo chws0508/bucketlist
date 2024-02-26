@@ -6,5 +6,5 @@ android {
     namespace = "com.woosuk.completedbucketdetail"
 }
 dependencies{
-    implementation(project(":feature:completebucket"))
+    implementation(libs.skydoves.landscapist.glide)
 }
