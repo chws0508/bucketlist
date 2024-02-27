@@ -8,7 +8,7 @@ android {
 dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:addbucket"))
-    implementation(project(":feature:completebucket"))
+    implementation(project(":feature:completedbucket"))
     implementation(project(":feature:updatecompletedbucket"))
     implementation(project(":feature:completedbucketdetail"))
 }

@@ -66,7 +66,6 @@ fun CompletedBucketDetailRoute(
         CompletedBucketDetailScreen(
             onBackClick = onBackClick,
             completedBucket = completedBucket,
-            onShowSnackBar = onShowSnackBar,
             deleteCompleteBucket = viewModel::deleteCompletedBucket,
             onNavigateToEditScreen = onNavigateToEditScreen,
         )
@@ -86,7 +85,6 @@ fun CompletedBucketDetailRoute(
 @Composable
 fun CompletedBucketDetailScreen(
     completedBucket: CompletedBucket,
-    onShowSnackBar: (String) -> Unit = {},
     deleteCompleteBucket: () -> Unit = {},
     onBackClick: () -> Unit,
     onNavigateToEditScreen: (bucketId: Int) -> Unit,
@@ -322,7 +320,6 @@ fun CompletedBucketDetailScreenPreview() {
             completedBucket = CompletedBucket.mock(1),
             onBackClick = {},
             onNavigateToEditScreen = {},
-            onShowSnackBar = {},
             deleteCompleteBucket = {},
         )
     }

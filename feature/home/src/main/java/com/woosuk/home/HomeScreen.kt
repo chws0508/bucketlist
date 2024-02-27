@@ -10,14 +10,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.NavigateNext
+import androidx.compose.material.icons.automirrored.filled.NavigateNext
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.CircularProgressIndicator
@@ -26,6 +30,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -43,6 +48,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -67,6 +74,7 @@ fun HomeRoute(
     onEditBucketClick: () -> Unit,
     onBucketCompleteClick: (id: Int) -> Unit,
     topPaddingDp: Dp,
+    onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit,
 ) {
     val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
 
@@ -76,6 +84,7 @@ fun HomeRoute(
         onCompleteBucketClick = onBucketCompleteClick,
         onDeleteBucketClick = viewModel::deleteBucket,
         homeUiState = homeUiState,
+        onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
     )
 }
 
@@ -87,6 +96,7 @@ fun HomeScreen(
     onDeleteBucketClick: (Bucket) -> Unit = {},
     homeUiState: HomeUiState,
     topPaddingDp: Dp,
+    onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit = {},
 ) {
     when (homeUiState) {
         is HomeUiState.Loading -> {
@@ -99,6 +109,21 @@ fun HomeScreen(
         }
 
         is HomeUiState.Success -> {
+            if (homeUiState.buckets.value.isEmpty()) {
+                Box(modifier = Modifier.fillMaxSize().padding(top = 80.dp)) {
+                    Text(
+                        text = "버킷리스트가 비어있습니다.\n\n+버튼을 눌러\n버킷리스트를 추가해주세요",
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .fillMaxWidth(),
+                        fontSize = 20.sp,
+                        fontFamily = defaultFontFamily,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.extendedColor.grayScale3,
+                    )
+                }
+            }
             Column {
                 LazyColumn(
                     contentPadding = PaddingValues(
@@ -122,6 +147,7 @@ fun HomeScreen(
                                 onEditBucketClick = onEditBucketClick,
                                 onCompleteBucketClick = onCompleteBucketClick,
                                 onDeleteBucketClick = onDeleteBucketClick,
+                                onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
                             )
                         }
                     }
@@ -178,6 +204,7 @@ fun LazyListScope.HomeCategoryItems(
     onCompleteBucketClick: (id: Int) -> Unit,
     onDeleteBucketClick: (Bucket) -> Unit,
     achievementRate: Double,
+    onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit,
 ) {
     item {
         CategoryInfoItem(
@@ -199,6 +226,7 @@ fun LazyListScope.HomeCategoryItems(
                     onCompleteBucketClick = onCompleteBucketClick,
                     onEditBucketClick = onEditBucketClick,
                     onDeleteBucketClick = onDeleteBucketClick,
+                    onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
                 )
 
             else -> BucketItem(
@@ -207,6 +235,7 @@ fun LazyListScope.HomeCategoryItems(
                 onEditBucketClick = onEditBucketClick,
                 onCompleteBucketClick = onCompleteBucketClick,
                 onDeleteBucketClick = onDeleteBucketClick,
+                onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
             )
         }
     }
@@ -272,6 +301,7 @@ fun BucketItem(
     onEditBucketClick: () -> Unit = {},
     onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit,
+    onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit,
 ) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -279,25 +309,54 @@ fun BucketItem(
         modifier = modifier
             .fillMaxWidth()
             .noRippleClickable {
-                showBottomSheet = true
+                if (bucket.isCompleted) {
+                    onNavigateToCompletedBucketDetail(bucket.id)
+                } else {
+                    showBottomSheet = true
+                }
             },
         shape = shape,
         color = Color.White,
     ) {
-        Box {
-            Text(
-                text = bucket.title,
-                fontFamily = defaultFontFamily,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 24.dp, bottom = 16.dp, top = 16.dp),
-                color = MaterialTheme.extendedColor.warmGray5,
-            )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Row(
+                modifier = Modifier.weight(1f),
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(start = 24.dp, end = 10.dp, bottom = 16.dp, top = 16.dp)
+                        .align(Alignment.CenterVertically),
+                    text = bucket.title,
+                    fontFamily = defaultFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    textDecoration = if (bucket.isCompleted) TextDecoration.LineThrough else TextDecoration.None,
+                    color = if (bucket.isCompleted) MaterialTheme.extendedColor.grayScale3 else MaterialTheme.extendedColor.warmGray6,
+                )
+                if (bucket.isCompleted) {
+                    Icon(
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .requiredWidth(24.dp),
+                        imageVector = Icons.Rounded.Check,
+                        contentDescription = "CheckIcon",
+                        tint = MaterialTheme.extendedColor.tossGreen,
+                    )
+                }
+            }
 
             Icon(
-                modifier = Modifier
-                    .padding(start = 24.dp, bottom = 16.dp, top = 16.dp, end = 24.dp)
-                    .align(Alignment.CenterEnd),
-                imageVector = Icons.Filled.NavigateNext,
+                modifier = Modifier.padding(
+                    start = 24.dp,
+                    bottom = 16.dp,
+                    top = 16.dp,
+                    end = 24.dp,
+                ),
+                imageVector = Icons.AutoMirrored.Filled.NavigateNext,
                 contentDescription = "BucketItemNavigateNext",
             )
         }
@@ -329,8 +388,11 @@ fun BucketItemBottomSheetContent(
     onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit,
 ) {
+    val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+        modifier = Modifier
+            .padding(start = 20.dp, end = 20.dp)
+            .verticalScroll(scrollState),
     ) {
         BottomSheetBucketItemInfo(bucket = bucket)
         Spacer(modifier = Modifier.height(10.dp))
@@ -454,13 +516,14 @@ fun BottomSheetSelectionCard(
 @Composable
 fun HomeScreenPreview() {
     BucketlistTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
+        Scaffold {
             HomeScreen(
-                topPaddingDp = 50.dp,
+                topPaddingDp = it.calculateTopPadding(),
                 onEditBucketClick = {},
                 onCompleteBucketClick = {},
                 onDeleteBucketClick = {},
-                homeUiState = HomeUiState.Success(Buckets.mock()),
+                homeUiState = HomeUiState.Success(Buckets(listOf())),
+                onNavigateToCompletedBucketDetail = {},
             )
         }
     }

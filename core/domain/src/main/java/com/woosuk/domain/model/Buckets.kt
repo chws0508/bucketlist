@@ -35,7 +35,7 @@ class Buckets(
                         id = it,
                         category = BucketCategory.Work,
                         ageRange = AgeRange.OldAge,
-                        title = "통장에 5000만원 모으기!",
+                        title = "통장에 5000만원 모으기!통장에 5000만원 모으기!통장에 5000만원 모으기!",
                         description = "너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!",
                         isCompleted = true,
                         createdAt = LocalDateTime.of(

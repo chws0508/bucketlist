@@ -36,6 +36,8 @@ data class ExtendedColors(
     val tossBlue3: Color = TossBlue3,
     val tossBlue4: Color = TossBlue4,
     val tossBlue5: Color = TossBlue5,
+
+    val tossGreen:Color = TossGreen
 )
 
 val LocalExtendedColors = staticCompositionLocalOf { ExtendedColors() }

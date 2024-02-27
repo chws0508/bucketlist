@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.woosuk.completebucket.navigation.COMPLETE_BUCKET_ROUTE
-import com.woosuk.completebucket.navigation.navigateToCompleteBucket
+import com.woosuk.completedbucket.navigation.COMPLETE_BUCKET_ROUTE
+import com.woosuk.completedbucket.navigation.navigateToCompleteBucket
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.navigateToHomeRoute
 import com.woosuk.theme.BucketlistTheme

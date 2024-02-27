@@ -1,4 +1,4 @@
-package com.woosuk.completebucket
+package com.woosuk.completedbucket
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

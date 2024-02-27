@@ -27,7 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.woosuk.add.navigation.addBucketScreen
 import com.woosuk.add.navigation.navigateToAddRoute
-import com.woosuk.completebucket.navigation.completeBucketScreen
+import com.woosuk.completedbucket.navigation.completeBucketScreen
 import com.woosuk.completedbucketdetail.navigation.completedBucketDetailScreen
 import com.woosuk.completedbucketdetail.navigation.navigateToCompletedBucketDetail
 import com.woosuk.home.navigation.HOME_ROUTE
@@ -99,12 +99,16 @@ fun BucketListApp(
                         )
                     },
                     topPaddingDp = innerPadding.calculateTopPadding(),
+                    onNavigateToCompletedBucketDetail = navController::navigateToCompletedBucketDetail,
                 )
                 addBucketScreen(
                     onBackClick = navController::popBackStack,
                     onShowSnackBar = ::showSnackBar,
                 )
-                completeBucketScreen()
+                completeBucketScreen(
+                    onNavigateToEditCompletedBucket = navController::navigateToEditCompletedBucket,
+                    onNavigateToCompletedBucketDetail = navController::navigateToCompletedBucketDetail,
+                )
                 addCompletedBucketScreen(
                     onBackClick = navController::popBackStack,
                     onShowSnackBar = ::showSnackBar,
@@ -133,7 +137,13 @@ fun BucketListApp(
                     onNavigateToCompletedBucketDetail = { bucketId ->
                         navController.navigateToCompletedBucketDetail(
                             navOptions = navOptions {
-                                popUpTo(startDestination) 
+                                popUpTo(
+                                    navController.currentBackStackEntry?.destination?.route
+                                        ?: return@navOptions,
+                                ) {
+                                    inclusive = true
+                                }
+                                launchSingleTop
                             },
                             bucketId = bucketId,
                         )

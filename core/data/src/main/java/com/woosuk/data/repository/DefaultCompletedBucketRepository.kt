@@ -8,6 +8,11 @@ import com.woosuk.database.entity.CompletedBucketEntity
 import com.woosuk.domain.model.CompletedBucket
 import com.woosuk.domain.repository.CompletedBucketRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -49,6 +54,22 @@ class DefaultCompletedBucketRepository @Inject constructor(
                 description = completedBucketEntity.description,
             )
         }
+
+    override fun getAllCompletedBucket(): Flow<List<CompletedBucket>> = channelFlow {
+        completedBucketDao.loadCompletedBuckets().map { entities ->
+            entities.map { entitiy ->
+                val bucket = bucketDao.getBucket(entitiy.bucketId) ?: throw IllegalStateException()
+                CompletedBucket(
+                    bucket = bucket.toDomain(),
+                    completedAt = entitiy.completedDate,
+                    imageUrls = entitiy.imageUrls,
+                    description = entitiy.description,
+                )
+            }
+        }.collectLatest {
+            send(it)
+        }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun updateCompletedBucket(completedBucket: CompletedBucket) =
         withContext(Dispatchers.IO) {

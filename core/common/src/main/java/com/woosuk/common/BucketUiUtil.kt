@@ -24,4 +24,21 @@ object BucketUiUtil {
         AgeRange.OldAge -> stringResource(R.string.oldage)
         AgeRange.UnSpecified -> stringResource(id = R.string.unspecified)
     }
+
+    fun getCategoryStringResourceId(bucketCategory: BucketCategory) = when (bucketCategory) {
+        BucketCategory.Travel -> R.string.travel
+        BucketCategory.Health -> R.string.health
+        BucketCategory.Work -> R.string.work
+        BucketCategory.Learning -> R.string.learning
+        BucketCategory.Unspecified -> R.string.unspecified
+    }
+
+    fun getAgeNameStringResourceId(ageRange: AgeRange) = when (ageRange) {
+        AgeRange.Twenties -> R.string.twenties
+        AgeRange.Thirties -> R.string.thirties
+        AgeRange.Forties -> R.string.forties
+        AgeRange.Fifties -> R.string.fifties
+        AgeRange.OldAge -> R.string.oldage
+        AgeRange.UnSpecified -> R.string.unspecified
+    }
 }

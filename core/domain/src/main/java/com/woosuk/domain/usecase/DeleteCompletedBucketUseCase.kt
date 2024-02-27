@@ -4,7 +4,7 @@ import com.woosuk.domain.model.CompletedBucket
 import com.woosuk.domain.repository.CompletedBucketRepository
 import javax.inject.Inject
 
-class DeleteCompleteBucketUseCase @Inject constructor(
+class DeleteCompletedBucketUseCase @Inject constructor(
     private val deleteBucketUseCase: DeleteBucketUseCase,
     private val completedBucketRepository: CompletedBucketRepository,
 ) {

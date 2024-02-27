@@ -6,7 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import com.woosuk.completedbucketdetail.CompletedBucketDetailUiEvent.DeleteSuccess
 import com.woosuk.completedbucketdetail.navigation.COMPLETED_BUCKET_ID_ARGUMENT
 import com.woosuk.domain.model.CompletedBucket
-import com.woosuk.domain.usecase.DeleteCompleteBucketUseCase
+import com.woosuk.domain.usecase.DeleteCompletedBucketUseCase
 import com.woosuk.domain.usecase.GetCompletedBucketUseCase
 import com.woosuk.domain.usecase.UpdateCompletedBucketUseCase
 import com.woosuk.testing.MainDispatcherRule
@@ -25,15 +25,14 @@ class CompletedBucketDetailViewModelTest {
     private lateinit var completedBucketDetailViewModel: CompletedBucketDetailViewModel
     private lateinit var savedStateHandle: SavedStateHandle
     private val getCompletedBucketUseCase: GetCompletedBucketUseCase = mockk()
-    private val deleteCompleteBucketUseCase: DeleteCompleteBucketUseCase = mockk(relaxed = true)
+    private val deleteCompletedBucketUseCase: DeleteCompletedBucketUseCase = mockk(relaxed = true)
     private val updateCompletedBucketUseCase: UpdateCompletedBucketUseCase = mockk(relaxed = true)
 
     private fun initializeViewModel(): CompletedBucketDetailViewModel {
         return CompletedBucketDetailViewModel(
             savedStateHandle,
-            deleteCompleteBucketUseCase,
+            deleteCompletedBucketUseCase,
             getCompletedBucketUseCase,
-            updateCompletedBucketUseCase,
         )
     }
 
@@ -66,7 +65,7 @@ class CompletedBucketDetailViewModelTest {
         // when
         completedBucketDetailViewModel.deleteCompletedBucket()
         // then
-        coVerify { deleteCompleteBucketUseCase(CompletedBucket.mock(1)) }
+        coVerify { deleteCompletedBucketUseCase(CompletedBucket.mock(1)) }
     }
 
     @Test

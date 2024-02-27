@@ -1,4 +1,4 @@
-package com.woosuk.completebucket
+package com.woosuk.completedbucket
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
