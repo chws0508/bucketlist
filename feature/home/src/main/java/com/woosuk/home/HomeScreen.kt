@@ -90,7 +90,6 @@ fun HomeRoute(
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     onEditBucketClick: () -> Unit = {},
     onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit = {},
