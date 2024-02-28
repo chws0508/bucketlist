@@ -73,9 +73,9 @@ class BucketsTest {
             ),
         )
         // when
-        val testcase1 = buckets.getCategoryAchievementRate(BucketCategory.Work)
-        val testCase2 = buckets.getCategoryAchievementRate(BucketCategory.Health)
-        val testCase3 = buckets.getCategoryAchievementRate(BucketCategory.Unspecified)
+        val testcase1 = buckets.getAchievementRateByCategory(BucketCategory.Work)
+        val testCase2 = buckets.getAchievementRateByCategory(BucketCategory.Health)
+        val testCase3 = buckets.getAchievementRateByCategory(BucketCategory.Unspecified)
         // then
         assertThat(testcase1).isEqualTo(50.0)
         assertThat(testCase2).isEqualTo(100.0)

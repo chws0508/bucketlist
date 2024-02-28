@@ -16,6 +16,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +35,7 @@ import com.woosuk.theme.defaultFontFamily
 import com.woosuk.theme.extendedColor
 import ui.DefaultButton
 import ui.DefaultCard
+import ui.DeleteDialog
 import ui.MultiLineTextField
 import ui.noRippleClickable
 
@@ -41,6 +46,7 @@ fun DefaultBottomSheetContent(
     onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit,
 ) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -69,7 +75,7 @@ fun DefaultBottomSheetContent(
                 iconTint = Color.Red,
                 title = stringResource(R.string.delete_button_text),
                 onClick = {
-                    onDeleteBucketClick(bucket)
+                    showDeleteDialog = true
                 },
             )
         }
@@ -80,6 +86,16 @@ fun DefaultBottomSheetContent(
             enabled = true,
         )
         Spacer(modifier = Modifier.height(40.dp))
+    }
+    if (showDeleteDialog) {
+        DeleteDialog(
+            closeDialog = {
+                showDeleteDialog = false
+            },
+            onConfirmClick = {
+                onDeleteBucketClick(bucket)
+            },
+        )
     }
 }
 

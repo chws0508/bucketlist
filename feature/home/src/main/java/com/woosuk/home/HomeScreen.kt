@@ -134,13 +134,12 @@ fun HomeScreen(
                     BucketCategory.entries.forEach { bucketCategory ->
                         val buckets = homeUiState.buckets.getBucketListByCategory(bucketCategory)
                         val categoryAchievementRate =
-                            homeUiState.buckets.getCategoryAchievementRate(bucketCategory)
+                            homeUiState.buckets.getAchievementRateByCategory(bucketCategory)
                         if (buckets.isNotEmpty()) {
                             HomeCategoryItems(
                                 bucketList = buckets,
                                 category = bucketCategory,
                                 achievementRate = categoryAchievementRate,
-                                onEditBucketClick = onEditBucketClick,
                                 onCompleteBucketClick = onCompleteBucketClick,
                                 onDeleteBucketClick = onDeleteBucketClick,
                                 onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
@@ -197,7 +196,6 @@ fun LazyListScope.HomeCategoryItems(
     modifier: Modifier = Modifier,
     category: BucketCategory,
     bucketList: List<Bucket>,
-    onEditBucketClick: () -> Unit,
     onCompleteBucketClick: (id: Int) -> Unit,
     onDeleteBucketClick: (Bucket) -> Unit,
     achievementRate: Double,
@@ -223,7 +221,6 @@ fun LazyListScope.HomeCategoryItems(
                 bottomEnd = 16.dp,
             ) else RoundedCornerShape(0.dp),
             onCompleteBucketClick = onCompleteBucketClick,
-            onEditBucketClick = onEditBucketClick,
             onDeleteBucketClick = onDeleteBucketClick,
             onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
             updateBucket = updateBucket,
@@ -288,7 +285,6 @@ fun BucketItem(
     bucket: Bucket,
     modifier: Modifier = Modifier,
     shape: Shape,
-    onEditBucketClick: () -> Unit = {},
     onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit,
     onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit,
@@ -361,7 +357,6 @@ fun BucketItem(
         ) {
             BucketItemBottomSheetContent(
                 bucket,
-                onEditBucketClick = onEditBucketClick,
                 onCompleteBucketClick = onCompleteBucketClick,
                 onDeleteBucketClick = {
                     onDeleteBucketClick(it)
@@ -375,7 +370,6 @@ fun BucketItem(
 @Composable
 fun BucketItemBottomSheetContent(
     bucket: Bucket,
-    onEditBucketClick: () -> Unit = {},
     onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit,
     updateBucket: (Bucket) -> Unit = {},

@@ -51,6 +51,7 @@ import com.woosuk.theme.BucketlistTheme
 import com.woosuk.theme.defaultFontFamily
 import com.woosuk.theme.extendedColor
 import ui.ArrowBackTopAppBar
+import ui.DeleteDialog
 import ui.noRippleClickable
 import java.time.LocalDateTime
 
@@ -281,6 +282,7 @@ fun TopBarBottomSheetContent(
     onBucketDelete: () -> Unit,
     onBucketUpdate: () -> Unit,
 ) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
     Column() {
         Text(
             modifier = Modifier
@@ -298,7 +300,7 @@ fun TopBarBottomSheetContent(
         Text(
             modifier = Modifier
                 .clickable {
-                    onBucketDelete()
+                    showDeleteDialog = true
                 }
                 .padding(horizontal = 16.dp, vertical = 20.dp)
                 .fillMaxWidth(),
@@ -309,6 +311,11 @@ fun TopBarBottomSheetContent(
             color = MaterialTheme.extendedColor.warmGray6,
         )
         Spacer(modifier = Modifier.height(30.dp))
+    }
+    if (showDeleteDialog) {
+        DeleteDialog(closeDialog = { showDeleteDialog = false }) {
+            onBucketDelete()
+        }
     }
 }
 

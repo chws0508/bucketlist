@@ -58,6 +58,7 @@ import com.woosuk.domain.model.CompletedBucket
 import com.woosuk.theme.BucketlistTheme
 import com.woosuk.theme.defaultFontFamily
 import com.woosuk.theme.extendedColor
+import ui.DeleteDialog
 import ui.noRippleClickable
 
 @Composable
@@ -90,6 +91,7 @@ fun CompleteBucketScreen(
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     var clickedCompletedBucket by remember { mutableStateOf<CompletedBucket?>(null) }
+    var showDialog by remember { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState()
     Box(
         modifier = Modifier
@@ -142,8 +144,7 @@ fun CompleteBucketScreen(
                 Text(
                     modifier = Modifier
                         .clickable {
-                            deleteBucket(clickedCompletedBucket ?: return@clickable)
-                            showBottomSheet = false
+                            showDialog = true
                         }
                         .padding(horizontal = 16.dp, vertical = 20.dp)
                         .fillMaxWidth(),
@@ -155,6 +156,12 @@ fun CompleteBucketScreen(
                 )
                 Spacer(modifier = Modifier.height(30.dp))
             }
+        }
+    }
+    if (showDialog) {
+        DeleteDialog(closeDialog = { showDialog = false }) {
+            deleteBucket(clickedCompletedBucket ?: return@DeleteDialog)
+            showBottomSheet = false
         }
     }
 }
@@ -238,10 +245,13 @@ fun LazyListScope.CompleteBucketList(
     items(
         items = completedBuckets,
     ) { completedBucket ->
-        Column {
+        Column(
+            modifier = Modifier.clickable {
+                onNavigateToCompletedBucketDetail(completedBucket.bucket.id)
+            },
+        ) {
             Row(
                 modifier = Modifier
-                    .clickable { onNavigateToCompletedBucketDetail(completedBucket.bucket.id) }
                     .fillMaxWidth()
                     .padding(start = 16.dp, end = 16.dp, top = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
