@@ -6,6 +6,7 @@ import com.woosuk.domain.model.BucketCategory
 import com.woosuk.domain.model.Buckets
 import com.woosuk.domain.usecase.DeleteBucketUseCase
 import com.woosuk.domain.usecase.GetAllBucketsUseCase
+import com.woosuk.domain.usecase.UpdateBucketUseCase
 import com.woosuk.testing.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -31,12 +32,17 @@ class HomeViewModelTest {
     private lateinit var homeViewModel: HomeViewModel
     private val getAllBucketsUseCase = mockk<GetAllBucketsUseCase>(relaxed = true)
     private val deleteBucketUseCase = mockk<DeleteBucketUseCase>(relaxed = true)
+    private val updateBucketUseCase = mockk<UpdateBucketUseCase>(relaxed = true)
+
+    private fun initializeViewModel() = HomeViewModel(
+        getAllBucketsUseCase, deleteBucketUseCase, updateBucketUseCase,
+    )
 
     @Test
     fun `버킷을 가져오기 전 homeUiState의 상태는 Loading상태이다`() = runTest {
         // given
         coEvery { getAllBucketsUseCase() } returns flow {}
-        homeViewModel = HomeViewModel(getAllBucketsUseCase, deleteBucketUseCase)
+        homeViewModel = initializeViewModel()
 
         // then
         assertTrue(homeViewModel.homeUiState.value is HomeUiState.Loading)
@@ -48,7 +54,7 @@ class HomeViewModelTest {
         coEvery { getAllBucketsUseCase() } returns flow {
             emit(Buckets.mock())
         }
-        homeViewModel = HomeViewModel(getAllBucketsUseCase, deleteBucketUseCase)
+        homeViewModel = initializeViewModel()
 
         // then
         assertTrue(homeViewModel.homeUiState.value is HomeUiState.Success)
@@ -58,7 +64,7 @@ class HomeViewModelTest {
     fun `버킷을 삭제할 수 있다`() = runTest {
         // given
         coEvery { deleteBucketUseCase(Bucket.mock()) } answers {}
-        homeViewModel = HomeViewModel(getAllBucketsUseCase, deleteBucketUseCase)
+        homeViewModel = initializeViewModel()
 
         // when
         homeViewModel.deleteBucket(Bucket.mock())
@@ -80,7 +86,7 @@ class HomeViewModelTest {
                 send(buckets)
             }
         }
-        homeViewModel = HomeViewModel(getAllBucketsUseCase, deleteBucketUseCase)
+        homeViewModel = initializeViewModel()
 
         // when
         homeViewModel.deleteBucket(testBucket(9))

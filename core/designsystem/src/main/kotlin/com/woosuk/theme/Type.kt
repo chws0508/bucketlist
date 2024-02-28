@@ -11,24 +11,24 @@ import com.woosuk.designsystem.R
 val defaultFontFamily =
     FontFamily(
         Font(
-            resId = R.font.spoqa_hansans_neo_regular,
+            resId = R.font.nanum_square_regular,
             weight = FontWeight.Normal,
         ),
         Font(
-            resId = R.font.spoqa_hansans_neo_light,
+            resId = R.font.nanum_square_regular,
             weight = FontWeight.Light,
         ),
         Font(
-            resId = R.font.spoqa_hansans_neo_bold,
+            resId = R.font.nanum_square_bold,
             weight = FontWeight.Bold,
         ),
         Font(
-            resId = R.font.spoqa_hansans_neo_medium,
+            resId = R.font.nanum_square_regular,
             weight = FontWeight.Medium,
         ),
         Font(
-            resId = R.font.spoqa_hansans_neo_thin,
-            weight = FontWeight.Thin,
+            resId = R.font.nanum_square_extra_bold,
+            weight = FontWeight.ExtraBold,
         ),
     )
 

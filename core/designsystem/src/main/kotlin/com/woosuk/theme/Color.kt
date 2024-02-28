@@ -95,3 +95,4 @@ val GrayScale2 = Color(0xFFE2E4E6)
 val GrayScale3 = Color(0xFF9BA0A9)
 
 val TossGreen = Color(0xFF1CD88A)
+val TossRed = Color(0xFFFE2E01)

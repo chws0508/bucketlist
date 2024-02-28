@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.usecase.DeleteBucketUseCase
 import com.woosuk.domain.usecase.GetAllBucketsUseCase
+import com.woosuk.domain.usecase.UpdateBucketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getAllBucketsUseCase: GetAllBucketsUseCase,
     private val deleteBucketUseCase: DeleteBucketUseCase,
+    private val updateBucketUseCase: UpdateBucketUseCase,
 ) : ViewModel() {
 
     private val _homeUiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
@@ -37,6 +39,12 @@ class HomeViewModel @Inject constructor(
     fun deleteBucket(bucket: Bucket) {
         viewModelScope.launch {
             deleteBucketUseCase(bucket)
+        }
+    }
+
+    fun updateBucket(bucket: Bucket) {
+        viewModelScope.launch {
+            updateBucketUseCase(bucket = bucket)
         }
     }
 }

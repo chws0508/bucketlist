@@ -21,28 +21,28 @@ class AddBucketViewModel @Inject constructor(
     private val addBucketUseCase: AddBucketUseCase,
 ) : ViewModel() {
 
-    private val _addBucketUiState: MutableStateFlow<AddBucketUiState> = MutableStateFlow(
-        AddBucketUiState(),
+    private val _updateBucketUiState: MutableStateFlow<UpdateBucketUiState> = MutableStateFlow(
+        UpdateBucketUiState(),
     )
-    val addBucketUiState = _addBucketUiState.asStateFlow()
+    val addBucketUiState = _updateBucketUiState.asStateFlow()
 
     private val _addBucketUIEvent: MutableSharedFlow<AddBucketUiEvent> = MutableSharedFlow()
     val addBucketUiEvent = _addBucketUIEvent.asSharedFlow()
 
     fun onBucketTitleChanged(inputTitle: String) {
-        _addBucketUiState.update { it.copy(title = inputTitle) }
+        _updateBucketUiState.update { it.copy(title = inputTitle) }
     }
 
     fun onBucketAgeRangeChanged(inputAgeRange: AgeRange) {
-        _addBucketUiState.update { it.copy(ageRange = inputAgeRange) }
+        _updateBucketUiState.update { it.copy(ageRange = inputAgeRange) }
     }
 
     fun onBucketCategoryChanged(inputBucketCategory: BucketCategory) {
-        _addBucketUiState.update { it.copy(category = inputBucketCategory) }
+        _updateBucketUiState.update { it.copy(category = inputBucketCategory) }
     }
 
     fun onBucketDescriptionChanged(inputDescription: String) {
-        _addBucketUiState.update { it.copy(description = inputDescription) }
+        _updateBucketUiState.update { it.copy(description = inputDescription) }
     }
 
     fun addBucket(

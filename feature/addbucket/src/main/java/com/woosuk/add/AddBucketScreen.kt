@@ -91,7 +91,7 @@ fun AddBucketRoute(
 fun AddBucketScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
-    uiState: AddBucketUiState,
+    uiState: UpdateBucketUiState,
     onBucketTitleChanged: (String) -> Unit = {},
     onBucketAgeRangeChanged: (AgeRange) -> Unit = {},
     onBucketCategoryChanged: (BucketCategory) -> Unit = {},
@@ -430,7 +430,7 @@ fun AddBucketScreenPreview() {
             AddBucketScreen(
                 onBackClick = {},
                 modifier = Modifier,
-                uiState = AddBucketUiState(
+                uiState = UpdateBucketUiState(
                     title = "제목",
                     ageRange = AgeRange.Fifties,
                     category = BucketCategory.Work,
