@@ -12,14 +12,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -48,20 +45,12 @@ fun BucketListApp(
     val currentDestination = navBackStackEntry?.destination
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     fun showSnackBar(message: String) = scope.launch { snackbarHostState.showSnackbar(message) }
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            if (currentDestination?.route == HOME_ROUTE) {
-                MainTopBar(scrollBehavior = scrollBehavior)
-            }
-        },
+        modifier = Modifier.fillMaxSize(),
         bottomBar = {
             if (BottomTab.isCurrentScreenBottomTab(currentDestination?.route)) {
                 MainBottomNavigationBar(
@@ -91,14 +80,12 @@ fun BucketListApp(
                 startDestination = startDestination,
             ) {
                 homeScreen(
-                    onClickEditBucket = { navController.navigateToAddRoute(null) },
                     onClickCompleteBucket = { id ->
                         navController.navigateToAddCompletedBucket(
                             null,
                             id,
                         )
                     },
-                    topPaddingDp = innerPadding.calculateTopPadding(),
                     onNavigateToCompletedBucketDetail = navController::navigateToCompletedBucketDetail,
                 )
                 addBucketScreen(

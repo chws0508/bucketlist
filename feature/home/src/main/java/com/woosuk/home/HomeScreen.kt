@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,7 +28,9 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +40,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,12 +49,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.woosuk.common.BucketUiUtil
+import com.woosuk.domain.model.AgeRange
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.BucketCategory
 import com.woosuk.domain.model.Buckets
@@ -62,34 +67,38 @@ import ui.noRippleClickable
 @Composable
 fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
-    onEditBucketClick: () -> Unit,
     onBucketCompleteClick: (id: Int) -> Unit,
-    topPaddingDp: Dp,
     onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit,
 ) {
     val homeUiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val currentViewMode by viewModel.currentViewMode.collectAsStateWithLifecycle()
 
     HomeScreen(
-        topPaddingDp = topPaddingDp,
-        onEditBucketClick = onEditBucketClick,
+        currentViewMode = currentViewMode,
         onCompleteBucketClick = onBucketCompleteClick,
         onDeleteBucketClick = viewModel::deleteBucket,
         homeUiState = homeUiState,
         onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
         updateBucket = viewModel::updateBucket,
+        onChangeViewMode = viewModel::onChangeViewMode,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onEditBucketClick: () -> Unit = {},
     onCompleteBucketClick: (id: Int) -> Unit = {},
     onDeleteBucketClick: (Bucket) -> Unit = {},
     homeUiState: HomeUiState,
-    topPaddingDp: Dp,
     onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit = {},
     updateBucket: (Bucket) -> Unit = {},
+    currentViewMode: ViewMode,
+    onChangeViewMode: (ViewMode) -> Unit,
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    var showOptionBottomSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val context = LocalContext.current
     when (homeUiState) {
         is HomeUiState.Loading -> {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -101,52 +110,148 @@ fun HomeScreen(
         }
 
         is HomeUiState.Success -> {
-            if (homeUiState.buckets.value.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 80.dp),
-                ) {
-                    Text(
-                        text = "버킷리스트가 비어있습니다.\n\n+버튼을 눌러\n버킷리스트를 추가해주세요",
+            Scaffold(
+                modifier = Modifier.fillMaxSize(),
+                topBar = {
+                    HomeTopBar(
+                        scrollBehavior = scrollBehavior,
+                    ) { showOptionBottomSheet = true }
+                },
+            ) { innerPadding ->
+                if (homeUiState.buckets.value.isEmpty()) {
+                    Box(
                         modifier = Modifier
-                            .align(Alignment.Center)
-                            .fillMaxWidth(),
-                        fontSize = 20.sp,
-                        fontFamily = defaultFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.extendedColor.grayScale3,
-                    )
-                }
-            }
-            Column {
-                LazyColumn(
-                    contentPadding = PaddingValues(
-                        top = topPaddingDp,
-                        start = 17.dp,
-                        end = 17.dp,
-                    ),
-                ) {
-                    item {
-                        HomeAllAchievementRate(homeUiState.buckets.getAllAchievementRate())
+                            .fillMaxSize()
+                            .padding(top = 80.dp),
+                    ) {
+                        Text(
+                            text = "버킷리스트가 비어있습니다.\n\n+버튼을 눌러\n버킷리스트를 추가해주세요",
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .fillMaxWidth(),
+                            fontSize = 20.sp,
+                            fontFamily = defaultFontFamily,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.extendedColor.grayScale3,
+                        )
                     }
-                    BucketCategory.entries.forEach { bucketCategory ->
-                        val buckets = homeUiState.buckets.getBucketListByCategory(bucketCategory)
-                        val categoryAchievementRate =
-                            homeUiState.buckets.getAchievementRateByCategory(bucketCategory)
-                        if (buckets.isNotEmpty()) {
-                            HomeCategoryItems(
-                                bucketList = buckets,
-                                category = bucketCategory,
-                                achievementRate = categoryAchievementRate,
-                                onCompleteBucketClick = onCompleteBucketClick,
-                                onDeleteBucketClick = onDeleteBucketClick,
-                                onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
-                                updateBucket = updateBucket,
-                            )
+                }
+                Column(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)) {
+                    LazyColumn(
+                        contentPadding = PaddingValues(
+                            top = innerPadding.calculateTopPadding(),
+                            start = 17.dp,
+                            end = 17.dp,
+                        ),
+                    ) {
+                        item {
+                            HomeAllAchievementRate(homeUiState.buckets.getAllAchievementRate())
+                        }
+                        when (currentViewMode) {
+                            ViewMode.AgeRange -> {
+                                AgeRange.entries.forEach { ageRange ->
+                                    val buckets =
+                                        homeUiState.buckets.getBucketListByAgeRange(ageRange)
+                                    val categoryAchievementRate =
+                                        homeUiState.buckets.getAchievementRateByAgeRange(
+                                            ageRange,
+                                        )
+                                    if(buckets.isNotEmpty()){
+                                        HomeBucketItems(
+                                            bucketList = buckets,
+                                            gropeName = context.getString(
+                                                BucketUiUtil.getAgeNameStringResourceId(
+                                                    ageRange,
+                                                ),
+                                            ),
+                                            achievementRate = categoryAchievementRate,
+                                            onCompleteBucketClick = onCompleteBucketClick,
+                                            onDeleteBucketClick = onDeleteBucketClick,
+                                            onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
+                                            updateBucket = updateBucket,
+                                        )
+                                    }
+                                }
+                            }
+
+                            ViewMode.Category -> {
+                                BucketCategory.entries.forEach { bucketCategory ->
+                                    val buckets =
+                                        homeUiState.buckets.getBucketListByCategory(bucketCategory)
+                                    val categoryAchievementRate =
+                                        homeUiState.buckets.getAchievementRateByCategory(
+                                            bucketCategory,
+                                        )
+                                    if(buckets.isNotEmpty()){
+                                        HomeBucketItems(
+                                            bucketList = buckets,
+                                            gropeName = context.getString(
+                                                BucketUiUtil.getCategoryStringResourceId(
+                                                    bucketCategory,
+                                                ),
+                                            ),
+                                            achievementRate = categoryAchievementRate,
+                                            onCompleteBucketClick = onCompleteBucketClick,
+                                            onDeleteBucketClick = onDeleteBucketClick,
+                                            onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
+                                            updateBucket = updateBucket,
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
+                }
+            }
+            if (showOptionBottomSheet) {
+                ModalBottomSheet(
+                    sheetState = sheetState,
+                    onDismissRequest = { showOptionBottomSheet = false },
+                    containerColor = MaterialTheme.extendedColor.grayScale0,
+                ) {
+                    Column(
+                        modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp),
+                    ) {
+                        Text(
+                            text = "정렬 옵션을 선택해주세요",
+                            fontFamily = defaultFontFamily,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.extendedColor.warmGray6,
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        listOf(ViewMode.AgeRange, ViewMode.Category).forEach { viewMode ->
+                            Row(
+                                modifier = Modifier
+                                    .noRippleClickable {
+                                        onChangeViewMode(viewMode)
+                                        showOptionBottomSheet = false
+                                    }
+                                    .fillMaxWidth()
+                                    .padding(vertical = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
+                                Text(
+                                    text = stringResource(id = viewMode.nameId),
+                                    fontFamily = defaultFontFamily,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    color = MaterialTheme.extendedColor.coolGray5,
+                                )
+                                if (currentViewMode == viewMode) {
+                                    Icon(
+                                        modifier = Modifier.padding(end = 16.dp),
+                                        imageVector = Icons.Rounded.Check,
+                                        contentDescription = "Check",
+                                        tint = MaterialTheme.extendedColor.tossGreen,
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(40.dp))
+                    }
+
                 }
             }
         }
@@ -192,9 +297,9 @@ fun HomeAllAchievementRate(
 }
 
 @Suppress("ktlint:standard:function-naming")
-fun LazyListScope.HomeCategoryItems(
+fun LazyListScope.HomeBucketItems(
     modifier: Modifier = Modifier,
-    category: BucketCategory,
+    gropeName: String,
     bucketList: List<Bucket>,
     onCompleteBucketClick: (id: Int) -> Unit,
     onDeleteBucketClick: (Bucket) -> Unit,
@@ -203,8 +308,8 @@ fun LazyListScope.HomeCategoryItems(
     updateBucket: (Bucket) -> Unit,
 ) {
     item {
-        CategoryInfoItem(
-            bucketCategory = category,
+        GroupInfoItem(
+            groupName = gropeName,
             modifier = modifier,
             achievementRate = achievementRate,
         )
@@ -229,9 +334,9 @@ fun LazyListScope.HomeCategoryItems(
 }
 
 @Composable
-fun CategoryInfoItem(
+fun GroupInfoItem(
     modifier: Modifier = Modifier,
-    bucketCategory: BucketCategory = BucketCategory.Unspecified,
+    groupName: String = "여행",
     achievementRate: Double,
 ) {
     Surface(
@@ -254,7 +359,7 @@ fun CategoryInfoItem(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f),
-                    text = BucketUiUtil.getCategoryName(bucketCategory = bucketCategory),
+                    text = groupName,
                     fontSize = 24.sp,
                     fontFamily = defaultFontFamily,
                     fontWeight = FontWeight.Bold,
@@ -395,15 +500,15 @@ fun BucketItemBottomSheetContent(
 @Composable
 fun HomeScreenPreview() {
     BucketlistTheme {
-        Scaffold {
+        Surface {
             HomeScreen(
-                onEditBucketClick = {},
                 onCompleteBucketClick = {},
                 onDeleteBucketClick = {},
                 homeUiState = HomeUiState.Success(Buckets.mock()),
-                topPaddingDp = it.calculateTopPadding(),
                 onNavigateToCompletedBucketDetail = {},
                 updateBucket = {},
+                currentViewMode = ViewMode.Category,
+                onChangeViewMode = {},
             )
         }
     }

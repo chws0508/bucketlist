@@ -1,6 +1,5 @@
 package com.woosuk.home.navigation
 
-import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -12,18 +11,14 @@ const val HOME_ROUTE = "home_route"
 fun NavController.navigateToHomeRoute(navOptions: NavOptions? = null) = navigate(HOME_ROUTE, navOptions)
 
 fun NavGraphBuilder.homeScreen(
-    onClickEditBucket: () -> Unit,
     onClickCompleteBucket: (id: Int) -> Unit,
     onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit,
-    topPaddingDp: Dp,
 ) {
     composable(
         route = HOME_ROUTE,
     ) {
         HomeRoute(
-            onEditBucketClick = onClickEditBucket,
             onBucketCompleteClick = onClickCompleteBucket,
-            topPaddingDp = topPaddingDp,
             onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
         )
     }

@@ -24,6 +24,9 @@ class HomeViewModel @Inject constructor(
     private val _homeUiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
     val homeUiState = _homeUiState.asStateFlow()
 
+    private val _currentViewMode: MutableStateFlow<ViewMode> = MutableStateFlow(ViewMode.Category)
+    val currentViewMode = _currentViewMode.asStateFlow()
+
     init {
         loadBuckets()
     }
@@ -46,5 +49,9 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             updateBucketUseCase(bucket = bucket)
         }
+    }
+
+    fun onChangeViewMode(inputViewMode: ViewMode) {
+        _currentViewMode.value = inputViewMode
     }
 }

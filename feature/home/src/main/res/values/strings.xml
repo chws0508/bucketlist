@@ -29,4 +29,7 @@
     <string name="bucket_title_header">버킷 제목</string>
     <string name="edit_bucket_title_hint">버킷 제목을 입력해주세요</string>
     <string name="bucket_category_header">카테고리</string>
+    <string name="age_range_view_mode">목표 나이</string>
+    <string name="category_view_mode">카테고리</string>
+    <string name="topbar_sorting_option_">정렬 옵션</string>
 </resources>

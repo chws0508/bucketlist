@@ -14,17 +14,27 @@ class Buckets(
     fun getBucketListByCategory(bucketCategory: BucketCategory) =
         value.filter { it.category == bucketCategory }
 
+    fun getBucketListByAgeRange(ageRange: AgeRange) =
+        value.filter { it.ageRange == ageRange }
+
     fun getAllAchievementRate(): Double {
         if (value.isEmpty()) return 0.0
         val completedBuckets = value.filter { it.isCompleted }
         return completedBuckets.size.toDouble() / value.size * 100
     }
 
-    fun getCategoryAchievementRate(bucketCategory: BucketCategory): Double {
+    fun getAchievementRateByCategory(bucketCategory: BucketCategory): Double {
         val categoryBuckets = getBucketListByCategory(bucketCategory)
         if (categoryBuckets.isEmpty()) return 0.0
         val completedCategoryBuckets = categoryBuckets.filter { it.isCompleted }
         return completedCategoryBuckets.size.toDouble() / categoryBuckets.size * 100
+    }
+
+    fun getAchievementRateByAgeRange(ageRange: AgeRange): Double {
+        val ageRangeBuckets = getBucketListByAgeRange(ageRange)
+        if (ageRangeBuckets.isEmpty()) return 0.0
+        val completedCategoryBuckets = ageRangeBuckets.filter { it.isCompleted }
+        return completedCategoryBuckets.size.toDouble() / ageRangeBuckets.size * 100
     }
 
     companion object {
