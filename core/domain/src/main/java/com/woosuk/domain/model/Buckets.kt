@@ -11,6 +11,8 @@ class Buckets(
     val value: List<Bucket>
         get() = _value.toList()
 
+    val completedCount = value.filter { it.isCompleted }.size
+
     fun getBucketListByCategory(bucketCategory: BucketCategory) =
         value.filter { it.category == bucketCategory }
 

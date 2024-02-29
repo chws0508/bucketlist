@@ -146,7 +146,11 @@ fun HomeScreen(
                         ),
                     ) {
                         item {
-                            HomeAllAchievementRate(homeUiState.buckets.getAllAchievementRate())
+                            HomeAllAchievementRate(
+                                homeUiState.buckets.getAllAchievementRate(),
+                                homeUiState.buckets.value.size,
+                                homeUiState.buckets.completedCount,
+                            )
                         }
                         when (currentViewMode) {
                             ViewMode.AgeRange -> {
@@ -263,6 +267,8 @@ fun HomeScreen(
 @Composable
 fun HomeAllAchievementRate(
     allAchievementRate: Double,
+    allBucketCount: Int,
+    completedBucketCount: Int,
 ) {
     DefaultCard(
         modifier =
@@ -281,17 +287,29 @@ fun HomeAllAchievementRate(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Bold,
             )
-            Text(
-                text = String.format(
-                    stringResource(id = R.string.percentage_format),
-                    allAchievementRate,
-                ),
-                modifier = Modifier.padding(bottom = 20.dp),
-                fontSize = 30.sp,
-                fontFamily = defaultFontFamily,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.extendedColor.tossBlue2,
-            )
+
+            Row {
+                Text(
+                    text = String.format(
+                        stringResource(id = R.string.percentage_format),
+                        allAchievementRate,
+                    ),
+                    modifier = Modifier.padding(bottom = 20.dp),
+                    fontSize = 30.sp,
+                    fontFamily = defaultFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.extendedColor.tossBlue2,
+                )
+                Text(
+                    text = "($completedBucketCount/$allBucketCount)",
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
+                        .align(Alignment.Bottom),
+                    fontSize = 13.sp,
+                    fontFamily = defaultFontFamily,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
         }
     }
 }
