@@ -462,7 +462,10 @@ fun BucketItem(
         ) {
             BucketItemBottomSheetContent(
                 bucket,
-                onCompleteBucketClick = onCompleteBucketClick,
+                onCompleteBucketClick = {
+                    onCompleteBucketClick(it)
+                    showBottomSheet = false
+                },
                 onDeleteBucketClick = {
                     onDeleteBucketClick(it)
                     showBottomSheet = false

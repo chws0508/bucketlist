@@ -81,7 +81,9 @@ fun DefaultBottomSheetContent(
         }
         Spacer(modifier = Modifier.height(10.dp))
         DefaultButton(
-            onClick = { onCompleteBucketClick(bucket.id) },
+            onClick = {
+                onCompleteBucketClick(bucket.id)
+            },
             text = stringResource(R.string.complete_bucket_button_text),
             enabled = true,
         )
