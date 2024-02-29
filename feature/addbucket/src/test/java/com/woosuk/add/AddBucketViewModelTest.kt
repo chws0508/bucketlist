@@ -46,10 +46,10 @@ class AddBucketViewModelTest {
     fun `버킷리스트 카테고리를 선택하면, 카테고리 상태가 바뀐다`() {
         addBucketViewModel = AddBucketViewModel(addBucketUseCase)
         // when
-        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Work)
+        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Career)
         val actual = addBucketViewModel.addBucketUiState.value.category
         // then
-        assertThat(actual).isEqualTo(BucketCategory.Work)
+        assertThat(actual).isEqualTo(BucketCategory.Career)
     }
 
     @Test
@@ -69,7 +69,7 @@ class AddBucketViewModelTest {
         addBucketViewModel.onBucketDescriptionChanged("설명")
         addBucketViewModel.onBucketTitleChanged("")
         addBucketViewModel.onBucketAgeRangeChanged(AgeRange.OldAge)
-        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Work)
+        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Career)
         val actual = addBucketViewModel.addBucketUiState.value.canAddBucket
         // then
         assertThat(actual).isEqualTo(false)
@@ -81,7 +81,7 @@ class AddBucketViewModelTest {
         // when
         addBucketViewModel.onBucketDescriptionChanged("설명")
         addBucketViewModel.onBucketTitleChanged("제목")
-        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Work)
+        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Career)
         val actual = addBucketViewModel.addBucketUiState.value.canAddBucket
         // then
         assertThat(actual).isEqualTo(false)
@@ -92,7 +92,7 @@ class AddBucketViewModelTest {
         addBucketViewModel = AddBucketViewModel(addBucketUseCase)
         // when
         addBucketViewModel.onBucketTitleChanged("제목")
-        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Work)
+        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Career)
         addBucketViewModel.onBucketAgeRangeChanged(AgeRange.OldAge)
         val actual = addBucketViewModel.addBucketUiState.value.canAddBucket
         // then
@@ -104,7 +104,7 @@ class AddBucketViewModelTest {
         // given
         addBucketViewModel = AddBucketViewModel(addBucketUseCase)
         // when
-        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Work)
+        addBucketViewModel.onBucketCategoryChanged(BucketCategory.Career)
         addBucketViewModel.onBucketAgeRangeChanged(AgeRange.OldAge)
         addBucketViewModel.onBucketTitleChanged("제목")
         addBucketViewModel.addBucket(createdAt = getTestLocalDateTime())
@@ -113,7 +113,7 @@ class AddBucketViewModelTest {
             addBucketUseCase(
                 title = "제목",
                 ageRange = AgeRange.OldAge,
-                bucketCategory = BucketCategory.Work,
+                bucketCategory = BucketCategory.Career,
                 description = "",
                 createdAt = getTestLocalDateTime(),
             )

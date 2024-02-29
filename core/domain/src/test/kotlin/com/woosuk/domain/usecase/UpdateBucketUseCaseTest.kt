@@ -23,7 +23,7 @@ class UpdateBucketUseCaseTest {
         updateBucketUseCase = UpdateBucketUseCase(bucketRepository)
         val testBucket = Bucket(
             id = 1,
-            category = BucketCategory.Work,
+            category = BucketCategory.Career,
             ageRange = AgeRange.UnSpecified,
             title = "제목",
             description = null,

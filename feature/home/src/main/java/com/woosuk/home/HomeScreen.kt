@@ -93,7 +93,7 @@ fun HomeScreen(
     onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit = {},
     updateBucket: (Bucket) -> Unit = {},
     currentViewMode: ViewMode,
-    onChangeViewMode: (ViewMode) -> Unit,
+    onChangeViewMode: (ViewMode) -> Unit = {},
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     var showOptionBottomSheet by remember { mutableStateOf(false) }

@@ -6,6 +6,7 @@
     <string name="add_image_icon_contentdescription">add_image_icon</string>
     <string name="complete_bucket_button_text">달성 카드 등록</string>
     <string name="imagedeleteicon">ImageDeleteIcon</string>
-    <string name="add_completed_bucket_topappbar_title">달성 카드 만들기</string>
+    <string name="add_completed_bucket_topappbar_title">달성 카드 등록</string>
+    <string name="edit_completed_bucket_topappbar_title">달성 카드 수정</string>
     <string name="edit_completed_bucket_button_text">달성 카드 수정</string>
 </resources>

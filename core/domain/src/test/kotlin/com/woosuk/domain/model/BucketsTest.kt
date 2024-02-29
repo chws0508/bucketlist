@@ -32,21 +32,21 @@ class BucketsTest {
         // given
         val buckets = Buckets(
             listOf(
-                testBucket(id = 1, category = BucketCategory.Work),
-                testBucket(id = 2, category = BucketCategory.Work),
+                testBucket(id = 1, category = BucketCategory.Career),
+                testBucket(id = 2, category = BucketCategory.Career),
                 testBucket(id = 3, category = BucketCategory.Unspecified),
                 testBucket(id = 4, category = BucketCategory.Health),
             ),
         )
         // when
-        val testCase1 = buckets.getBucketListByCategory(BucketCategory.Work)
+        val testCase1 = buckets.getBucketListByCategory(BucketCategory.Career)
         val testCase2 = buckets.getBucketListByCategory(BucketCategory.Unspecified)
         val testCase3 = buckets.getBucketListByCategory(BucketCategory.Health)
         // then
         assertThat(testCase1).isEqualTo(
             listOf(
-                testBucket(id = 1, category = BucketCategory.Work),
-                testBucket(id = 2, category = BucketCategory.Work),
+                testBucket(id = 1, category = BucketCategory.Career),
+                testBucket(id = 2, category = BucketCategory.Career),
             ),
         )
         assertThat(testCase2).isEqualTo(
@@ -67,13 +67,13 @@ class BucketsTest {
         // given
         val buckets = Buckets(
             listOf(
-                testBucket(id = 1, category = BucketCategory.Work, isCompleted = true),
-                testBucket(id = 2, category = BucketCategory.Work, isCompleted = false),
+                testBucket(id = 1, category = BucketCategory.Career, isCompleted = true),
+                testBucket(id = 2, category = BucketCategory.Career, isCompleted = false),
                 testBucket(id = 3, category = BucketCategory.Health, isCompleted = true),
             ),
         )
         // when
-        val testcase1 = buckets.getAchievementRateByCategory(BucketCategory.Work)
+        val testcase1 = buckets.getAchievementRateByCategory(BucketCategory.Career)
         val testCase2 = buckets.getAchievementRateByCategory(BucketCategory.Health)
         val testCase3 = buckets.getAchievementRateByCategory(BucketCategory.Unspecified)
         // then
@@ -94,7 +94,7 @@ class BucketsTest {
         id: Int,
         title: String = "제목",
         isCompleted: Boolean = false,
-        category: BucketCategory = BucketCategory.Work,
+        category: BucketCategory = BucketCategory.Career,
         ageRange: AgeRange = AgeRange.Fifties,
     ) = Bucket(
         id = id,

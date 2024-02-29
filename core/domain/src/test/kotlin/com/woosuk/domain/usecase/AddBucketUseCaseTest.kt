@@ -23,7 +23,7 @@ class AddBucketUseCaseTest {
         addBucketUseCase = AddBucketUseCase(bucketRepository)
         addBucketUseCase(
             title = "제목",
-            bucketCategory = BucketCategory.Work,
+            bucketCategory = BucketCategory.Career,
             ageRange = AgeRange.OldAge,
             description = "",
             createdAt = LocalDateTime.of(LocalDate.of(1, 1, 1), LocalTime.of(1, 1)),
@@ -33,7 +33,7 @@ class AddBucketUseCaseTest {
             bucketRepository.insertBucket(
                 bucket = Bucket(
                     id = 0,
-                    category = BucketCategory.Work,
+                    category = BucketCategory.Career,
                     ageRange = AgeRange.OldAge,
                     title = "제목",
                     description = "",

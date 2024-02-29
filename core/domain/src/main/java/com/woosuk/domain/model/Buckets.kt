@@ -43,7 +43,7 @@ class Buckets(
                 List(15) {
                     Bucket(
                         id = it,
-                        category = BucketCategory.Work,
+                        category = BucketCategory.Career,
                         ageRange = AgeRange.OldAge,
                         title = "통장에 5000만원 모으기!통장에 5000만원 모으기!통장에 5000만원 모으기!",
                         description = "너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!너무 좋았다!!!",

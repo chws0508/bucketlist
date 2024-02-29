@@ -13,7 +13,7 @@ fun testBucketEntity(
     id = id,
     title = title,
     description = null,
-    category = BucketCategory.Work,
+    category = BucketCategory.Career,
     ageRange = AgeRange.Forties,
     createdAt = LocalDateTime.now(),
     isCompleted = true,

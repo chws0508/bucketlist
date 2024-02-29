@@ -138,7 +138,7 @@ fun BottomSheetBucketItemInfo(
                 text = bucket.description!!,
                 hint = "",
                 mineLines = 5,
-                maxLines = 5,
+                maxLines = 10,
                 onValueChange = {},
                 enabled = false,
             )

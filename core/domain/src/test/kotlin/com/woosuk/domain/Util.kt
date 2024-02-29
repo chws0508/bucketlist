@@ -11,7 +11,7 @@ fun testBucket(
     id: Int,
 ) = Bucket(
     id = id,
-    category = BucketCategory.Work,
+    category = BucketCategory.Career,
     ageRange = AgeRange.Forties,
     title = "antiopam",
     description = null,

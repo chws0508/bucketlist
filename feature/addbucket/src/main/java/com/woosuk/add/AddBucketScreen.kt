@@ -433,7 +433,7 @@ fun AddBucketScreenPreview() {
                 uiState = UpdateBucketUiState(
                     title = "제목",
                     ageRange = AgeRange.Fifties,
-                    category = BucketCategory.Work,
+                    category = BucketCategory.Career,
                     description = "서멸입니다",
                 ),
             )

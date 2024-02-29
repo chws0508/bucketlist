@@ -10,9 +10,11 @@ object BucketUiUtil {
     fun getCategoryName(bucketCategory: BucketCategory) = when (bucketCategory) {
         BucketCategory.Travel -> stringResource(id = R.string.travel)
         BucketCategory.Health -> stringResource(id = R.string.health)
-        BucketCategory.Work -> stringResource(id = R.string.work)
+        BucketCategory.Career -> stringResource(id = R.string.work)
         BucketCategory.Learning -> stringResource(id = R.string.learning)
-        BucketCategory.Unspecified -> stringResource(id = R.string.unspecified)
+        BucketCategory.Unspecified -> stringResource(id = R.string.category_unspecified)
+        BucketCategory.Fitness -> stringResource(id = R.string.fitness)
+        BucketCategory.Food -> stringResource(id = R.string.food)
     }
 
     @Composable
@@ -22,15 +24,18 @@ object BucketUiUtil {
         AgeRange.Forties -> stringResource(R.string.forties)
         AgeRange.Fifties -> stringResource(R.string.fifties)
         AgeRange.OldAge -> stringResource(R.string.oldage)
-        AgeRange.UnSpecified -> stringResource(id = R.string.unspecified)
+        AgeRange.UnSpecified -> stringResource(id = R.string.age_unspecified)
+        AgeRange.Teenage -> stringResource(id = R.string.teenage)
     }
 
     fun getCategoryStringResourceId(bucketCategory: BucketCategory) = when (bucketCategory) {
         BucketCategory.Travel -> R.string.travel
         BucketCategory.Health -> R.string.health
-        BucketCategory.Work -> R.string.work
+        BucketCategory.Career -> R.string.work
         BucketCategory.Learning -> R.string.learning
-        BucketCategory.Unspecified -> R.string.unspecified
+        BucketCategory.Unspecified -> R.string.category_unspecified
+        BucketCategory.Fitness -> R.string.fitness
+        BucketCategory.Food -> R.string.food
     }
 
     fun getAgeNameStringResourceId(ageRange: AgeRange) = when (ageRange) {
@@ -39,6 +44,7 @@ object BucketUiUtil {
         AgeRange.Forties -> R.string.forties
         AgeRange.Fifties -> R.string.fifties
         AgeRange.OldAge -> R.string.oldage
-        AgeRange.UnSpecified -> R.string.unspecified
+        AgeRange.UnSpecified -> R.string.age_unspecified
+        AgeRange.Teenage -> R.string.teenage
     }
 }

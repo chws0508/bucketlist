@@ -3,7 +3,9 @@ package com.woosuk.domain.model
 enum class BucketCategory {
     Travel,
     Health,
-    Work,
+    Career,
     Learning,
+    Fitness,
+    Food,
     Unspecified,
 }

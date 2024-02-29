@@ -78,7 +78,7 @@ class DefaultBucketRepositoryTest {
         id = id,
         title = "제목",
         description = null,
-        category = BucketCategory.Work,
+        category = BucketCategory.Career,
         ageRange = AgeRange.UnSpecified,
         createdAt = LocalDateTime.of(
             LocalDate.of(2023, 5, 8),

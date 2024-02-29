@@ -20,7 +20,7 @@ data class CompletedBucket(
         ) = CompletedBucket(
             bucket = Bucket(
                 id = id,
-                category = BucketCategory.Work,
+                category = BucketCategory.Career,
                 ageRange = AgeRange.UnSpecified,
                 title = "취업 성공하기!!!! ",
                 description = "공부하기 밥먹기 자기",

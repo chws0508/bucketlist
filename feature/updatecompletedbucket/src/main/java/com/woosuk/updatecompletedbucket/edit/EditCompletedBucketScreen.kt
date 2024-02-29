@@ -98,7 +98,7 @@ fun EditCompletedBucketScreen(
     ) {
         ArrowBackTopAppBar(
             onBackClick = onBackClick,
-            title = stringResource(R.string.add_completed_bucket_topappbar_title),
+            title = stringResource(R.string.edit_completed_bucket_topappbar_title),
         )
         uiState?.let {
             Column(

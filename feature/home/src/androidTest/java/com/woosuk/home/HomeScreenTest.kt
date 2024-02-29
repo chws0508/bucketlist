@@ -5,7 +5,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.woosuk.domain.model.AgeRange
 import com.woosuk.domain.model.Bucket
@@ -32,8 +31,9 @@ class HomeScreenTest {
         composeTestRule.setContent {
             HomeScreen(
                 homeUiState = HomeUiState.Loading,
-                topPaddingDp = 10.dp,
-            )
+                currentViewMode = ViewMode.Category,
+
+                )
         }
         // then
         composeTestRule.onNodeWithTag(testTag).assertIsDisplayed()
@@ -45,7 +45,7 @@ class HomeScreenTest {
         composeTestRule.setContent {
             HomeScreen(
                 homeUiState = HomeUiState.Success(Buckets(testBuckets)),
-                topPaddingDp = 10.dp,
+                currentViewMode = ViewMode.Category,
             )
         }
         // then
@@ -79,7 +79,7 @@ class HomeScreenTest {
         testBucket(
             id = 3,
             isCompleted = false,
-            bucketCategory = BucketCategory.Work,
+            bucketCategory = BucketCategory.Career,
             ageRange = AgeRange.OldAge,
             title = "test3",
         ),
