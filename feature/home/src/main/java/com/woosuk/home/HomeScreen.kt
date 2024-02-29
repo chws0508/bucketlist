@@ -34,7 +34,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -93,10 +93,10 @@ fun HomeScreen(
     onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit = {},
     updateBucket: (Bucket) -> Unit = {},
     currentViewMode: ViewMode,
-    onChangeViewMode: (ViewMode) -> Unit = {},
+    onChangeViewMode: (ViewMode) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-    var showOptionBottomSheet by remember { mutableStateOf(false) }
+    var showOptionBottomSheet by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val context = LocalContext.current
     when (homeUiState) {
@@ -396,7 +396,7 @@ fun BucketItem(
     updateBucket: (Bucket) -> Unit,
 ) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    var showBottomSheet by remember { mutableStateOf(false) }
+    var showBottomSheet by rememberSaveable { mutableStateOf(false) }
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -479,7 +479,7 @@ fun BucketItemBottomSheetContent(
     onDeleteBucketClick: (Bucket) -> Unit,
     updateBucket: (Bucket) -> Unit = {},
 ) {
-    var editMode by remember { mutableStateOf(false) }
+    var editMode by rememberSaveable { mutableStateOf(false) }
 
     if (!editMode)
         DefaultBottomSheetContent(

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -37,6 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -89,9 +91,9 @@ fun CompleteBucketScreen(
     onSelectedCategoryChanged: (SelectableCategory) -> Unit = {},
     deleteBucket: (completedBucket: CompletedBucket) -> Unit = {},
 ) {
-    var showBottomSheet by remember { mutableStateOf(false) }
+    var showBottomSheet by rememberSaveable { mutableStateOf(false) }
     var clickedCompletedBucket by remember { mutableStateOf<CompletedBucket?>(null) }
-    var showDialog by remember { mutableStateOf(false) }
+    var showDialog by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState()
     Box(
         modifier = Modifier
@@ -174,7 +176,7 @@ fun CompletedBucketTopAppBar(
     selectableCategories: List<SelectableCategory>,
     onCategoryChanged: (SelectableCategory) -> Unit = {},
 ) {
-    var showMenu by remember { mutableStateOf(false) }
+    var showMenu by rememberSaveable { mutableStateOf(false) }
 
     Column {
         TopAppBar(
@@ -205,7 +207,9 @@ fun CompletedBucketTopAppBar(
             },
         )
         DropdownMenu(
-            modifier = Modifier.background(MaterialTheme.extendedColor.grayScale0),
+            modifier = Modifier
+                .background(MaterialTheme.extendedColor.grayScale0)
+                .requiredHeight(600.dp),
             expanded = showMenu,
             onDismissRequest = { showMenu = false },
         ) {
@@ -302,7 +306,7 @@ fun BucketInfo(
     modifier: Modifier = Modifier,
     bucket: Bucket,
 ) {
-    var showMemo by remember { mutableStateOf(false) }
+    var showMemo by rememberSaveable { mutableStateOf(false) }
     Column(modifier = modifier) {
         Text(
             text = bucket.title,

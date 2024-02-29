@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,12 +22,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.woosuk.common.BucketUiUtil
@@ -47,10 +49,10 @@ fun EditBottomSheetContent(
     bucket: Bucket,
     closeEdit: () -> Unit,
 ) {
-    var title by remember { mutableStateOf(bucket.title) }
-    var category by remember { mutableStateOf(bucket.category) }
-    var ageRange by remember { mutableStateOf(bucket.ageRange) }
-    var description by remember { mutableStateOf(bucket.description) }
+    var title by rememberSaveable { mutableStateOf(bucket.title) }
+    var category by rememberSaveable { mutableStateOf(bucket.category) }
+    var ageRange by rememberSaveable { mutableStateOf(bucket.ageRange) }
+    var description by rememberSaveable { mutableStateOf(bucket.description) }
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -160,7 +162,7 @@ fun EditBucketCategory(
     bucketCategory: BucketCategory?,
     onBucketCategoryChanged: (BucketCategory) -> Unit,
 ) {
-    var openDialog by remember { mutableStateOf(false) }
+    var showMenu by rememberSaveable { mutableStateOf(false) }
     Column(modifier = modifier) {
         Row {
             Text(
@@ -174,7 +176,7 @@ fun EditBucketCategory(
             modifier = Modifier
                 .fillMaxWidth()
                 .noRippleClickable {
-                    openDialog = true
+                    showMenu = true
                 },
             text = if (bucketCategory != null) BucketUiUtil.getCategoryName(bucketCategory = bucketCategory) else "",
             hint = "",
@@ -188,31 +190,34 @@ fun EditBucketCategory(
             onValueChange = {},
             enabled = false,
         )
-    }
-    DropdownMenu(
-        expanded = openDialog,
-        onDismissRequest = { openDialog = false },
-        modifier = Modifier.background(MaterialTheme.extendedColor.grayScale0),
-    ) {
-        BucketCategory.entries.forEach {
-            DropdownMenuItem(
-                onClick = {
-                    onBucketCategoryChanged(it)
-                    openDialog = false
-                },
-                text = {
-                    Text(
-                        modifier = Modifier.clickable {
-                            onBucketCategoryChanged(it)
-                            openDialog = false
-                        },
-                        text = BucketUiUtil.getCategoryName(bucketCategory = it),
-                        fontFamily = defaultFontFamily,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Normal,
-                    )
-                },
-            )
+        DropdownMenu(
+            expanded = showMenu,
+            onDismissRequest = { showMenu = false },
+            modifier = Modifier
+                .background(MaterialTheme.extendedColor.grayScale0)
+                .requiredHeight(250.dp),
+            offset = DpOffset.Zero,
+        ) {
+            BucketCategory.entries.forEach {
+                DropdownMenuItem(
+                    onClick = {
+                        onBucketCategoryChanged(it)
+                        showMenu = false
+                    },
+                    text = {
+                        Text(
+                            modifier = Modifier.clickable {
+                                onBucketCategoryChanged(it)
+                                showMenu = false
+                            },
+                            text = BucketUiUtil.getCategoryName(bucketCategory = it),
+                            fontFamily = defaultFontFamily,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Normal,
+                        )
+                    },
+                )
+            }
         }
     }
 }
@@ -223,7 +228,7 @@ fun EditBucketAgeRange(
     ageRange: AgeRange?,
     onBucketAgeRangeChanged: (AgeRange) -> Unit,
 ) {
-    var showDialog by remember { mutableStateOf(false) }
+    var showMenu by rememberSaveable { mutableStateOf(false) }
     Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.bucket_age_range_header),
@@ -235,7 +240,7 @@ fun EditBucketAgeRange(
             modifier = Modifier
                 .fillMaxWidth()
                 .noRippleClickable {
-                    showDialog = true
+                    showMenu = true
                 },
             text = if (ageRange != null) BucketUiUtil.getAgeName(ageRange = ageRange) else "",
             hint = stringResource(R.string.bucket_age_range_hint),
@@ -250,21 +255,24 @@ fun EditBucketAgeRange(
             enabled = false,
         )
         DropdownMenu(
-            expanded = showDialog,
-            onDismissRequest = { showDialog = false },
-            modifier = Modifier.background(MaterialTheme.extendedColor.grayScale0),
+            expanded = showMenu,
+            onDismissRequest = { showMenu = false },
+            modifier = Modifier
+                .background(MaterialTheme.extendedColor.grayScale0)
+                .requiredHeight(250.dp),
+            offset = DpOffset.Zero,
         ) {
             AgeRange.entries.forEach {
                 DropdownMenuItem(
                     onClick = {
                         onBucketAgeRangeChanged(it)
-                        showDialog = false
+                        showMenu = false
                     },
                     text = {
                         Text(
                             modifier = Modifier.clickable {
                                 onBucketAgeRangeChanged(it)
-                                showDialog = false
+                                showMenu = false
                             },
                             text = BucketUiUtil.getAgeName(ageRange = it),
                             fontFamily = defaultFontFamily,
