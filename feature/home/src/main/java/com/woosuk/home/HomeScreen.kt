@@ -99,25 +99,25 @@ fun HomeScreen(
     var showOptionBottomSheet by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val context = LocalContext.current
-    when (homeUiState) {
-        is HomeUiState.Loading -> {
-            Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.extendedColor.tossBlue2,
-                    modifier = Modifier.testTag(stringResource(R.string.progress_indicator_test_tag)),
-                )
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            HomeTopBar(
+                scrollBehavior = scrollBehavior,
+            ) { showOptionBottomSheet = true }
+        },
+    ) { innerPadding ->
+        when (homeUiState) {
+            is HomeUiState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.extendedColor.tossBlue2,
+                        modifier = Modifier.testTag(stringResource(R.string.progress_indicator_test_tag)),
+                    )
+                }
             }
-        }
 
-        is HomeUiState.Success -> {
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                topBar = {
-                    HomeTopBar(
-                        scrollBehavior = scrollBehavior,
-                    ) { showOptionBottomSheet = true }
-                },
-            ) { innerPadding ->
+            is HomeUiState.Success -> {
                 if (homeUiState.buckets.value.isEmpty()) {
                     Box(
                         modifier = Modifier
@@ -161,7 +161,7 @@ fun HomeScreen(
                                         homeUiState.buckets.getAchievementRateByAgeRange(
                                             ageRange,
                                         )
-                                    if(buckets.isNotEmpty()){
+                                    if (buckets.isNotEmpty()) {
                                         HomeBucketItems(
                                             bucketList = buckets,
                                             gropeName = context.getString(
@@ -187,7 +187,7 @@ fun HomeScreen(
                                         homeUiState.buckets.getAchievementRateByCategory(
                                             bucketCategory,
                                         )
-                                    if(buckets.isNotEmpty()){
+                                    if (buckets.isNotEmpty()) {
                                         HomeBucketItems(
                                             bucketList = buckets,
                                             gropeName = context.getString(
@@ -207,60 +207,61 @@ fun HomeScreen(
                         }
                     }
                 }
-            }
-            if (showOptionBottomSheet) {
-                ModalBottomSheet(
-                    sheetState = sheetState,
-                    onDismissRequest = { showOptionBottomSheet = false },
-                    containerColor = MaterialTheme.extendedColor.grayScale0,
-                ) {
-                    Column(
-                        modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp),
+                if (showOptionBottomSheet) {
+                    ModalBottomSheet(
+                        sheetState = sheetState,
+                        onDismissRequest = { showOptionBottomSheet = false },
+                        containerColor = MaterialTheme.extendedColor.grayScale0,
                     ) {
-                        Text(
-                            text = "정렬 옵션을 선택해주세요",
-                            fontFamily = defaultFontFamily,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.extendedColor.warmGray6,
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                        listOf(ViewMode.AgeRange, ViewMode.Category).forEach { viewMode ->
-                            Row(
-                                modifier = Modifier
-                                    .noRippleClickable {
-                                        onChangeViewMode(viewMode)
-                                        showOptionBottomSheet = false
-                                    }
-                                    .fillMaxWidth()
-                                    .padding(vertical = 10.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                            ) {
-                                Text(
-                                    text = stringResource(id = viewMode.nameId),
-                                    fontFamily = defaultFontFamily,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Normal,
-                                    color = MaterialTheme.extendedColor.coolGray5,
-                                )
-                                if (currentViewMode == viewMode) {
-                                    Icon(
-                                        modifier = Modifier.padding(end = 16.dp),
-                                        imageVector = Icons.Rounded.Check,
-                                        contentDescription = "Check",
-                                        tint = MaterialTheme.extendedColor.tossGreen,
+                        Column(
+                            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp),
+                        ) {
+                            Text(
+                                text = "정렬 옵션을 선택해주세요",
+                                fontFamily = defaultFontFamily,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.extendedColor.warmGray6,
+                            )
+                            Spacer(modifier = Modifier.height(20.dp))
+                            listOf(ViewMode.AgeRange, ViewMode.Category).forEach { viewMode ->
+                                Row(
+                                    modifier = Modifier
+                                        .noRippleClickable {
+                                            onChangeViewMode(viewMode)
+                                            showOptionBottomSheet = false
+                                        }
+                                        .fillMaxWidth()
+                                        .padding(vertical = 10.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                ) {
+                                    Text(
+                                        text = stringResource(id = viewMode.nameId),
+                                        fontFamily = defaultFontFamily,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = MaterialTheme.extendedColor.coolGray5,
                                     )
+                                    if (currentViewMode == viewMode) {
+                                        Icon(
+                                            modifier = Modifier.padding(end = 16.dp),
+                                            imageVector = Icons.Rounded.Check,
+                                            contentDescription = "Check",
+                                            tint = MaterialTheme.extendedColor.tossGreen,
+                                        )
+                                    }
                                 }
                             }
+                            Spacer(modifier = Modifier.height(40.dp))
                         }
-                        Spacer(modifier = Modifier.height(40.dp))
-                    }
 
+                    }
                 }
             }
-        }
 
-        is HomeUiState.Error -> {}
+            is HomeUiState.Error -> {
+            }
+        }
     }
 }
 
@@ -517,6 +518,7 @@ fun BucketItemBottomSheetContent(
         )
     }
 }
+
 @Preview
 @Composable
 fun HomeScreenPreview() {
@@ -542,3 +544,4 @@ fun BucketItemBottomSheetContentPreview() {
         BucketItemBottomSheetContent(bucket = Bucket.mock(), onDeleteBucketClick = {})
     }
 }
+

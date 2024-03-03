@@ -1,5 +1,8 @@
 package com.woosuk.completedbucket
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -205,6 +209,9 @@ fun CompletedBucketTopAppBar(
                     )
                 }
             },
+            actions = {
+                PrivacyTermText(modifier = Modifier.padding(10.dp))
+            },
         )
         DropdownMenu(
             modifier = Modifier
@@ -239,6 +246,24 @@ fun CompletedBucketTopAppBar(
             color = MaterialTheme.extendedColor.grayScale1,
         )
     }
+}
+
+@Composable
+fun PrivacyTermText(
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+    Text(
+        modifier = modifier
+            .clickable {
+                context.openPrivacyTermUrl()
+            },
+        text = "개인 정보 처리 방침",
+        fontFamily = defaultFontFamily,
+        fontWeight = FontWeight.Light,
+        fontSize = 11.sp,
+        color = MaterialTheme.extendedColor.grayScale3,
+    )
 }
 
 fun LazyListScope.CompleteBucketList(
@@ -387,3 +412,8 @@ fun CompleteBucketScreenPreview() {
         )
     }
 }
+private fun Context.openPrivacyTermUrl() {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_TERM_URL))
+    startActivity(intent);
+}
+private const val PRIVACY_TERM_URL = "https://sites.google.com/view/woosuk-bucket-list"

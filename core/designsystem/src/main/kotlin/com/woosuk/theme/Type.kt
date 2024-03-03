@@ -11,23 +11,23 @@ import com.woosuk.designsystem.R
 val defaultFontFamily =
     FontFamily(
         Font(
-            resId = R.font.nanum_square_regular,
+            resId = R.font.grotesk_400,
             weight = FontWeight.Normal,
         ),
         Font(
-            resId = R.font.nanum_square_regular,
+            resId = R.font.grotesk_light_300,
             weight = FontWeight.Light,
         ),
         Font(
-            resId = R.font.nanum_square_bold,
+            resId = R.font.grotesk_smb_600,
             weight = FontWeight.Bold,
         ),
         Font(
-            resId = R.font.nanum_square_regular,
+            resId = R.font.grotesk_medium_500,
             weight = FontWeight.Medium,
         ),
         Font(
-            resId = R.font.nanum_square_extra_bold,
+            resId = R.font.grotesk_bold_700,
             weight = FontWeight.ExtraBold,
         ),
     )
