@@ -63,6 +63,7 @@ fun AddBucketRoute(
     onShowSnackBar: (String) -> Unit,
 ) {
     val uiState = viewModel.addBucketUiState.collectAsStateWithLifecycle().value
+    val completeAddBucketMessage = stringResource(R.string.add_bucket_complete_snackbar_message)
     AddBucketScreen(
         onBackClick = onBackClick,
         modifier = Modifier
@@ -76,10 +77,11 @@ fun AddBucketRoute(
         onClickComplete = viewModel::addBucket,
     )
     LaunchedEffect(key1 = null) {
+
         viewModel.addBucketUiEvent.collectLatest { event ->
             when (event) {
                 AddBucketUiEvent.AddCompleteEvent -> {
-                    onShowSnackBar("버킷을 추가했어요!")
+                    onShowSnackBar(completeAddBucketMessage)
                     onBackClick()
                 }
             }
@@ -141,20 +143,6 @@ fun AddBucketScreen(
             enabled = uiState.canAddBucket,
         )
     }
-}
-
-@Composable
-fun AddBucketHeader(
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        modifier = modifier.padding(bottom = 15.dp),
-        text = stringResource(R.string.add_bucket_header),
-        fontFamily = defaultFontFamily,
-        fontWeight = FontWeight.Bold,
-        color = MaterialTheme.colorScheme.onSecondary,
-        fontSize = 20.sp,
-    )
 }
 
 @Composable

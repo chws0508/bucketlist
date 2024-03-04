@@ -7,10 +7,10 @@ import com.woosuk.domain.model.BucketCategory
 import com.woosuk.domain.usecase.AddBucketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -26,8 +26,8 @@ class AddBucketViewModel @Inject constructor(
     )
     val addBucketUiState = _updateBucketUiState.asStateFlow()
 
-    private val _addBucketUIEvent: MutableSharedFlow<AddBucketUiEvent> = MutableSharedFlow()
-    val addBucketUiEvent = _addBucketUIEvent.asSharedFlow()
+    private val _addBucketUIEvent: Channel<AddBucketUiEvent> = Channel()
+    val addBucketUiEvent = _addBucketUIEvent.receiveAsFlow()
 
     fun onBucketTitleChanged(inputTitle: String) {
         _updateBucketUiState.update { it.copy(title = inputTitle) }
@@ -56,7 +56,7 @@ class AddBucketViewModel @Inject constructor(
                 description = addBucketUiState.value.description,
                 createdAt = createdAt,
             )
-            _addBucketUIEvent.emit(AddBucketUiEvent.AddCompleteEvent)
+            _addBucketUIEvent.send(AddBucketUiEvent.AddCompleteEvent)
         }
     }
 }
