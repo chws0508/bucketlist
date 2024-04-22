@@ -16,13 +16,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
 
 @Composable
 fun DefaultCard(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Color.White,
+    backgroundColor: Color = WoosukTheme.colors.systemWhite,
     shadowElevationDp: Dp = 0.dp,
     roundCornerDp: Dp = 16.dp,
     content: @Composable () -> Unit,
@@ -39,7 +39,7 @@ fun DefaultCard(
 @Preview
 @Composable
 fun DefaultCardPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         DefaultCard(modifier = Modifier.fillMaxWidth().padding(24.dp)) {
             Column(
                 verticalArrangement = Arrangement.Center,

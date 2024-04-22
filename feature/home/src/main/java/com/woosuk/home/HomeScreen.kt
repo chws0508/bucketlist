@@ -23,7 +23,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -38,7 +37,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -58,9 +56,8 @@ import com.woosuk.domain.model.AgeRange
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.BucketCategory
 import com.woosuk.domain.model.Buckets
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 import ui.DefaultCard
 import ui.noRippleClickable
 
@@ -106,12 +103,13 @@ fun HomeScreen(
                 scrollBehavior = scrollBehavior,
             ) { showOptionBottomSheet = true }
         },
+        containerColor = WoosukTheme.colors.grayScale1,
     ) { innerPadding ->
         when (homeUiState) {
             is HomeUiState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize()) {
                     CircularProgressIndicator(
-                        color = MaterialTheme.extendedColor.tossBlue2,
+                        color = WoosukTheme.colors.tossBlue3,
                         modifier = Modifier.testTag(stringResource(R.string.progress_indicator_test_tag)),
                     )
                 }
@@ -133,7 +131,7 @@ fun HomeScreen(
                             fontFamily = defaultFontFamily,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
-                            color = MaterialTheme.extendedColor.grayScale3,
+                            color = WoosukTheme.colors.systemBlack,
                         )
                     }
                 }
@@ -211,7 +209,7 @@ fun HomeScreen(
                     ModalBottomSheet(
                         sheetState = sheetState,
                         onDismissRequest = { showOptionBottomSheet = false },
-                        containerColor = MaterialTheme.extendedColor.grayScale0,
+                        containerColor = WoosukTheme.colors.systemWhite,
                     ) {
                         Column(
                             modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp),
@@ -221,7 +219,7 @@ fun HomeScreen(
                                 fontFamily = defaultFontFamily,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.extendedColor.warmGray6,
+                                color = WoosukTheme.colors.systemBlack,
                             )
                             Spacer(modifier = Modifier.height(20.dp))
                             listOf(ViewMode.AgeRange, ViewMode.Category).forEach { viewMode ->
@@ -240,14 +238,14 @@ fun HomeScreen(
                                         fontFamily = defaultFontFamily,
                                         fontSize = 20.sp,
                                         fontWeight = FontWeight.Normal,
-                                        color = MaterialTheme.extendedColor.coolGray5,
+                                        color = WoosukTheme.colors.coolGray5,
                                     )
                                     if (currentViewMode == viewMode) {
                                         Icon(
                                             modifier = Modifier.padding(end = 16.dp),
                                             imageVector = Icons.Rounded.Check,
                                             contentDescription = "Check",
-                                            tint = MaterialTheme.extendedColor.tossGreen,
+                                            tint = WoosukTheme.colors.tossGreen,
                                         )
                                     }
                                 }
@@ -287,6 +285,7 @@ fun HomeAllAchievementRate(
                 fontSize = 20.sp,
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Bold,
+                color = WoosukTheme.colors.systemBlack,
             )
 
             Row {
@@ -299,7 +298,7 @@ fun HomeAllAchievementRate(
                     fontSize = 30.sp,
                     fontFamily = defaultFontFamily,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.extendedColor.tossBlue2,
+                    color = WoosukTheme.colors.tossBlue2,
                 )
                 Text(
                     text = "($completedBucketCount/$allBucketCount)",
@@ -309,6 +308,7 @@ fun HomeAllAchievementRate(
                     fontSize = 13.sp,
                     fontFamily = defaultFontFamily,
                     fontWeight = FontWeight.Bold,
+                    color = WoosukTheme.colors.systemBlack,
                 )
             }
         }
@@ -361,7 +361,7 @@ fun GroupInfoItem(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        color = Color.White,
+        color = WoosukTheme.colors.systemWhite,
     ) {
         Column {
             Row(
@@ -382,7 +382,7 @@ fun GroupInfoItem(
                     fontSize = 24.sp,
                     fontFamily = defaultFontFamily,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = WoosukTheme.colors.systemBlack,
                 )
                 Text(
                     text = stringResource(
@@ -392,12 +392,12 @@ fun GroupInfoItem(
                     fontSize = 15.sp,
                     fontFamily = defaultFontFamily,
                     fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.extendedColor.warmGray3,
+                    color = WoosukTheme.colors.coolGray3,
                 )
             }
             HorizontalDivider(
                 modifier = Modifier.height(1.dp),
-                color = MaterialTheme.extendedColor.grayScale1,
+                color = WoosukTheme.colors.grayScale1,
             )
         }
     }
@@ -427,7 +427,7 @@ fun BucketItem(
                 }
             },
         shape = shape,
-        color = Color.White,
+        color = WoosukTheme.colors.systemWhite,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -446,7 +446,7 @@ fun BucketItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     textDecoration = if (bucket.isCompleted) TextDecoration.LineThrough else TextDecoration.None,
-                    color = if (bucket.isCompleted) MaterialTheme.extendedColor.grayScale3 else MaterialTheme.extendedColor.warmGray6,
+                    color = if (bucket.isCompleted) WoosukTheme.colors.grayScale3 else WoosukTheme.colors.systemBlack,
                 )
                 if (bucket.isCompleted) {
                     Icon(
@@ -455,7 +455,7 @@ fun BucketItem(
                             .requiredWidth(24.dp),
                         imageVector = Icons.Rounded.Check,
                         contentDescription = "CheckIcon",
-                        tint = MaterialTheme.extendedColor.tossGreen,
+                        tint = WoosukTheme.colors.tossGreen,
                     )
                 }
             }
@@ -469,6 +469,7 @@ fun BucketItem(
                 ),
                 imageVector = Icons.AutoMirrored.Filled.NavigateNext,
                 contentDescription = "BucketItemNavigateNext",
+                tint = WoosukTheme.colors.systemBlack,
             )
         }
     }
@@ -477,7 +478,7 @@ fun BucketItem(
             sheetState = bottomSheetState,
             modifier = Modifier.wrapContentSize(),
             onDismissRequest = { showBottomSheet = false },
-            containerColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = WoosukTheme.colors.systemWhite,
         ) {
             BucketItemBottomSheetContent(
                 bucket,
@@ -522,7 +523,7 @@ fun BucketItemBottomSheetContent(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         Surface {
             HomeScreen(
                 onCompleteBucketClick = {},
@@ -540,7 +541,7 @@ fun HomeScreenPreview() {
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, widthDp = 320, heightDp = 640)
 @Composable
 fun BucketItemBottomSheetContentPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         BucketItemBottomSheetContent(bucket = Bucket.mock(), onDeleteBucketClick = {})
     }
 }

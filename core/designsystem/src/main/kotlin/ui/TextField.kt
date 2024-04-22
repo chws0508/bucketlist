@@ -2,7 +2,6 @@ package ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -13,9 +12,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 
 @Composable
 fun SingleLineTextField(
@@ -28,7 +26,7 @@ fun SingleLineTextField(
     textStyle: TextStyle = TextStyle(
         fontWeight = FontWeight.Normal,
         fontFamily = defaultFontFamily,
-        color = MaterialTheme.extendedColor.warmGray6,
+        color = WoosukTheme.colors.systemBlack,
     ),
 ) {
     TextField(
@@ -39,7 +37,7 @@ fun SingleLineTextField(
                 text = hint,
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
-                color = MaterialTheme.extendedColor.coolGray2,
+                color = WoosukTheme.colors.coolGray2,
             )
         },
         textStyle = textStyle,
@@ -49,14 +47,14 @@ fun SingleLineTextField(
         singleLine = true,
         maxLines = 1,
         colors = TextFieldDefaults.colors(
-            focusedTextColor = MaterialTheme.extendedColor.warmGray6,
-            focusedContainerColor = MaterialTheme.extendedColor.tossBlue0,
-            unfocusedTextColor = MaterialTheme.extendedColor.warmGray6,
-            unfocusedContainerColor = MaterialTheme.extendedColor.grayScale1,
+            focusedTextColor = WoosukTheme.colors.systemBlack,
+            focusedContainerColor = WoosukTheme.colors.grayScale1,
+            unfocusedTextColor = WoosukTheme.colors.systemBlack,
+            unfocusedContainerColor = WoosukTheme.colors.grayScale1,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledContainerColor = MaterialTheme.extendedColor.grayScale1,
-            disabledTextColor = MaterialTheme.extendedColor.warmGray6,
+            disabledContainerColor = WoosukTheme.colors.grayScale1,
+            disabledTextColor = WoosukTheme.colors.systemBlack,
             disabledIndicatorColor = Color.Transparent,
         ),
         enabled = enabled,
@@ -81,13 +79,13 @@ fun MultiLineTextField(
                 text = hint,
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
-                color = MaterialTheme.extendedColor.coolGray2,
+                color = WoosukTheme.colors.coolGray2,
             )
         },
         textStyle = TextStyle(
             fontWeight = FontWeight.Normal,
             fontFamily = defaultFontFamily,
-            color = MaterialTheme.extendedColor.warmGray6,
+            color = WoosukTheme.colors.systemBlack,
         ),
         onValueChange = onValueChange,
         shape = RoundedCornerShape(15.dp),
@@ -96,14 +94,14 @@ fun MultiLineTextField(
         maxLines = maxLines,
         enabled = enabled,
         colors = TextFieldDefaults.colors(
-            focusedTextColor = MaterialTheme.extendedColor.warmGray6,
-            focusedContainerColor = MaterialTheme.extendedColor.tossBlue0,
-            unfocusedTextColor = MaterialTheme.extendedColor.warmGray6,
-            unfocusedContainerColor = MaterialTheme.extendedColor.grayScale1,
+            focusedTextColor = WoosukTheme.colors.systemBlack,
+            focusedContainerColor = WoosukTheme.colors.grayScale1,
+            unfocusedTextColor = WoosukTheme.colors.systemBlack,
+            unfocusedContainerColor = WoosukTheme.colors.grayScale1,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledContainerColor = MaterialTheme.extendedColor.grayScale1,
-            disabledTextColor = MaterialTheme.extendedColor.warmGray6,
+            disabledContainerColor = WoosukTheme.colors.grayScale1,
+            disabledTextColor = WoosukTheme.colors.systemBlack,
             disabledIndicatorColor = Color.Transparent,
         ),
     )
@@ -112,7 +110,7 @@ fun MultiLineTextField(
 @Preview(showBackground = false)
 @Composable
 fun SingleLineTextFieldPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         SingleLineTextField(
             text = "미국가서 릴스 찍기", hint = "당신의 버킷리스트를 적어주세요", onValueChange = {},
         )
@@ -122,7 +120,7 @@ fun SingleLineTextFieldPreview() {
 @Preview(showBackground = false)
 @Composable
 fun MultiLineTextFieldPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         MultiLineTextField(text = "", hint = "버킷리스트에 대해 설명해주세요", onValueChange = {})
     }
 }

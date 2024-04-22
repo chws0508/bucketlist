@@ -1,5 +1,9 @@
 plugins {
-    id("convention.data")
+    id("com.android.library")
+    id("convention.android.base")
+    id("convention.test.library")
+    id("convention.coroutine")
+    id("convention.android.hilt")
     kotlin("kapt")
 }
 
@@ -8,6 +12,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:domain"))
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)

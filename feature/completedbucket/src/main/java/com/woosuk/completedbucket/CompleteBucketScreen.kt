@@ -6,10 +6,8 @@ import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,9 +28,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -46,7 +42,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -61,9 +56,9 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.woosuk.common.BucketUiUtil
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.CompletedBucket
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
+import ui.DefaultCard
 import ui.DeleteDialog
 import ui.noRippleClickable
 
@@ -99,70 +94,43 @@ fun CompleteBucketScreen(
     var clickedCompletedBucket by remember { mutableStateOf<CompletedBucket?>(null) }
     var showDialog by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState()
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            item {
-                CompletedBucketTopAppBar(
-                    selectedCategory = completedBucketUiState.selectedCategory,
-                    selectableCategories = selectableCategories,
-                    onCategoryChanged = onSelectedCategoryChanged,
-                )
-            }
-            CompleteBucketList(
-                onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
-                completedBuckets = completedBucketUiState.completedBuckets,
-                onClickMenu = {
-                    showBottomSheet = true
-                    clickedCompletedBucket = it
-                },
+        item {
+            CompletedBucketTopAppBar(
+                selectedCategory = completedBucketUiState.selectedCategory,
+                selectableCategories = selectableCategories,
+                onCategoryChanged = onSelectedCategoryChanged,
             )
         }
+        CompleteBucketList(
+            onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
+            completedBuckets = completedBucketUiState.completedBuckets,
+            onClickMenu = {
+                showBottomSheet = true
+                clickedCompletedBucket = it
+            },
+        )
     }
+
     if (showBottomSheet) {
-        ModalBottomSheet(
+        CompletedBucketBottomSheet(
             onDismissRequest = { showBottomSheet = false },
             sheetState = bottomSheetState,
-            containerColor = MaterialTheme.extendedColor.grayScale0,
-        ) {
-            Column() {
-                Text(
-                    modifier = Modifier
-                        .clickable {
-                            onNavigateToEditCompletedBucket(
-                                clickedCompletedBucket?.bucket?.id ?: return@clickable,
-                            )
-                            showBottomSheet = false
-                        }
-                        .padding(horizontal = 16.dp, vertical = 20.dp)
-                        .fillMaxWidth(),
-                    text = "수정하기",
-                    fontFamily = defaultFontFamily,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.extendedColor.warmGray6,
+            containerColor = WoosukTheme.colors.systemWhite,
+            onClickEdit = {
+                onNavigateToEditCompletedBucket(
+                    clickedCompletedBucket?.bucket?.id ?: return@CompletedBucketBottomSheet,
                 )
-                Text(
-                    modifier = Modifier
-                        .clickable {
-                            showDialog = true
-                        }
-                        .padding(horizontal = 16.dp, vertical = 20.dp)
-                        .fillMaxWidth(),
-                    text = "삭제하기",
-                    fontFamily = defaultFontFamily,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.extendedColor.warmGray6,
-                )
-                Spacer(modifier = Modifier.height(30.dp))
-            }
-        }
+                showBottomSheet = false
+            },
+            onClickDelete = {
+                deleteBucket(clickedCompletedBucket ?: return@CompletedBucketBottomSheet)
+                showBottomSheet = false
+            },
+        )
     }
     if (showDialog) {
         DeleteDialog(closeDialog = { showDialog = false }) {
@@ -185,7 +153,7 @@ fun CompletedBucketTopAppBar(
     Column {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.extendedColor.grayScale0,
+                containerColor = WoosukTheme.colors.grayScale1,
             ),
             modifier = modifier,
             title = {
@@ -199,13 +167,13 @@ fun CompletedBucketTopAppBar(
                         fontFamily = defaultFontFamily,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.extendedColor.warmGray6,
+                        color = WoosukTheme.colors.systemBlack,
                     )
                     Icon(
                         modifier = Modifier.align(Alignment.Bottom),
                         imageVector = Icons.Rounded.KeyboardArrowDown,
                         contentDescription = "KeyboardArrowDown",
-                        tint = MaterialTheme.extendedColor.grayScale3,
+                        tint = WoosukTheme.colors.grayScale3,
                     )
                 }
             },
@@ -215,7 +183,7 @@ fun CompletedBucketTopAppBar(
         )
         DropdownMenu(
             modifier = Modifier
-                .background(MaterialTheme.extendedColor.grayScale0)
+                .background(WoosukTheme.colors.systemWhite)
                 .requiredHeight(600.dp),
             expanded = showMenu,
             onDismissRequest = { showMenu = false },
@@ -228,7 +196,7 @@ fun CompletedBucketTopAppBar(
                             fontFamily = defaultFontFamily,
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.extendedColor.warmGray6,
+                            color = WoosukTheme.colors.systemBlack,
                         )
                     },
                     onClick = {
@@ -236,14 +204,14 @@ fun CompletedBucketTopAppBar(
                         showMenu = false
                     },
                     colors = MenuDefaults.itemColors(
-                        textColor = Color.White,
+                        textColor = WoosukTheme.colors.systemWhite,
                     ),
                 )
             }
         }
         HorizontalDivider(
             modifier = Modifier.height(1.dp),
-            color = MaterialTheme.extendedColor.grayScale1,
+            color = WoosukTheme.colors.grayScale1,
         )
     }
 }
@@ -258,11 +226,11 @@ fun PrivacyTermText(
             .clickable {
                 context.openPrivacyTermUrl()
             },
-        text = "개인 정보 처리 방침",
+        text = stringResource(R.string.privacy_term),
         fontFamily = defaultFontFamily,
         fontWeight = FontWeight.Light,
         fontSize = 11.sp,
-        color = MaterialTheme.extendedColor.grayScale3,
+        color = WoosukTheme.colors.grayScale3,
     )
 }
 
@@ -274,54 +242,57 @@ fun LazyListScope.CompleteBucketList(
     items(
         items = completedBuckets,
     ) { completedBucket ->
-        Column(
-            modifier = Modifier.clickable {
-                onNavigateToCompletedBucketDetail(completedBucket.bucket.id)
-            },
+        DefaultCard(
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
+            Column(
+                modifier = Modifier.clickable {
+                    onNavigateToCompletedBucketDetail(completedBucket.bucket.id)
+                },
             ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = LocalContext.current.getString(
+                            R.string.achivement_date_format,
+                            completedBucket.completedAt.toLocalDate(),
+                        ),
+                        modifier = Modifier,
+                        fontFamily = defaultFontFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 16.sp,
+                        color = WoosukTheme.colors.grayScale3,
+                    )
+                    Icon(
+                        modifier = Modifier.clickable {
+                            onClickMenu(completedBucket)
+                        },
+                        imageVector = Icons.Rounded.MoreHoriz,
+                        contentDescription = "MoreIcon",
+                        tint = WoosukTheme.colors.grayScale3,
+                    )
+                }
+                BucketInfo(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    bucket = completedBucket.bucket,
+                )
                 Text(
-                    text = "달성일: ${completedBucket.completedAt.toLocalDate()}",
-                    modifier = Modifier,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    text = completedBucket.description,
                     fontFamily = defaultFontFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 16.sp,
-                    color = MaterialTheme.extendedColor.grayScale3,
+                    color = WoosukTheme.colors.systemBlack,
                 )
-                Icon(
-                    modifier = Modifier.clickable {
-                        onClickMenu(completedBucket)
-                    },
-                    imageVector = Icons.Rounded.MoreHoriz,
-                    contentDescription = "MoreIcon",
-                    tint = MaterialTheme.extendedColor.grayScale3,
+                BucketPhotos(
+                    imageUris = completedBucket.imageUrls,
+                    modifier = Modifier.padding(bottom = 10.dp, start = 8.dp),
                 )
             }
-            BucketInfo(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                bucket = completedBucket.bucket,
-            )
-            Text(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                text = completedBucket.description,
-                fontFamily = defaultFontFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-                color = MaterialTheme.extendedColor.warmGray6,
-            )
-            BucketPhotos(
-                imageUris = completedBucket.imageUrls,
-                modifier = Modifier.padding(bottom = 10.dp),
-            )
-            HorizontalDivider(
-                modifier = Modifier.height(1.dp),
-                color = MaterialTheme.extendedColor.grayScale2,
-            )
         }
     }
 }
@@ -348,17 +319,17 @@ fun BucketInfo(
             fontFamily = defaultFontFamily,
             fontSize = 13.sp,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.extendedColor.grayScale3,
+            color = WoosukTheme.colors.grayScale3,
         )
         Text(
             modifier = Modifier.clickable {
                 showMemo = !showMemo
             },
-            text = if (showMemo) "메모 숨기기" else "메모 보기",
+            text = if (showMemo) stringResource(R.string.himeMemo) else stringResource(R.string.showMemo),
             fontFamily = defaultFontFamily,
             fontSize = 12.sp,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.extendedColor.grayScale2,
+            color = WoosukTheme.colors.grayScale2,
         )
         if (showMemo) {
             Text(
@@ -367,7 +338,7 @@ fun BucketInfo(
                 fontFamily = defaultFontFamily,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Normal,
-                color = MaterialTheme.extendedColor.warmGray6,
+                color = WoosukTheme.colors.systemBlack,
             )
         }
     }
@@ -401,7 +372,7 @@ fun BucketPhotos(
 @Preview(showBackground = true, widthDp = 410, heightDp = 900)
 @Composable
 fun CompleteBucketScreenPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         CompleteBucketScreen(
             completedBucketUiState = CompletedBucketsUiState(
                 selectedCategory = SelectableCategory.All,
@@ -414,6 +385,6 @@ fun CompleteBucketScreenPreview() {
 }
 private fun Context.openPrivacyTermUrl() {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_TERM_URL))
-    startActivity(intent);
+    startActivity(intent)
 }
 private const val PRIVACY_TERM_URL = "https://sites.google.com/view/woosuk-bucket-list"

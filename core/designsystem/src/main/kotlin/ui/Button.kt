@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 
 @Composable
 fun DefaultButton(
@@ -22,9 +21,9 @@ fun DefaultButton(
     onClick: () -> Unit,
     text: String,
     enabled: Boolean,
-    containerColor: Color = MaterialTheme.extendedColor.tossBlue3,
-    disabledContainerColor: Color = MaterialTheme.extendedColor.grayScale1,
-    disabledContentColor: Color = MaterialTheme.extendedColor.warmGray1,
+    containerColor: Color = WoosukTheme.colors.tossBlue3,
+    disabledContainerColor: Color = WoosukTheme.colors.grayScale1,
+    disabledContentColor: Color = WoosukTheme.colors.coolGray1,
 ) {
     Button(
         onClick = onClick,

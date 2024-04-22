@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,9 +34,8 @@ import com.woosuk.common.BucketUiUtil
 import com.woosuk.domain.model.AgeRange
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.BucketCategory
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 import ui.DefaultButton
 import ui.MultiLineTextField
 import ui.SingleLineTextField
@@ -84,7 +82,7 @@ fun EditBottomSheetContent(
                 onClick = closeEdit,
                 text = "취소",
                 enabled = true,
-                containerColor = MaterialTheme.extendedColor.tossRed,
+                containerColor = WoosukTheme.colors.tossRed,
             )
             Spacer(modifier = Modifier.width(10.dp))
             DefaultButton(
@@ -121,6 +119,7 @@ fun EditBucketTitle(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
+                color = WoosukTheme.colors.systemBlack,
             )
         }
         SingleLineTextField(
@@ -144,6 +143,7 @@ fun EditBucketDescription(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,
+            color = WoosukTheme.colors.systemBlack,
         )
         MultiLineTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -170,6 +170,7 @@ fun EditBucketCategory(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
+                color = WoosukTheme.colors.systemBlack,
             )
         }
         SingleLineTextField(
@@ -184,7 +185,7 @@ fun EditBucketCategory(
                 Icon(
                     imageVector = Icons.Filled.ArrowDropDown,
                     contentDescription = "AddBucketAgeRangeDrowDownIcon",
-                    tint = MaterialTheme.extendedColor.warmGray2,
+                    tint = WoosukTheme.colors.coolGray2,
                 )
             },
             onValueChange = {},
@@ -194,7 +195,7 @@ fun EditBucketCategory(
             expanded = showMenu,
             onDismissRequest = { showMenu = false },
             modifier = Modifier
-                .background(MaterialTheme.extendedColor.grayScale0)
+                .background(WoosukTheme.colors.systemWhite)
                 .requiredHeight(250.dp),
             offset = DpOffset.Zero,
         ) {
@@ -214,6 +215,7 @@ fun EditBucketCategory(
                             fontFamily = defaultFontFamily,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Normal,
+                            color = WoosukTheme.colors.systemBlack,
                         )
                     },
                 )
@@ -235,6 +237,7 @@ fun EditBucketAgeRange(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,
+            color = WoosukTheme.colors.systemBlack,
         )
         SingleLineTextField(
             modifier = Modifier
@@ -248,7 +251,7 @@ fun EditBucketAgeRange(
                 Icon(
                     imageVector = Icons.Filled.ArrowDropDown,
                     contentDescription = "AddBucketAgeRangeDrowDownIcon",
-                    tint = MaterialTheme.extendedColor.warmGray2,
+                    tint = WoosukTheme.colors.coolGray2,
                 )
             },
             onValueChange = {},
@@ -258,7 +261,7 @@ fun EditBucketAgeRange(
             expanded = showMenu,
             onDismissRequest = { showMenu = false },
             modifier = Modifier
-                .background(MaterialTheme.extendedColor.grayScale0)
+                .background(WoosukTheme.colors.systemWhite)
                 .requiredHeight(250.dp),
             offset = DpOffset.Zero,
         ) {
@@ -278,6 +281,7 @@ fun EditBucketAgeRange(
                             fontFamily = defaultFontFamily,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Normal,
+                            color = WoosukTheme.colors.systemBlack,
                         )
                     },
                 )
@@ -289,7 +293,7 @@ fun EditBucketAgeRange(
 @Preview(showBackground = true)
 @Composable
 fun EditBottomSheetContentPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         EditBottomSheetContent(
             bucket = Bucket.mock(1),
             updateBucket = {},

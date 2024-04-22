@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.FiberManualRecord
 import androidx.compose.material.icons.rounded.MoreHoriz
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -48,9 +47,8 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.woosuk.common.BucketUiUtil
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.CompletedBucket
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 import ui.ArrowBackTopAppBar
 import ui.DeleteDialog
 import ui.noRippleClickable
@@ -95,7 +93,7 @@ fun CompletedBucketDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.extendedColor.grayScale0),
+            .background(WoosukTheme.colors.systemWhite),
     ) {
         CompletedBucketDetailTopAppBar(
             modifier = Modifier.fillMaxWidth(),
@@ -152,7 +150,7 @@ fun ImagePageSlider(
     currentPage: Int,
     size: Int,
 ) {
-    LazyRow() {
+    LazyRow {
         itemsIndexed(
             items = List(size) {},
         ) { index, _ ->
@@ -160,8 +158,8 @@ fun ImagePageSlider(
                 modifier = Modifier.size(14.dp),
                 imageVector = Icons.Filled.FiberManualRecord,
                 contentDescription = "",
-                tint = if (currentPage == index) MaterialTheme.extendedColor.tossBlue3
-                else MaterialTheme.extendedColor.grayScale2,
+                tint = if (currentPage == index) WoosukTheme.colors.tossBlue3
+                else WoosukTheme.colors.grayScale2,
             )
         }
     }
@@ -178,7 +176,7 @@ fun BucketDiary(
         fontFamily = defaultFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp,
-        color = MaterialTheme.extendedColor.warmGray6,
+        color = WoosukTheme.colors.systemBlack,
     )
 }
 
@@ -189,7 +187,7 @@ fun BucketCompletedDate(completedDate: LocalDateTime) {
         fontFamily = defaultFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
-        color = MaterialTheme.extendedColor.warmGray4,
+        color = WoosukTheme.colors.coolGray4,
     )
 }
 
@@ -214,7 +212,7 @@ fun BucketInfo(
             fontFamily = defaultFontFamily,
             fontSize = 13.sp,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.extendedColor.grayScale3,
+            color = WoosukTheme.colors.grayScale3,
         )
         Text(
             modifier = Modifier.clickable {
@@ -224,7 +222,7 @@ fun BucketInfo(
             fontFamily = defaultFontFamily,
             fontSize = 12.sp,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.extendedColor.grayScale2,
+            color = WoosukTheme.colors.grayScale2,
         )
         if (showMemo) {
             Text(
@@ -232,7 +230,7 @@ fun BucketInfo(
                 fontFamily = defaultFontFamily,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Normal,
-                color = MaterialTheme.extendedColor.warmGray6,
+                color = WoosukTheme.colors.systemBlack,
             )
         }
     }
@@ -267,8 +265,8 @@ fun CompletedBucketDetailTopAppBar(
         ModalBottomSheet(
             sheetState = bottomSheetState,
             onDismissRequest = { showBottomSheet = false },
-            containerColor = MaterialTheme.extendedColor.grayScale0,
-            contentColor = MaterialTheme.extendedColor.warmGray6,
+            containerColor = WoosukTheme.colors.systemWhite,
+            contentColor = WoosukTheme.colors.systemBlack,
         ) {
             TopBarBottomSheetContent(
                 onBucketDelete = onBucketDelete,
@@ -284,7 +282,7 @@ fun TopBarBottomSheetContent(
     onBucketUpdate: () -> Unit,
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
-    Column() {
+    Column {
         Text(
             modifier = Modifier
                 .clickable {
@@ -296,7 +294,7 @@ fun TopBarBottomSheetContent(
             fontFamily = defaultFontFamily,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.extendedColor.warmGray6,
+            color = WoosukTheme.colors.systemBlack,
         )
         Text(
             modifier = Modifier
@@ -309,7 +307,7 @@ fun TopBarBottomSheetContent(
             fontFamily = defaultFontFamily,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.extendedColor.warmGray6,
+            color = WoosukTheme.colors.systemBlack,
         )
         Spacer(modifier = Modifier.height(30.dp))
     }
@@ -323,7 +321,7 @@ fun TopBarBottomSheetContent(
 @Preview(showBackground = true, widthDp = 400, heightDp = 900)
 @Composable
 fun CompletedBucketDetailScreenPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         CompletedBucketDetailScreen(
             completedBucket = CompletedBucket.mock(1),
             onBackClick = {},
@@ -336,7 +334,7 @@ fun CompletedBucketDetailScreenPreview() {
 @Preview(showBackground = true, widthDp = 400, heightDp = 900)
 @Composable
 fun TopBarBottomSheetPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         TopBarBottomSheetContent(
             onBucketDelete = {}, onBucketUpdate = {},
         )

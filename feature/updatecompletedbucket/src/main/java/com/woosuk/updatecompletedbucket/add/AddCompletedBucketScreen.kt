@@ -35,7 +35,6 @@ import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -47,7 +46,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -63,9 +61,8 @@ import com.woosuk.common.LocalDateTimeUtil.convertMillsToDateTime
 import com.woosuk.domain.model.AgeRange
 import com.woosuk.domain.model.Bucket
 import com.woosuk.domain.model.BucketCategory
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 import com.woosuk.updatecompletedbucket.R
 import ui.ArrowBackTopAppBar
 import ui.DefaultButton
@@ -118,7 +115,7 @@ fun AddCompletedBucketScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onPrimary),
+            .background(WoosukTheme.colors.systemWhite),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         ArrowBackTopAppBar(
@@ -184,8 +181,9 @@ fun BucketCompleteDate(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
+                color = WoosukTheme.colors.systemBlack,
             )
-            Text(text = "*", fontFamily = defaultFontFamily, color = Color.Red)
+            Text(text = "*", fontFamily = defaultFontFamily, color = WoosukTheme.colors.tossRed)
         }
         SingleLineTextField(
             modifier = Modifier
@@ -218,7 +216,7 @@ fun BucketDatePicker(
 ) {
     DatePickerDialog(
         colors = DatePickerDefaults.colors(
-            containerColor = MaterialTheme.extendedColor.grayScale0,
+            containerColor = WoosukTheme.colors.systemWhite,
         ),
         onDismissRequest = onDismissRequest,
         confirmButton = {
@@ -235,7 +233,7 @@ fun BucketDatePicker(
         DatePicker(
             state = datePickerState,
             colors = DatePickerDefaults.colors(
-                containerColor = MaterialTheme.extendedColor.grayScale0,
+                containerColor = WoosukTheme.colors.systemWhite,
             ),
         )
     }
@@ -340,6 +338,7 @@ fun DeletableImage(
             modifier = Modifier
                 .clickable { onClickDelete() }
                 .align(Alignment.TopEnd),
+            tint = WoosukTheme.colors.systemBlack,
         )
     }
 }
@@ -351,17 +350,21 @@ fun AddImageCard(
 ) {
     DefaultCard(
         modifier = modifier.clickable { onClick() },
-        backgroundColor = MaterialTheme.extendedColor.grayScale1,
+        backgroundColor = WoosukTheme.colors.grayScale1,
     ) {
         Box {
             Column(modifier = Modifier.align(Alignment.Center)) {
-                Text(text = stringResource(R.string.add_image_introduction))
+                Text(
+                    text = stringResource(R.string.add_image_introduction),
+                    color = WoosukTheme.colors.systemBlack,
+                )
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = stringResource(R.string.add_image_icon_contentdescription),
                     modifier = Modifier.align(
                         Alignment.CenterHorizontally,
                     ),
+                    tint = WoosukTheme.colors.systemBlack,
                 )
             }
         }
@@ -382,6 +385,7 @@ fun BucketDiary(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
+                color = WoosukTheme.colors.systemBlack,
             )
         }
         MultiLineTextField(
@@ -408,6 +412,7 @@ fun BucketInfo(
             fontFamily = defaultFontFamily,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
+            color = WoosukTheme.colors.systemBlack,
         )
         Text(
             text = stringResource(
@@ -418,7 +423,7 @@ fun BucketInfo(
             fontFamily = defaultFontFamily,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.extendedColor.coolGray1,
+            color = WoosukTheme.colors.coolGray1,
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
@@ -426,7 +431,7 @@ fun BucketInfo(
             fontFamily = defaultFontFamily,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.extendedColor.warmGray6,
+            color = WoosukTheme.colors.systemBlack,
         )
     }
 }
@@ -434,7 +439,7 @@ fun BucketInfo(
 @Preview(showBackground = true, widthDp = 400, heightDp = 900)
 @Composable
 fun AddCompletedBucketScreenPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         AddCompletedBucketScreen(
             onBackClick = {},
             uiState = CompletedBucketUiState(

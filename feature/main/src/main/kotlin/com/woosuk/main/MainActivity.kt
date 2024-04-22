@@ -3,8 +3,8 @@ package com.woosuk.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.core.view.WindowCompat
-import com.woosuk.theme.BucketlistTheme
+import androidx.activity.enableEdgeToEdge
+import com.woosuk.theme.WoosukTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -13,10 +13,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         // We handle all the insets manually
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        enableEdgeToEdge()
 
         setContent {
-            BucketlistTheme {
+            WoosukTheme {
                 BucketListApp()
             }
         }

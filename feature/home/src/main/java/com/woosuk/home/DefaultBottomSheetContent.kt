@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.woosuk.common.BucketUiUtil
 import com.woosuk.domain.model.Bucket
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 import ui.DefaultButton
 import ui.DefaultCard
 import ui.DeleteDialog
@@ -62,7 +61,7 @@ fun DefaultBottomSheetContent(
                     .wrapContentHeight()
                     .padding(5.dp),
                 iconImageVector = Icons.Rounded.Edit,
-                iconTint = MaterialTheme.extendedColor.tossBlue2,
+                iconTint = WoosukTheme.colors.tossBlue2,
                 title = stringResource(R.string.edit_button_text),
                 onClick = onEditBucketClick,
             )
@@ -116,7 +115,7 @@ fun BottomSheetBucketItemInfo(
             fontFamily = defaultFontFamily,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.extendedColor.warmGray6,
+            color = WoosukTheme.colors.systemBlack,
         )
         Text(
             text = stringResource(
@@ -131,7 +130,7 @@ fun BottomSheetBucketItemInfo(
             fontFamily = defaultFontFamily,
             fontSize = 12.sp,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.extendedColor.warmGray2,
+            color = WoosukTheme.colors.coolGray2,
         )
         Spacer(modifier = Modifier.height(10.dp))
         if (bucket.description != null) {
@@ -160,7 +159,7 @@ fun BottomSheetSelectionCard(
         modifier = modifier.noRippleClickable {
             onClick()
         },
-        backgroundColor = MaterialTheme.extendedColor.coolGray0,
+        backgroundColor = WoosukTheme.colors.coolGray0,
         roundCornerDp = 8.dp,
     ) {
         Column(

@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -30,13 +28,13 @@ import com.woosuk.completedbucketdetail.navigation.completedBucketDetailScreen
 import com.woosuk.completedbucketdetail.navigation.navigateToCompletedBucketDetail
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.homeScreen
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.updatecompletedbucket.navigation.addCompletedBucketScreen
 import com.woosuk.updatecompletedbucket.navigation.editCompletedBucketScreen
 import com.woosuk.updatecompletedbucket.navigation.navigateToAddCompletedBucket
 import com.woosuk.updatecompletedbucket.navigation.navigateToEditCompletedBucket
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BucketListApp(
     navController: NavHostController = rememberNavController(),
@@ -51,7 +49,9 @@ fun BucketListApp(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
-        modifier = Modifier.fillMaxSize().safeDrawingPadding(),
+        modifier = Modifier
+            .fillMaxSize()
+            .safeDrawingPadding(),
         bottomBar = {
             if (BottomTab.isCurrentScreenBottomTab(currentDestination?.route)) {
                 MainBottomNavigationBar(
@@ -64,16 +64,17 @@ fun BucketListApp(
             if (currentDestination?.route == BottomTab.HomeTab.route) {
                 FloatingActionButton(
                     onClick = { navController.navigateToAddRoute(null) },
-                    containerColor = MaterialTheme.colorScheme.primary,
+                    containerColor = WoosukTheme.colors.tossBlue3,
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = "Home Add",
-                        tint = MaterialTheme.colorScheme.onPrimary,
+                        tint = WoosukTheme.colors.systemWhite,
                     )
                 }
             }
         },
+        containerColor = WoosukTheme.colors.grayScale1,
     ) { innerPadding ->
         Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
             NavHost(

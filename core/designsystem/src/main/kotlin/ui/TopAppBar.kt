@@ -6,7 +6,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -18,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,7 +38,7 @@ fun ArrowBackTopAppBar(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = WoosukTheme.colors.systemBlack,
             )
         },
         navigationIcon = {
@@ -49,7 +48,7 @@ fun ArrowBackTopAppBar(
                     .noRippleClickable { onBackClick() },
                 imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                 contentDescription = "BackArrowTopAppBar_NavigationIcon",
-                tint = MaterialTheme.colorScheme.onSecondary,
+                tint = WoosukTheme.colors.systemBlack,
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = backgroundColor),
@@ -60,7 +59,7 @@ fun ArrowBackTopAppBar(
 @Preview
 @Composable
 fun BackArrowTopAppBarPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         Surface {
             ArrowBackTopAppBar(title = "추가", onBackClick = {})
         }

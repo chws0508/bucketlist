@@ -4,10 +4,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -28,9 +27,8 @@ import com.woosuk.completedbucket.navigation.COMPLETE_BUCKET_ROUTE
 import com.woosuk.completedbucket.navigation.navigateToCompleteBucket
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.navigateToHomeRoute
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 
 @Composable
 fun MainBottomNavigationBar(
@@ -40,7 +38,7 @@ fun MainBottomNavigationBar(
 ) {
     NavigationBar(
         modifier = modifier.clip(RoundedCornerShape(topEnd = 15.dp, topStart = 15.dp)),
-        containerColor = MaterialTheme.colorScheme.onPrimary,
+        containerColor = WoosukTheme.colors.systemWhite,
     ) {
         BottomTab.entries.forEach { tab ->
             NavigationBarItem(
@@ -65,11 +63,11 @@ fun MainBottomNavigationBar(
                 },
                 colors =
                     NavigationBarItemDefaults.colors(
-                        indicatorColor = MaterialTheme.colorScheme.onPrimary,
-                        selectedIconColor = MaterialTheme.colorScheme.onSecondary,
-                        selectedTextColor = MaterialTheme.colorScheme.onSecondary,
-                        unselectedIconColor = MaterialTheme.extendedColor.warmGray2,
-                        unselectedTextColor = MaterialTheme.extendedColor.warmGray2,
+                        indicatorColor = WoosukTheme.colors.systemWhite,
+                        selectedIconColor = WoosukTheme.colors.systemBlack,
+                        selectedTextColor = WoosukTheme.colors.systemBlack,
+                        unselectedIconColor = WoosukTheme.colors.coolGray2,
+                        unselectedTextColor = WoosukTheme.colors.coolGray2,
                     ),
             )
         }
@@ -95,7 +93,7 @@ fun NavController.navigateToTabScreen(bottomTab: BottomTab) {
 @Preview(apiLevel = 33)
 @Composable
 fun MainBottomNavigationBarPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         val navController = rememberNavController()
         MainBottomNavigationBar(
             currentRoute = HOME_ROUTE,
@@ -111,7 +109,7 @@ enum class BottomTab(
 ) {
     HomeTab(HOME_ROUTE, Icons.Filled.Home, R.string.bottom_tab_home_title),
     CompleteBucketRoute(
-        COMPLETE_BUCKET_ROUTE, Icons.Filled.List,
+        COMPLETE_BUCKET_ROUTE, Icons.AutoMirrored.Filled.List,
         R.string.bottom_tab_complete_buckets_title,
     ),
     ;

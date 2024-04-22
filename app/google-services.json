@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "993195663426",
+    "project_id": "bucketlist-44c73",
+    "storage_bucket": "bucketlist-44c73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993195663426:android:877331c7b98ff16a6acddb",
+        "android_client_info": {
+          "package_name": "com.woosuk.bucketlist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNBumJjPRRToJX3L8WvTcGSTsPHAZggJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

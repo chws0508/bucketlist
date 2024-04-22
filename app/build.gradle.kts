@@ -1,5 +1,7 @@
 plugins {
     id("convention.application")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -45,6 +47,11 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":core:data"))
     implementation(libs.multidex)
+
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
 }
 kapt {
     correctErrorTypes = true

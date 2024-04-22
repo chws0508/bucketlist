@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
@@ -45,9 +44,8 @@ import com.woosuk.addbucket.R
 import com.woosuk.common.BucketUiUtil
 import com.woosuk.domain.model.AgeRange
 import com.woosuk.domain.model.BucketCategory
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ui.ArrowBackTopAppBar
@@ -68,7 +66,7 @@ fun AddBucketRoute(
         onBackClick = onBackClick,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onPrimary),
+            .background(WoosukTheme.colors.systemWhite),
         uiState = uiState,
         onBucketTitleChanged = viewModel::onBucketTitleChanged,
         onBucketCategoryChanged = viewModel::onBucketCategoryChanged,
@@ -158,8 +156,9 @@ fun AddBucketTitle(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
+                color = WoosukTheme.colors.systemBlack,
             )
-            Text(text = "*", fontFamily = defaultFontFamily, color = Color.Red)
+            Text(text = "*", fontFamily = defaultFontFamily, color = WoosukTheme.colors.tossRed)
         }
         SingleLineTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -182,6 +181,7 @@ fun AddBucketDescription(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,
+            color = WoosukTheme.colors.systemBlack,
         )
         MultiLineTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -211,6 +211,7 @@ fun AddBucketAgeRange(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
+                color = WoosukTheme.colors.systemBlack,
             )
             Text(text = "*", fontFamily = defaultFontFamily, color = Color.Red)
         }
@@ -226,7 +227,7 @@ fun AddBucketAgeRange(
                 Icon(
                     imageVector = Icons.Filled.ArrowDropDown,
                     contentDescription = "AddBucketAgeRangeDrowDownIcon",
-                    tint = MaterialTheme.extendedColor.warmGray2,
+                    tint = WoosukTheme.colors.coolGray2,
                 )
             },
             onValueChange = {},
@@ -261,7 +262,7 @@ fun AddBucketAgeRangeBottomSheet(
         shape = RoundedCornerShape(15.dp),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.onPrimary,
+        containerColor = WoosukTheme.colors.systemWhite,
         dragHandle = { },
     ) {
         Column(
@@ -272,7 +273,7 @@ fun AddBucketAgeRangeBottomSheet(
                 fontFamily = defaultFontFamily,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.extendedColor.warmGray6,
+                color = WoosukTheme.colors.systemBlack,
             )
             Spacer(modifier = Modifier.height(20.dp))
             LazyColumn {
@@ -288,7 +289,7 @@ fun AddBucketAgeRangeBottomSheet(
                         fontFamily = defaultFontFamily,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = MaterialTheme.extendedColor.coolGray5,
+                        color = WoosukTheme.colors.systemBlack,
                     )
                 }
             }
@@ -314,6 +315,7 @@ fun AddBucketCategory(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
+                color = WoosukTheme.colors.systemBlack,
             )
             Text(text = "*", fontFamily = defaultFontFamily, color = Color.Red)
         }
@@ -329,7 +331,7 @@ fun AddBucketCategory(
                 Icon(
                     imageVector = Icons.Filled.ArrowDropDown,
                     contentDescription = "AddBucketAgeRangeDrowDownIcon",
-                    tint = MaterialTheme.extendedColor.warmGray2,
+                    tint = WoosukTheme.colors.coolGray2,
                 )
             },
             onValueChange = {},
@@ -364,7 +366,7 @@ fun AddBucketCategoryBottomSheet(
         shape = RoundedCornerShape(15.dp),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.onPrimary,
+        containerColor = WoosukTheme.colors.systemWhite,
         dragHandle = { },
     ) {
         Column(
@@ -375,7 +377,7 @@ fun AddBucketCategoryBottomSheet(
                 fontFamily = defaultFontFamily,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.extendedColor.warmGray6,
+                color = WoosukTheme.colors.systemBlack,
             )
             Spacer(modifier = Modifier.height(20.dp))
             BucketCategory.entries.forEach { bucketCategory ->
@@ -388,7 +390,7 @@ fun AddBucketCategoryBottomSheet(
                     fontFamily = defaultFontFamily,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.extendedColor.coolGray5,
+                    color = WoosukTheme.colors.systemBlack,
                 )
             }
             Spacer(modifier = Modifier.height(60.dp))
@@ -413,8 +415,8 @@ fun AddBucketCompleteButton(
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 fun AddBucketScreenPreview() {
-    BucketlistTheme {
-        Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
+    WoosukTheme {
+        Surface(color = WoosukTheme.colors.systemWhite, modifier = Modifier.fillMaxSize()) {
             AddBucketScreen(
                 onBackClick = {},
                 modifier = Modifier,

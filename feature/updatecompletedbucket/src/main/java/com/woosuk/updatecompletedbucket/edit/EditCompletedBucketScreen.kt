@@ -17,7 +17,6 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -37,9 +36,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.woosuk.common.LocalDateTimeUtil.convertMillsToDateTime
 import com.woosuk.domain.model.CompletedBucket
-import com.woosuk.theme.BucketlistTheme
+import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
-import com.woosuk.theme.extendedColor
 import com.woosuk.updatecompletedbucket.R
 import com.woosuk.updatecompletedbucket.add.BucketDiary
 import com.woosuk.updatecompletedbucket.add.BucketInfo
@@ -93,7 +91,7 @@ fun EditCompletedBucketScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onPrimary),
+            .background(WoosukTheme.colors.systemWhite),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         ArrowBackTopAppBar(
@@ -193,7 +191,7 @@ fun BucketDatePicker(
 ) {
     DatePickerDialog(
         colors = DatePickerDefaults.colors(
-            containerColor = MaterialTheme.extendedColor.grayScale0,
+            containerColor = WoosukTheme.colors.systemWhite,
         ),
         onDismissRequest = onDismissRequest,
         confirmButton = {
@@ -210,7 +208,7 @@ fun BucketDatePicker(
         DatePicker(
             state = datePickerState,
             colors = DatePickerDefaults.colors(
-                containerColor = MaterialTheme.extendedColor.grayScale0,
+                containerColor = WoosukTheme.colors.systemWhite,
             ),
         )
     }
@@ -236,7 +234,7 @@ fun EditButton(
 @Preview(showBackground = true, widthDp = 400, heightDp = 900)
 @Composable
 fun EditCompletedBucketScreenPreview() {
-    BucketlistTheme {
+    WoosukTheme {
         EditCompletedBucketScreen(
             onBackClick = {},
             uiState = CompletedBucket.mock(1),
