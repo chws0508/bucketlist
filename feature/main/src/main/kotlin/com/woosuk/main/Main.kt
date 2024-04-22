@@ -23,7 +23,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.woosuk.add.navigation.addBucketScreen
 import com.woosuk.add.navigation.navigateToAddRoute
+import com.woosuk.completedbucket.navigation.COMPLETED_BUCKET_LIST_ROUTE
 import com.woosuk.completedbucket.navigation.completeBucketScreen
+import com.woosuk.completedbucketdetail.navigation.COMPLETED_BUCKET_ROUTE_WITH_ARGUMENT
 import com.woosuk.completedbucketdetail.navigation.completedBucketDetailScreen
 import com.woosuk.completedbucketdetail.navigation.navigateToCompletedBucketDetail
 import com.woosuk.home.navigation.HOME_ROUTE
@@ -126,13 +128,16 @@ fun BucketListApp(
                     onNavigateToCompletedBucketDetail = { bucketId ->
                         navController.navigateToCompletedBucketDetail(
                             navOptions = navOptions {
-                                popUpTo(
-                                    navController.currentBackStackEntry?.destination?.route
-                                        ?: return@navOptions,
-                                ) {
-                                    inclusive = true
+                                if(navController.previousBackStackEntry?.destination?.route == COMPLETED_BUCKET_ROUTE_WITH_ARGUMENT){
+                                    popUpTo(COMPLETED_BUCKET_ROUTE_WITH_ARGUMENT) {
+                                        inclusive = true
+                                    }
+                                } else {
+                                    popUpTo(COMPLETED_BUCKET_LIST_ROUTE) {
+                                        inclusive = false
+                                    }
                                 }
-                                launchSingleTop
+                                launchSingleTop = true
                             },
                             bucketId = bucketId,
                         )

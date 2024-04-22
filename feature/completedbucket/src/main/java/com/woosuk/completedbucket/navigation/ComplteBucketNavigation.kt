@@ -6,17 +6,17 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.woosuk.completedbucket.CompleteBucketRoute
 
-const val COMPLETE_BUCKET_ROUTE = "complete_bucket_route"
+const val COMPLETED_BUCKET_LIST_ROUTE = "completed_bucket_list_route"
 
 fun NavController.navigateToCompleteBucket(navOptions: NavOptions? = null) =
-    navigate(COMPLETE_BUCKET_ROUTE, navOptions)
+    navigate(COMPLETED_BUCKET_LIST_ROUTE, navOptions)
 
 fun NavGraphBuilder.completeBucketScreen(
     onNavigateToEditCompletedBucket: (bucketId: Int) -> Unit,
     onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit,
 ) {
     composable(
-        route = COMPLETE_BUCKET_ROUTE,
+        route = COMPLETED_BUCKET_LIST_ROUTE,
     ) {
         CompleteBucketRoute(
             onNavigateToEditCompletedBucket = onNavigateToEditCompletedBucket,

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.woosuk.completedbucket.navigation.COMPLETE_BUCKET_ROUTE
+import com.woosuk.completedbucket.navigation.COMPLETED_BUCKET_LIST_ROUTE
 import com.woosuk.completedbucket.navigation.navigateToCompleteBucket
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.navigateToHomeRoute
@@ -109,7 +109,7 @@ enum class BottomTab(
 ) {
     HomeTab(HOME_ROUTE, Icons.Filled.Home, R.string.bottom_tab_home_title),
     CompleteBucketRoute(
-        COMPLETE_BUCKET_ROUTE, Icons.AutoMirrored.Filled.List,
+        COMPLETED_BUCKET_LIST_ROUTE, Icons.AutoMirrored.Filled.List,
         R.string.bottom_tab_complete_buckets_title,
     ),
     ;
