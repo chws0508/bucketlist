@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BucketList</string>
+    <string name="bottom_tab_complete_buckets_title">달성기록</string>
+    <string name="bottom_tab_home_title">버킷리스트</string>
+</resources>

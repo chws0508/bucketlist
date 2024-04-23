@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_bar_title">달성 카드</string>
+    <string name="bucket_tag_format">#%1$s#%2$s</string>
+    <string name="complete_date_format">%1$s에 달성!</string>
+    <string name="hide_memo">메모 숨기기</string>
+    <string name="show_memo">메모 보기</string>
+    <string name="edit">수정하기</string>
+    <string name="delete">삭제하기</string>
+</resources>

@@ -153,11 +153,11 @@ fun BucketCompleteDate(
         Row {
             Text(
                 modifier = Modifier.padding(start = 5.dp),
-                text = "달성일",
+                text = stringResource(id = R.string.completed_date),
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
-                color = WoosukTheme.colors.systemBlack
+                color = WoosukTheme.colors.systemBlack,
             )
             Text(text = "*", fontFamily = defaultFontFamily, color = Color.Red)
         }

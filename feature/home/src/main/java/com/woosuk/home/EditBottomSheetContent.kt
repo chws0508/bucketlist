@@ -80,7 +80,7 @@ fun EditBottomSheetContent(
             DefaultButton(
                 modifier = Modifier.weight(1f),
                 onClick = closeEdit,
-                text = "취소",
+                text = stringResource(R.string.cancel),
                 enabled = true,
                 containerColor = WoosukTheme.colors.tossRed,
             )

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="all_category">전체</string>
+    <string name="all_category">All</string>
     <string name="bucket_tag_format">#%1$s#%2$s</string>
-    <string name="completed_bucket_edit_text">수정하기</string>
-    <string name="completed_bucket_delete_text">삭제하기</string>
-    <string name="privacy_term">개인 정보 처리 방침</string>
+    <string name="completed_bucket_edit_text">Edit</string>
+    <string name="completed_bucket_delete_text">Delete</string>
+    <string name="privacy_term">Privacy Term</string>
     <string name="achivement_date_format">%1$s</string>
-    <string name="himeMemo">메모 숨기기</string>
-    <string name="showMemo">메모 보기</string>
+    <string name="himeMemo">Hide Memo</string>
+    <string name="showMemo">Show Memo</string>
 </resources>

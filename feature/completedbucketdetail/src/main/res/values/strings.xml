@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_bar_title">달성 카드</string>
+    <string name="app_bar_title">Record</string>
     <string name="bucket_tag_format">#%1$s#%2$s</string>
+    <string name="complete_date_format">%1$s Completed!</string>
+    <string name="hide_memo">Hide Memo</string>
+    <string name="show_memo">Show Memo</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

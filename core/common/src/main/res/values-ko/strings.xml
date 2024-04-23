@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="health">건강</string>
+    <string name="work">직업</string>
+    <string name="travel">여행</string>
+    <string name="learning">학습</string>
+    <string name="age_unspecified">나이 무관</string>
+    <string name="category_unspecified">미지정</string>
+    <string name="twenties">20대</string>
+    <string name="thirties">30대</string>
+    <string name="forties">40대</string>
+    <string name="fifties">50대</string>
+    <string name="oldage">노년기</string>
+    <string name="teenage">10대</string>
+    <string name="fitness">운동</string>
+    <string name="food">음식</string>
+</resources>

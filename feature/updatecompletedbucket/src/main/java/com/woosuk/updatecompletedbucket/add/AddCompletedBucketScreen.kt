@@ -177,7 +177,7 @@ fun BucketCompleteDate(
         Row {
             Text(
                 modifier = Modifier.padding(start = 5.dp),
-                text = "달성일",
+                text = stringResource(id = R.string.completed_date),
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
@@ -381,7 +381,7 @@ fun BucketDiary(
         Row {
             Text(
                 modifier = Modifier.padding(start = 5.dp),
-                text = "달성 소감",
+                text = stringResource(R.string.achievement_feeling),
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,

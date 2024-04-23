@@ -47,7 +47,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -216,7 +218,7 @@ fun HomeScreen(
                             modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 30.dp),
                         ) {
                             Text(
-                                text = "정렬 옵션을 선택해주세요",
+                                text = stringResource(R.string.sort_option_guide_text),
                                 fontFamily = defaultFontFamily,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
@@ -525,7 +527,7 @@ fun BucketItemBottomSheetContent(
     }
 }
 
-@Preview
+@PreviewScreenSizes
 @Composable
 fun HomeScreenPreview() {
     WoosukTheme {
@@ -543,11 +545,15 @@ fun HomeScreenPreview() {
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, widthDp = 320, heightDp = 640)
+@PreviewScreenSizes
 @Composable
 fun BucketItemBottomSheetContentPreview() {
     WoosukTheme {
-        BucketItemBottomSheetContent(bucket = Bucket.mock(), onDeleteBucketClick = {})
+        Scaffold {
+            Box(modifier = Modifier.padding(it)){
+                BucketItemBottomSheetContent(bucket = Bucket.mock(), onDeleteBucketClick = {})
+            }
+        }
     }
 }
 

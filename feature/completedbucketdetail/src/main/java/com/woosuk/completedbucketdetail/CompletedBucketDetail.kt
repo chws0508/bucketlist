@@ -183,7 +183,7 @@ fun BucketDiary(
 @Composable
 fun BucketCompletedDate(completedDate: LocalDateTime) {
     Text(
-        text = completedDate.toLocalDate().toString() + "에 달성!",
+        text = stringResource(R.string.complete_date_format, completedDate.toLocalDate()),
         fontFamily = defaultFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
@@ -219,7 +219,7 @@ fun BucketInfo(
             modifier = Modifier.clickable {
                 showMemo = !showMemo
             },
-            text = if (showMemo) "메모 숨기기" else "메모 보기",
+            text = if (showMemo) stringResource(R.string.hide_memo) else stringResource(R.string.show_memo),
             fontFamily = defaultFontFamily,
             fontSize = 12.sp,
             fontWeight = FontWeight.Normal,
@@ -292,7 +292,7 @@ fun TopBarBottomSheetContent(
                 }
                 .padding(horizontal = 16.dp, vertical = 20.dp)
                 .fillMaxWidth(),
-            text = "수정하기",
+            text = stringResource(R.string.edit),
             fontFamily = defaultFontFamily,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
@@ -305,7 +305,7 @@ fun TopBarBottomSheetContent(
                 }
                 .padding(horizontal = 16.dp, vertical = 20.dp)
                 .fillMaxWidth(),
-            text = "삭제하기",
+            text = stringResource(R.string.delete),
             fontFamily = defaultFontFamily,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,

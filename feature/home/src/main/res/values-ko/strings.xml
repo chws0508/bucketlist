@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BucketList</string>
+    <string name="overall_achievement_rate">전체 달성률</string>
+    <string name="percentage_format" translatable="false">%.1f%%</string>
+
+    <string name="health">"건강"</string>
+    <string name="work">커리어</string>
+    <string name="travel">여행</string>
+    <string name="learning">학습</string>
+    <string name="unspecified">미지정</string>
+    <string name="edit_icon_contentdescription" translatable="false">EditIcon</string>
+    <string name="bucket_tag_format" translatable="false">#%1$s#%2$s</string>
+    <string name="complete_bucket_button_text">달성 완료</string>
+    <string name="delete_button_text">삭제하기</string>
+    <string name="edit_button_text">수정하기</string>
+    <string name="categroy_achievement_rate_format">달성률 %.1f%%</string>
+    <string name="twenties">20대</string>
+    <string name="thirties">30대</string>
+    <string name="forties">40대</string>
+    <string name="fifties">50대</string>
+    <string name="oldage">노년기</string>
+    <string name="progress_indicator_test_tag" translatable="false">로딩창</string>
+    <string name="complete_edit_button_text">수정 완료</string>
+    <string name="bucket_age_range_hint">목표 나이대를 입력해주세요</string>
+    <string name="bucket_age_range_header">목표 나이대</string>
+    <string name="bucket_description_header">메모</string>
+    <string name="bucket_description_hint">메모할 내용을 적어주세요</string>
+    <string name="bucket_title_header">버킷 제목</string>
+    <string name="edit_bucket_title_hint">버킷 제목을 입력해주세요</string>
+    <string name="bucket_category_header">카테고리</string>
+    <string name="age_range_view_mode">목표 나이</string>
+    <string name="category_view_mode">카테고리</string>
+    <string name="topbar_sorting_option_">정렬 옵션</string>
+    <string name="sort_option_guide_text">정렬 옵션을 선택해주세요</string>
+    <string name="cancel">취소</string>
+</resources>
+
