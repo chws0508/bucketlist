@@ -76,7 +76,7 @@ val lightColor = WoosukColor(
     tossRed = TossRed,
 )
 val darkColor = WoosukColor(
-    systemWhite = SystemBlack,
+    systemWhite = CoolGray6,
     systemBlack = SystemWhite,
     tossBlue0 = TossBlue0,
     tossBlue1 = TossBlue1,

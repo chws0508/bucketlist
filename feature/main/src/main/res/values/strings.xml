@@ -3,4 +3,5 @@
     <string name="app_name">BucketList</string>
     <string name="bottom_tab_complete_buckets_title">Records</string>
     <string name="bottom_tab_home_title">BucketList</string>
+    <string name="setting">Setting</string>
 </resources>

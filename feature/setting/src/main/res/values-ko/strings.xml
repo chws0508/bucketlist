@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="privacy_terms">개인 정보 처리 방침</string>
+    <string name="about_app">앱 정보</string>
+    <string name="check">체크</string>
+    <string name="system_default">시스템 설정</string>
+    <string name="light">라이트</string>
+    <string name="dark">다크</string>
+    <string name="appearance">화면 테마</string>
+    <string name="setting">설정</string>
+</resources>

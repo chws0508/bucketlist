@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="privacy_terms">Privacy Terms</string>
+    <string name="about_app">About App</string>
+    <string name="check">Check</string>
+    <string name="system_default">System Default</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="appearance">Appearance</string>
+    <string name="setting">Setting</string>
+</resources>

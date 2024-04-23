@@ -1,8 +1,5 @@
 package com.woosuk.completedbucket
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -204,9 +201,6 @@ fun CompletedBucketTopAppBar(
                     )
                 }
             },
-            actions = {
-                PrivacyTermText(modifier = Modifier.padding(10.dp))
-            },
         )
         DropdownMenu(
             modifier = Modifier
@@ -238,21 +232,6 @@ fun CompletedBucketTopAppBar(
         }
         HorizontalDivider(color = WoosukTheme.colors.grayScale1)
     }
-}
-
-@Composable
-fun PrivacyTermText(
-    modifier: Modifier = Modifier,
-) {
-    val context = LocalContext.current
-    Text(
-        modifier = modifier.clickable { context.openPrivacyTermUrl() },
-        text = stringResource(R.string.privacy_term),
-        fontFamily = defaultFontFamily,
-        fontWeight = FontWeight.Light,
-        fontSize = 11.sp,
-        color = WoosukTheme.colors.grayScale3,
-    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -419,10 +398,5 @@ fun CompleteBucketScreenPreview() {
         )
     }
 }
-private fun Context.openPrivacyTermUrl() {
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_TERM_URL))
-    startActivity(intent)
-}
 
-private const val PRIVACY_TERM_URL = "https://sites.google.com/view/woosuk-bucket-list"
 private val TopAppBarHeightDp = 56.dp

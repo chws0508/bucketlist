@@ -32,7 +32,7 @@ class HomeScreenTest {
             HomeScreen(
                 homeUiState = HomeUiState.Loading,
                 currentViewMode = ViewMode.Category,
-
+                onChangeViewMode = {}
                 )
         }
         // then
@@ -46,6 +46,7 @@ class HomeScreenTest {
             HomeScreen(
                 homeUiState = HomeUiState.Success(Buckets(testBuckets)),
                 currentViewMode = ViewMode.Category,
+                onChangeViewMode = {}
             )
         }
         // then

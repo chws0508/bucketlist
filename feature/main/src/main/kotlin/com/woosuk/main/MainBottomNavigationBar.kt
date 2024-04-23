@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -27,6 +28,8 @@ import com.woosuk.completedbucket.navigation.COMPLETED_BUCKET_LIST_ROUTE
 import com.woosuk.completedbucket.navigation.navigateToCompleteBucket
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.navigateToHomeRoute
+import com.woosuk.setting.navigation.SETTING_ROUTE
+import com.woosuk.setting.navigation.navigateToSetting
 import com.woosuk.theme.WoosukTheme
 import com.woosuk.theme.defaultFontFamily
 
@@ -86,7 +89,8 @@ fun NavController.navigateToTabScreen(bottomTab: BottomTab) {
 
     when (bottomTab) {
         BottomTab.HomeTab -> navigateToHomeRoute(tabNavOptions)
-        BottomTab.CompleteBucketRoute -> navigateToCompleteBucket(tabNavOptions)
+        BottomTab.CompleteBucketTab -> navigateToCompleteBucket(tabNavOptions)
+        BottomTab.SettingTab -> navigateToSetting(tabNavOptions)
     }
 }
 
@@ -108,10 +112,11 @@ enum class BottomTab(
     val title: Int,
 ) {
     HomeTab(HOME_ROUTE, Icons.Filled.Home, R.string.bottom_tab_home_title),
-    CompleteBucketRoute(
+    CompleteBucketTab(
         COMPLETED_BUCKET_LIST_ROUTE, Icons.AutoMirrored.Filled.List,
         R.string.bottom_tab_complete_buckets_title,
     ),
+    SettingTab(SETTING_ROUTE, Icons.Filled.Settings, R.string.setting)
     ;
 
     companion object {

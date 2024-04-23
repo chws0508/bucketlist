@@ -18,10 +18,15 @@ val LocalCustomColors: ProvidableCompositionLocal<WoosukColor> =
 
 @Composable
 fun WoosukTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    shouldUseSystemDefault: Boolean = true,
+    darkTheme: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
+        shouldUseSystemDefault -> {
+            if (isSystemInDarkTheme()) darkColor
+            else lightColor
+        }
         darkTheme -> darkColor
         else -> lightColor
     }

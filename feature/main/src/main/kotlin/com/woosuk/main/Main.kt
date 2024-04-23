@@ -30,6 +30,7 @@ import com.woosuk.completedbucketdetail.navigation.completedBucketDetailScreen
 import com.woosuk.completedbucketdetail.navigation.navigateToCompletedBucketDetail
 import com.woosuk.home.navigation.HOME_ROUTE
 import com.woosuk.home.navigation.homeScreen
+import com.woosuk.setting.navigation.settingScreen
 import com.woosuk.theme.WoosukTheme
 import com.woosuk.updatecompletedbucket.navigation.addCompletedBucketScreen
 import com.woosuk.updatecompletedbucket.navigation.editCompletedBucketScreen
@@ -144,6 +145,7 @@ fun BucketListApp(
                     },
                     onShowSnackBar = ::showSnackBar,
                 )
+                settingScreen()
             }
         }
     }

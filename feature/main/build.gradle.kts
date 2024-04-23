@@ -11,4 +11,5 @@ dependencies {
     implementation(project(":feature:completedbucket"))
     implementation(project(":feature:updatecompletedbucket"))
     implementation(project(":feature:completedbucketdetail"))
+    implementation(project(":feature:setting"))
 }

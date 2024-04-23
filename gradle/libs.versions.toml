@@ -42,7 +42,7 @@ turbine = "1.0.0"
 
 coroutine = "1.7.2"
 
-androidxDatastore = "1.0.0"
+androidxDatastore = "1.1.0"
 room = "2.6.1"
 
 ossLicenses = "17.0.1"
@@ -54,6 +54,9 @@ junit = "1.1.5"
 material = "1.11.0"
 material3Android = "1.2.0"
 multidex = "2.0.1"
+
+protobuf = "3.25.2"
+protobufPlugin = "0.9.4"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -127,7 +130,8 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 
-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossLicenses" }
+protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
+protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
@@ -138,7 +142,7 @@ verify-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatt
 
 # plugin
 verify-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
-androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDatastore" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDatastore" }
 oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "ossLicensesPlugin" }
 
 androidx-glance = { group = "androidx.glance", name = "glance", version.ref = "androidxGlance" }
@@ -159,3 +163,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 verify-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
