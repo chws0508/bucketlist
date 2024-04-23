@@ -157,6 +157,7 @@ fun BucketCompleteDate(
                 fontFamily = defaultFontFamily,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
+                color = WoosukTheme.colors.systemBlack
             )
             Text(text = "*", fontFamily = defaultFontFamily, color = Color.Red)
         }

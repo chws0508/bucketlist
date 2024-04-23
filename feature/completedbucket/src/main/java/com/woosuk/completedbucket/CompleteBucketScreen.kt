@@ -289,6 +289,7 @@ fun CompleteBucketList(
                             fontFamily = defaultFontFamily,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
+                            color = WoosukTheme.colors.systemBlack,
                             modifier = Modifier.weight(1f),
                         )
                         Row {
@@ -309,7 +310,7 @@ fun CompleteBucketList(
                                 },
                                 imageVector = Icons.Rounded.MoreHoriz,
                                 contentDescription = "MoreIcon",
-                                tint = WoosukTheme.colors.grayScale3,
+                                tint = WoosukTheme.colors.systemBlack,
                             )
                         }
                     }

@@ -238,7 +238,7 @@ fun HomeScreen(
                                         fontFamily = defaultFontFamily,
                                         fontSize = 20.sp,
                                         fontWeight = FontWeight.Normal,
-                                        color = WoosukTheme.colors.coolGray5,
+                                        color = WoosukTheme.colors.systemBlack,
                                     )
                                     if (currentViewMode == viewMode) {
                                         Icon(
@@ -303,7 +303,7 @@ fun HomeAllAchievementRate(
                 Text(
                     text = "($completedBucketCount/$allBucketCount)",
                     modifier = Modifier
-                        .padding(bottom = 20.dp)
+                        .padding(bottom = 24.dp)
                         .align(Alignment.Bottom),
                     fontSize = 13.sp,
                     fontFamily = defaultFontFamily,

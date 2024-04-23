@@ -202,6 +202,7 @@ fun BucketInfo(
             fontFamily = defaultFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
+            color = WoosukTheme.colors.systemBlack
         )
         Text(
             text = stringResource(
@@ -259,6 +260,7 @@ fun CompletedBucketDetailTopAppBar(
                 .padding(end = 8.dp),
             imageVector = Icons.Rounded.MoreHoriz,
             contentDescription = "TopAppBarMoreButton",
+            tint = WoosukTheme.colors.systemBlack
         )
     }
     if (showBottomSheet) {
