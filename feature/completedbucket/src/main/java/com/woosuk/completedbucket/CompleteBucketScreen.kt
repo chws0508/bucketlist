@@ -3,6 +3,7 @@ package com.woosuk.completedbucket
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -254,6 +255,7 @@ fun PrivacyTermText(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CompleteBucketList(
     modifier: Modifier = Modifier,
@@ -270,7 +272,7 @@ fun CompleteBucketList(
             key = { it.bucket.id },
         ) { completedBucket ->
             DefaultCard(
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                modifier = Modifier.animateItemPlacement().padding(horizontal = 24.dp, vertical = 8.dp),
             ) {
                 Column(
                     modifier = Modifier.clickable {

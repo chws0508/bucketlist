@@ -1,5 +1,6 @@
 package com.woosuk.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -315,6 +316,7 @@ fun HomeAllAchievementRate(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Suppress("ktlint:standard:function-naming")
 fun LazyListScope.HomeBucketItems(
     modifier: Modifier = Modifier,
@@ -336,9 +338,12 @@ fun LazyListScope.HomeBucketItems(
 
     itemsIndexed(
         items = bucketList,
+        key = { index, item -> item.id },
     ) { index, bucket ->
         BucketItem(
-            modifier = if (bucketList.lastIndex == index) Modifier.padding(bottom = 10.dp) else Modifier,
+            modifier = if (bucketList.lastIndex == index) Modifier
+                .animateItemPlacement()
+                .padding(bottom = 10.dp) else Modifier.animateItemPlacement(),
             bucket = bucket,
             shape = if (bucketList.lastIndex == index) RoundedCornerShape(
                 bottomStart = 16.dp,
