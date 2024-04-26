@@ -33,4 +33,5 @@
     <string name="topbar_sorting_option_">Sorting</string>
     <string name="sort_option_guide_text">Select Sorting Option</string>
     <string name="cancel">Cancel</string>
+    <string name="no_bucket_guide_message">Bucket list is empty.\n\nPress + button</string>
 </resources>

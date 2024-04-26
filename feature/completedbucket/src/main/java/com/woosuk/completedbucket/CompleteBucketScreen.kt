@@ -101,19 +101,20 @@ fun CompleteBucketScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Box(Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)) {
+
+        CompleteBucketList(
+            modifier = Modifier.fillMaxSize(),
+            onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
+            completedBuckets = completedBucketUiState.completedBuckets,
+            onClickMenu = {
+                showBottomSheet = true
+                clickedCompletedBucket = it
+            },
+        )
         if (completedBucketUiState.completedBuckets.isEmpty()) {
             EmptyListScreen(modifier = Modifier.fillMaxSize())
-        } else {
-            CompleteBucketList(
-                modifier = Modifier.fillMaxSize(),
-                onNavigateToCompletedBucketDetail = onNavigateToCompletedBucketDetail,
-                completedBuckets = completedBucketUiState.completedBuckets,
-                onClickMenu = {
-                    showBottomSheet = true
-                    clickedCompletedBucket = it
-                },
-            )
         }
+
         CompletedBucketTopAppBar(
             selectedCategory = completedBucketUiState.selectedCategory,
             selectableCategories = selectableCategories,
@@ -151,7 +152,7 @@ fun CompleteBucketScreen(
 fun EmptyListScreen(modifier: Modifier) {
     Box(modifier = modifier) {
         Text(
-            text = "달성한 버킷이 없습니다.\n\n버킷리스트를 완료하고\n달성기록을 채워보세요!",
+            text = stringResource(R.string.empty_list_message),
             color = WoosukTheme.colors.systemBlack,
             modifier = Modifier.align(Alignment.Center),
             fontFamily = defaultFontFamily,
@@ -251,7 +252,9 @@ fun CompleteBucketList(
             key = { it.bucket.id },
         ) { completedBucket ->
             DefaultCard(
-                modifier = Modifier.animateItemPlacement().padding(horizontal = 24.dp, vertical = 8.dp),
+                modifier = Modifier
+                    .animateItemPlacement()
+                    .padding(horizontal = 24.dp, vertical = 8.dp),
             ) {
                 Column(
                     modifier = Modifier.clickable {

@@ -8,4 +8,5 @@
     <string name="achivement_date_format">%1$s</string>
     <string name="himeMemo">Hide Memo</string>
     <string name="showMemo">Show Memo</string>
+    <string name="empty_list_message"> No bucket has been achieved…</string>
 </resources>

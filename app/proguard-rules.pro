@@ -8,3 +8,8 @@
 # is used.
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
 -dontwarn org.apiguardian.api.**
+
+-keep class androidx.datastore.*.** {*;}
+-keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite* {
+   <fields>;
+}

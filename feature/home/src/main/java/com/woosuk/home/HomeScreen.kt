@@ -47,8 +47,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -126,7 +124,7 @@ fun HomeScreen(
                             .padding(top = 80.dp),
                     ) {
                         Text(
-                            text = "버킷리스트가 비어있습니다.\n\n+버튼을 눌러\n버킷리스트를 추가해주세요",
+                            text = stringResource(R.string.no_bucket_guide_message),
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .fillMaxWidth(),

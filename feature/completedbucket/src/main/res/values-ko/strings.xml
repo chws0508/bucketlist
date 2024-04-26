@@ -8,4 +8,5 @@
     <string name="achivement_date_format">%1$s</string>
     <string name="himeMemo">메모 숨기기</string>
     <string name="showMemo">메모 보기</string>
+    <string name="empty_list_message">달성한 버킷이 없습니다.\n\n버킷리스트를 완료하고\n달성기록을 채워보세요!</string>
 </resources>
