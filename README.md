@@ -49,10 +49,6 @@ BucketList is an application that helps you to make bucket list and store comple
 
 <div align="center">
 
-| Network Disconnected | Network Reconnected |
-| :---------------: | :---------------: |
-| <img src="https://github.com/f-lab-edu/wak-plus/blob/main/docs/network_off.webp" align="center" width="300px"/> | <img src="https://github.com/f-lab-edu/wak-plus/blob/main/docs/network_on.webp" align="center" width="300px"/> |
-
 </div>
 
 ## Architecture
