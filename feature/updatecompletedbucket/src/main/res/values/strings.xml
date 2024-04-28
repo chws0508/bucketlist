@@ -11,4 +11,6 @@
     <string name="edit_completed_bucket_button_text">Edit Record</string>
     <string name="completed_date">achievement date</string>
     <string name="achievement_feeling">Achievement Feeling</string>
+    <string name="select_date">Select</string>
+    <string name="succeed_register_record">Register Completed</string>
 </resources>

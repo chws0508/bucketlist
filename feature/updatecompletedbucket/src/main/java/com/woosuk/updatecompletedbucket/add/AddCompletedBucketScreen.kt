@@ -47,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -79,6 +80,7 @@ fun AddCompletedBucketRoute(
     onShowSnackBar: (String) -> Unit,
     onNavigateToCompletedBucketDetail: (bucketId: Int) -> Unit,
 ) {
+    val context = LocalContext.current
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     AddCompletedBucketScreen(
         onBackClick = onBackClick,
@@ -87,14 +89,15 @@ fun AddCompletedBucketRoute(
         onAddImage = viewModel::addImageUris,
         onImageDeleted = viewModel::deleteImage,
         onAddCompletedBucket = viewModel::addCompletedBucket,
-        onShowSnackBar = onShowSnackBar,
         onCompletedDateChanged = viewModel::onCompletedDateChanged,
     )
     LaunchedEffect(null) {
         viewModel.uiEvent.collect { uiEvent ->
             when (uiEvent) {
-                is AddCompletedBucketUiEvent.AddAddCompletedEvent,
-                -> onNavigateToCompletedBucketDetail(uiEvent.bucketId)
+                is AddCompletedBucketUiEvent.AddAddCompletedEvent -> {
+                    onNavigateToCompletedBucketDetail(uiEvent.bucketId)
+                    onShowSnackBar(context.getString(R.string.succeed_register_record))
+                }
             }
         }
     }
@@ -109,7 +112,6 @@ fun AddCompletedBucketScreen(
     onAddCompletedBucket: () -> Unit = {},
     onImageDeleted: (Int) -> Unit = {},
     onCompletedDateChanged: (LocalDateTime) -> Unit = {},
-    onShowSnackBar: (String) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -158,7 +160,6 @@ fun AddCompletedBucketScreen(
                     .fillMaxWidth()
                     .padding(16.dp),
                 onAddCompletedBucket = onAddCompletedBucket,
-                onShowSnackBar = onShowSnackBar,
             )
         }
     }
@@ -226,7 +227,7 @@ fun BucketDatePicker(
                     onDateSelected(selectedDateMills.convertMillsToDateTime())
                 },
             ) {
-                Text(text = "선택")
+                Text(text = stringResource(R.string.select_date))
             }
         },
     ) {
@@ -243,14 +244,10 @@ fun BucketDatePicker(
 fun RegisterButton(
     modifier: Modifier = Modifier,
     onAddCompletedBucket: () -> Unit,
-    onShowSnackBar: (String) -> Unit,
 ) {
     DefaultButton(
         modifier = modifier,
-        onClick = {
-            onAddCompletedBucket()
-            onShowSnackBar("달성 카드가 등록되었어요!")
-        },
+        onClick = { onAddCompletedBucket() },
         text = stringResource(R.string.complete_bucket_button_text),
         enabled = true,
     )
@@ -445,7 +442,6 @@ fun AddCompletedBucketScreenPreview() {
             uiState = CompletedBucketUiState(
                 bucket = Bucket.mock(),
             ),
-            onShowSnackBar = {},
         )
     }
 }
