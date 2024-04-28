@@ -35,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,6 +62,7 @@ fun CompletedBucketDetailRoute(
     onShowSnackBar: (String) -> Unit,
     onBackClick: () -> Unit,
 ) {
+    val context = LocalContext.current
     val completedBucket = viewModel.completedBucket.collectAsStateWithLifecycle().value
     if (completedBucket != null) {
         CompletedBucketDetailScreen(
@@ -74,7 +76,7 @@ fun CompletedBucketDetailRoute(
         viewModel.uiEvent.collect { uiEvent ->
             when (uiEvent) {
                 CompletedBucketDetailUiEvent.DeleteSuccess -> {
-                    onShowSnackBar("삭제가 완료되었어요!!")
+                    onShowSnackBar(context.getString(R.string.delete_complete))
                     onBackClick()
                 }
             }
