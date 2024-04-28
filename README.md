@@ -20,6 +20,10 @@ BucketList is an application that helps you to make bucket list and store comple
   - [Room](https://developer.android.com/training/data-storage/room) - Constructs Database by providing an abstraction layer over SQLite to allow fluent database access.
   - [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) - Data storage solution that uses Kotlin coroutines and Flow to store data asynchronously, consistently, and transactionally.
   - [Navigation](https://developer.android.com/develop/ui/compose/navigation?hl=ko) - Handles navigating between your app's destinations.
+- Architecture:
+  - Clean Architecture (Presentation - Domian - Data): Domain module is a pure Kotlin module with no Android dependencies. Data and Presentation modules are depend on Domain module. Core business logic is focused on Domain module. 
+  - MVVM Architecture (View - ViewModel - Model): Facilitates separation of concerns and promotes maintainability.
+  - Repository Pattern: Acts as a mediator between different data sources and the application's business logic.
 - [Hilt](https://dagger.dev/hilt/) - Dependency injection.
 - [landScapist](https://coil-kt.github.io/coil/) - An image loading library for compose by skydoves.
 - [Retrofit2 & OkHttp3](https://github.com/square/retrofit) - Construct the REST APIs.
@@ -31,33 +35,23 @@ BucketList is an application that helps you to make bucket list and store comple
 
 > ### Bucket List 
 
+| Switch Sort Option | Add Bucket | Edit/Delete Bucket |
+| :---------------: | :---------------: | :---------------: |
+| <img src="https://github.com/chws0508/bucketlist/blob/main/demo/switch_sort_option.gif" align="center" width="300px"/> | <img src="https://github.com/chws0508/bucketlist/blob/main/demo/add_bucket.gif" align="center" width="300px"/> | <img src="https://github.com/chws0508/bucketlist/blob/main/demo/edit_delete_bucket.gif" align="center" width="300px"/> |
 
-> ### Themes
+> ### Bucket Records
 
-<div align="center">
+| Switch Categegory | Add Record from bucket | Edit/Delete Record From Bucket |
+| :---------------: | :---------------: | :---------------: |
+| <img src="https://github.com/chws0508/bucketlist/blob/main/demo/switch_record_category.gif" align="center" width="300px"/> | <img src="https://github.com/chws0508/bucketlist/blob/main/demo/add_record.gif" align="center" width="300px"/> | <img src="https://github.com/chws0508/bucketlist/blob/main/demo/edit_delete_record.gif" align="center" width="300px"/> |
 
-
-
-> ### Favorites
-
-<div align="center">
-
-
-</div>
-
-> ### Network Connectivity
+> ### Theme
 
 <div align="center">
 
-</div>
-
-## Architecture
-
-BucketList is based on the MVVM architecture and the Repository pattern.
-
-<p align = 'center'>
-<img width = '600' src = 'https://user-images.githubusercontent.com/39554623/184456867-195f5989-dc9a-4dea-8f35-41e1f11145ff.png'>
-</p>
+| Change Dark Themes by System Default  | Dark / Light  |
+| :---------------: | :---------------: |
+| <img src="https://github.com/chws0508/bucketlist/blob/main/demo/system_default.gif" align="center" width="300px"/> | <img src="https://github.com/chws0508/bucketlist/blob/main/demo/dark_light.gif" align="center" width="300px"/> |
 
 ## License
 
