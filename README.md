@@ -26,7 +26,6 @@ BucketList is an application that helps you to make bucket list and store comple
   - Repository Pattern: Acts as a mediator between different data sources and the application's business logic.
 - [Hilt](https://dagger.dev/hilt/) - Dependency injection.
 - [landScapist](https://coil-kt.github.io/coil/) - An image loading library for compose by skydoves.
-- [Retrofit2 & OkHttp3](https://github.com/square/retrofit) - Construct the REST APIs.
 - [Mockk](https://github.com/mockk/mockk) - mockking Library For Kotlin to test
 - [Turbine](https://github.com/cashapp/turbine) - testing library for kotlinx.coroutines Flow.
 - [Truth](https://github.com/google/truth) - Fluent assertions for Java and Android
